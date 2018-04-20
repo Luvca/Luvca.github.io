@@ -15,9 +15,15 @@ Ubuntu は`sudo apt-get install git`でインストール、Windows は [git for
 ```sh
 mkdir -p ~/.ssh
 cd !$
-ssh-keygen -t rsa -b 4096 -f GitHub_Luvca_rsa -C ""
+ssh-keygen -t rsa -b 4096 -f GitHub_rsa -C ""
 ```
-SSH に使う鍵はサイトごとに変えたいので (たぶん気持ちの問題)、`-f`でわかりやすいファイル名をつけるようにしている。  
+SSH に使う鍵はサイトごとに変えたいので (たぶん気持ちの問題?)、`-f`でわかりやすいファイル名をつけるようにしている。またその場合、~/.ssh/config ファイルを作成し、に以下のような内容を追記する。  
+~~~sh
+Host github github.com
+    HostName github.com
+    IdentityFile ~/.ssh/GitHub_rsa
+    User git
+~~~
 パスフレーズはなし。  
 鍵ファイルが作成できたら [GitHub](https://github.com) (Desktop version) の右上アバター画像から _Settings_>_SSH and GPG keys_ に進み、_New SSH key_ ボタンをクリックして適当な名前をつけて公開鍵ファイルの内容をコピペして _Add SSH key_ する。
 
