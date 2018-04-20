@@ -1,5 +1,4 @@
 ---
-layout: post
 title: GitHub Pages でのブログ環境作成手順
 tags: GitHub
 date: 2018-04-20 20:20:24
