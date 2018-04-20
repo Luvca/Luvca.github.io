@@ -1,6 +1,6 @@
 ---
 title: GitHub Pages でのブログ環境作成手順
-tags: GitHub
+tags: "GitHub Pages"
 date: 2018-04-20 20:20:24
 published: true
 ---
