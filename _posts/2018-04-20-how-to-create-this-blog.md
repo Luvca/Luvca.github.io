@@ -1,9 +1,7 @@
 ---
-layout: post
 title: GitHub Pages でのブログ環境作成手順
 tags: GitHub
 date: 2018-04-20 20:20:24
-published: true
 ---
 思いのほか簡単に GitHub Pages でブログを作成できたので、僕がやった手順を簡単にメモしておきます。
 
