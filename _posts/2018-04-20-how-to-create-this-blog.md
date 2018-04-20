@@ -1,7 +1,8 @@
 ---
 title: GitHub Pages でのブログ環境作成手順
-tags: GitHub
+tags: [GitHub Pages]
 date: 2018-04-20 20:20:24
+published: true
 ---
 思いのほか簡単に GitHub Pages でブログを作成できたので、僕がやった手順を簡単にメモしておきます。
 
@@ -39,7 +40,7 @@ rm -rf .git
 git init
 git config user.name "Luvca"
 git config user.email "committer@luvca.local"
-git remote add origin git@github.com:Luvca/Luvca.github.io.git
+git remote add origin https://github.com/Luvca/Luvca.github.io.git
 git add --all
 git commit -m "Init"
 git push origin master
@@ -47,4 +48,4 @@ git push origin master
 `git config`で指定する名前とメールアドレスはなんでもいいけど、GitHub のサインアップに使ったメールアドレスにすると GitHub 側で設定をいじらないといけないので、いつも適当なものを指定している。
 
 以上でおしまい。  
-この後、iPhone から投稿ができるようにもしました。それはまた別の記事で書こうと思います。
+この後、iPhone から投稿ができるようにもしました。それはまた別の記事で書きます。
