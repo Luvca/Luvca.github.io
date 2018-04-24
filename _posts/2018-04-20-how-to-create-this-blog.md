@@ -28,7 +28,7 @@ Host github github.com
 ~~~
 鍵ファイルが作成できたら [GitHub](https://github.com) (Desktop version) の右上アバター画像から _Settings_>_SSH and GPG keys_ に進み、_New SSH key_ ボタンをクリックして適当な名前をつけて公開鍵ファイルの内容をコピペして _Add SSH key_ する。
 
-## PC の git でテンプレートをclone
+## PC の git でテンプレートを clone
 これが本題。  
 サイトの構造を一から作成するのはしんどそうなので、良さげなテーマを見つけてそれを clone してリネームしてベースを作成。  
 ちなみに僕が選んだテーマは [Minimal Mistakes](https://mmistakes.github.io/minimal-mistakes/) というさっぱりしたやつ。
