@@ -48,16 +48,16 @@ git push origin master
 `git config`で指定する名前とメールアドレスはなんでもいいけど、GitHub のサインアップに使ったメールアドレスにすると GitHub 側で設定をいじらないといけないので、いつも適当なものを指定している。  
 あと、以下のディレクトリとファイルは削除してもよいと Minimal Mistakes のサイトに書かれていたので削除した。
 
-- .editconfig
-- .gitattributes
-- .github
-- docs
-- test
-- CHANGELOG.md
-- minimal-mistakes-jekyll.gemspec
-- README.md
-- screenshot-layouts.png
-- screenshot.png
+`.editconfig`
+`.gitattributes`
+`.github`
+`docs`
+`test`
+`CHANGELOG.md`
+`minimal-mistakes-jekyll.gemspec`
+`README.md`
+`screenshot-layouts.png`
+`screenshot.png`
 
 以上でおしまい。  
 この後、iPhone から投稿ができるようにもしました。それはまた別の記事で書こうと思います。
