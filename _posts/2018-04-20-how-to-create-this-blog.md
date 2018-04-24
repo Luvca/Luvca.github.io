@@ -4,7 +4,7 @@ tags: [GitHub Pages]
 date: 2018-04-20 20:20:24
 published: true
 ---
-思いのほか簡単に GitHub Pages でブログを作成できたので、僕がやった手順を簡単にメモしておきます。
+思いのほかすんなりと GitHub Pages でブログを作成できたので、僕がやった手順を簡単にメモしておきます。
 
 ## GitHub にサインインしてリポジトリを作成
 [GitHub](https://github.com) にサインイン (またはサインアップ) して`ユーザー名.github.io`という名前のリポジトリを作成する。
