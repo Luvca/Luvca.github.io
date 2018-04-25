@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+  xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides"
+  xsi:type="MailApp">
+  <Id>b60c9dcc-be84-4f53-a615-77861ad91f9b</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Luvca</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="Hierarchical Address Book" />
+  <Description DefaultValue="Hierarchical Address Book"/>
+  <IconUrl DefaultValue="https://Luvca.github.io/HAB/images/icon64.png" />
+  <HighResolutionIconUrl DefaultValue="https://Luvca.github.io/HAB/images/icon128.png" />
+  <Hosts>
+    <Host Name="Mailbox" />
+  </Hosts>
+  <Requirements>
+    <Sets>
+      <Set Name="MailBox" MinVersion="1.1" />
+    </Sets>
+  </Requirements>
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://Luvca.github.io/HAB/index.html"/>
+        <RequestedHeight>250</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+    <Form xsi:type="ItemEdit">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://Luvca.github.io/HAB/index.html"/>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+  <Permissions>ReadWriteMailbox</Permissions>
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" FormType="Edit" ItemType="Appointment" />
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit" />
+  </Rule>
+  <DisableEntityHighlighting>false</DisableEntityHighlighting>
+  
+  <VersionOverrides
+      xmlns="http://schemas.microsoft.com/office/mailappversionoverrides"
+      xsi:type="VersionOverridesV1_0">
+    <Requirements>
+      <bt:Sets DefaultMinVersion="1.2">
+        <bt:Set Name="Mailbox" />
+      </bt:Sets>
+    </Requirements>
+    <Hosts>
+      <Host xsi:type="MailHost">
+        <DesktopFormFactor>
+          <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+            <OfficeTab id="TabMessage">
+              <Group id="msgTabMessage.grp1">
+                <Label resid="rscLabel" />
+                <Control xsi:type="Button" id="buttonMessage">
+                  <Label resid="rscButtonLabel" />
+                  <Supertip>
+                    <Title resid="rscTitle" />
+                    <Description resid="rscDescription" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="icon1" />
+                    <bt:Image size="32" resid="icon2" />
+                    <bt:Image size="80" resid="icon3" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="rscUrl" />
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+          <ExtensionPoint xsi:type="AppointmentOrganizerCommandSurface">
+            <OfficeTab id="TabAppointment">
+              <Group id="msgTabAppointment.grp1">
+                <Label resid="rscLabel" />
+                <Control xsi:type="Button" id="buttonAppointment">
+                  <Label resid="rscButtonLabel" />
+                  <Supertip>
+                    <Title resid="rscTitle" />
+                    <Description resid="rscDescription" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="icon16" />
+                    <bt:Image size="32" resid="icon32" />
+                    <bt:Image size="80" resid="icon80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="rscUrl" />
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Resources>
+      <bt:Images>
+        <bt:Image id="icon16"
+          DefaultValue="https://Luvca.github.io/HAB/images/icon16.png">
+        </bt:Image>
+        <bt:Image id="icon32"
+          DefaultValue="https://Luvca.github.io/HAB/images/icon32.png">
+        </bt:Image>
+        <bt:Image id="icon80"
+          DefaultValue="https://Luvca.github.io/HAB/images/icon80.png">
+        </bt:Image>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="rscUrl"
+          DefaultValue="https://Luvca.github.io/HAB/index.html">
+        </bt:Url>
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="rscLabel"
+          DefaultValue="階層型アドレス帳">
+        </bt:String>
+        <bt:String id="rscButtonLabel"
+          DefaultValue="Hierarchical Address Book">
+        </bt:String>
+        <bt:String id="rscTitle"
+          DefaultValue="Hierarchical Address Book">
+        </bt:String>
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="rscDescription"
+          DefaultValue="Hierarchical Address Book">
+        </bt:String>
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>
