@@ -16,12 +16,12 @@ Ubuntu は`sudo apt-get install git`でインストール、Windows は [git for
 ```sh
 mkdir -p ~/.ssh
 cd !$
-ssh-keygen -t rsa -b 4096 -f GitHub_rsa -C ""
+ssh-keygen -t rsa -b 4096 -f github_rsa -C ""
 ```
 パスフレーズはなし。  
 SSH に使う鍵はサイトごとに変えた方がいい気がするので、`-f`でわかりやすいファイル名をつけるようにしている。またその場合、~/.ssh/config ファイルを作成し、以下のような内容を追記する。  
 ~~~conf
-Host github github.com
+Host github.com
     HostName github.com
     IdentityFile ~/.ssh/GitHub_rsa
     User git
@@ -40,7 +40,7 @@ rm -rf .git
 git init
 git config user.name "Luvca"
 git config user.email "committer@luvca.local"
-git remote add origin https://github.com/Luvca/Luvca.github.io.git
+git remote add origin git@github.com:Luvca/Luvca.github.io.git
 git add --all
 git commit -m "Init"
 git push origin master
