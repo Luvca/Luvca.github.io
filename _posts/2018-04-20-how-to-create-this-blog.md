@@ -23,7 +23,7 @@ SSH に使う鍵はサイトごとに変えた方がいい気がするので、`
 ~~~conf
 Host github.com
     HostName github.com
-    IdentityFile ~/.ssh/GitHub_rsa
+    IdentityFile ~/.ssh/github_rsa
     User git
 ~~~
 鍵ファイルが作成できたら [GitHub](https://github.com) (Desktop version) の右上アバター画像から _Settings_>_SSH and GPG keys_ に進み、_New SSH key_ ボタンをクリックして適当な名前をつけて公開鍵ファイルの内容をコピペして _Add SSH key_ する。
