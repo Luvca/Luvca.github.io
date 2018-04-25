@@ -62,9 +62,9 @@
                     <Description resid="rscDescription" />
                   </Supertip>
                   <Icon>
-                    <bt:Image size="16" resid="icon1" />
-                    <bt:Image size="32" resid="icon2" />
-                    <bt:Image size="80" resid="icon3" />
+                    <bt:Image size="16" resid="icon16" />
+                    <bt:Image size="32" resid="icon32" />
+                    <bt:Image size="80" resid="icon80" />
                   </Icon>
                   <Action xsi:type="ShowTaskpane">
                     <SourceLocation resid="rscUrl" />
