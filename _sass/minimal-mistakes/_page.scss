@@ -212,14 +212,23 @@
   }
 }
 
-.page__taxonomy,
-.page__date {
-  margin-top: 0;
-  margin-bottom: 0;
-  color: $muted-text-color;
-  font-size: $type-size-6;
+.page__taxonomy {
+  header {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: $muted-text-color;
+    font-size: $type-size-6;
+  }
 }
 
+.page__date {
+  header {
+    margin-top: 0;
+    margin-bottom: 2em;
+    color: $muted-text-color;
+    font-size: $type-size-6;
+  }
+}
 /*
    Social sharing
    ========================================================================== */
