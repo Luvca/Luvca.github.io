@@ -20,7 +20,7 @@ ssh-keygen -t rsa -b 4096 -f GitHub_rsa -C ""
 ```
 パスフレーズはなし。  
 SSH に使う鍵はサイトごとに変えた方がいい気がするので、`-f`でわかりやすいファイル名をつけるようにしている。またその場合、~/.ssh/config ファイルを作成し、以下のような内容を追記する。  
-~~~text:~/.ssh
+~~~conf
 Host github github.com
     HostName github.com
     IdentityFile ~/.ssh/GitHub_rsa
