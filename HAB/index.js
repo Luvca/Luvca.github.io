@@ -20,7 +20,7 @@
               $("#result").val("ErrorAjax: " + errorThrown);
             });
           } else {
-            $("#result").val("ErrorGetToken: " + result.status);
+            $("#result").val("ErrorGetToken: " + result.error);
           }
         });
       });
