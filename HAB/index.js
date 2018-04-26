@@ -8,6 +8,7 @@
             var accessToken = result.value;
             var host = Office.context.mailbox.restUrl;
             var url = host + "/beta/groups";
+            $("#log").val(url);
 
             $.ajax({
               type: "GET",
