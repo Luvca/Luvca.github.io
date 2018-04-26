@@ -209,7 +209,8 @@
 
   .visible-links {
     display: -webkit-box;
-    display: flex;
+    /*display: flex;*/
+    display: none;
     -webkit-box-pack: end;
     justify-content: flex-end;
     -webkit-box-flex: 1;
