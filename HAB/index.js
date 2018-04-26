@@ -17,10 +17,10 @@
             }).done(function(response, textStatus, jqXHR) {
               $("#result").val(JSON.stringify(response));
             }).fail(function(jqXHR, textStatus, errorThrown) {
-              $("#result").val("Error: " + errorThrown);
+              $("#result").val("ErrorAjax: " + errorThrown);
             });
           } else {
-            $("#result").val("Error: " + result.status);
+            $("#result").val("ErrorGetToken: " + result.status);
           }
         });
       });
