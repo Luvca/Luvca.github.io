@@ -9,7 +9,7 @@
             var host = Office.context.mailbox.restUrl;
             var url = host + "/beta/groups";
 
-            $ajax({
+            $.ajax({
               type: "GET",
               url: url,
               dataType: "json",
