@@ -7,7 +7,8 @@
           if (result.status == Office.AsyncResultStatus.Succeeded) {
             var accessToken = result.value;
             var host = Office.context.mailbox.restUrl;
-            var url = host + "/beta/groups";
+            //var url = host + "/beta/groups";
+            var url = "https://graph.microsoft.com/beta/groups";
             $("#log").val(url);
 
             $.ajax({
