@@ -2,6 +2,7 @@
   Office.initialize = function(reason) {
     $document.ready(function() {
       $("#getGroupsButton").click(function() {
+        $("#log").val("click");
         Office.context.mailbox.getCallbackTokenAsync({isRest: true}, function(result) {
           if (result.status == Office.AsyncResultStatus.Succeeded) {
             var accessToken = result.value;
@@ -14,10 +15,12 @@
               dataType: "json",
               headers: {"Authorization": "Bearer " + accessToken}
             }).done(function(response, textStatus, jqXHR) {
-               $("#result").val(JSON.stringify(response));
+              $("#result").val(JSON.stringify(response));
             }).fail(function(jqXHR, textStatus, errorThrown) {
-               $("#result").val("Error: " + errorThrown);
+              $("#result").val("Error: " + errorThrown);
             });
+          } else {
+            $("#result").val("Error: " + result.status);
           }
         });
       });
