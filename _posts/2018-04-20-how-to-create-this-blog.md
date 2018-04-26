@@ -31,7 +31,7 @@ Host github github.com
 ## PC の git でテンプレートを clone
 これが本題。  
 サイトの構造を一から作成するのはしんどそうなので、良さげなテーマを見つけてそれを clone してリネームしてベースを作成。  
-ちなみに僕が選んだテーマは [Minimal Mistakes](https://mmistakes.github.io/minimal-mistakes/) というさっぱりしたやつ。
+ちなみに僕が選んだテーマは [Minimal Mistakes](https://mmistakes.github.io/minimal-mistakes/) というやつ。
 ~~~sh
 git clone --depth 1 -b master https://github.com/mmistakes/minimal-mistakes.git
 mv minimal-mistakes Luvca.github.io
