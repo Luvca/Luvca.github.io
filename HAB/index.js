@@ -2,8 +2,9 @@
   Office.initialize = function(reason) {
     $document.ready(function() {
       $("#getGroupsButton").click(function() {
-        $("#log").val("click");
+        alert("click");
 /*
+        $("#log").val("click");
         Office.context.mailbox.getCallbackTokenAsync({isRest: true}, function(result) {
           if (result.status == Office.AsyncResultStatus.Succeeded) {
             var accessToken = result.value;
