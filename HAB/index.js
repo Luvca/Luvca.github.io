@@ -1,6 +1,6 @@
 (function() {
   Office.initialize = function(reason) {
-    $document.ready(function() {
+    $(document).ready(function() {
       $("#getGroupsButton").click(function() {
         alert("click");
 /*
