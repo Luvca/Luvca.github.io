@@ -1,6 +1,6 @@
 var msalconfig = {
   clientID: "6caa49d2-ca6a-4edd-9f44-1fe9e79d6457",
-  redirectUri: location.origin
+  redirectUri: "https://Luvca.github.io/HAB"
 };
 
 //var graphApiEndpoint = "https://graph.microsoft.com/beta/groups";
