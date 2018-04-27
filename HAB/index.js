@@ -9,7 +9,7 @@ if (userAgentApplication.redirectUri) {
 }
 
 var msalconfig = {
-  clientID: "",
+  clientID: "6caa49d2-ca6a-4edd-9f44-1fe9e79d6457",
   redirectUri: location.origin
 };
 
