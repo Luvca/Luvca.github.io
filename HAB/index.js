@@ -1,3 +1,8 @@
+var msalconfig = {
+  clientID: "6caa49d2-ca6a-4edd-9f44-1fe9e79d6457",
+  redirectUri: location.origin
+};
+
 //var graphApiEndpoint = "https://graph.microsoft.com/beta/groups";
 var graphApiEndpoint = "https://graph.microsoft.com/v1.0/me";
 var graphApiScopes = ["https://graph.microsoft.com/user.read"];
@@ -7,11 +12,6 @@ var userAgentApplication = new Msal.UserAgentApplication(msalconfig.clientID, nu
 if (userAgentApplication.redirectUri) {
   userAgentApplication.redirectUri = msalconfig.redirectUri;
 }
-
-var msalconfig = {
-  clientID: "6caa49d2-ca6a-4edd-9f44-1fe9e79d6457",
-  redirectUri: location.origin
-};
 
 (function() {
   Office.initialize = function(reason) {
