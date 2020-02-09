@@ -232,7 +232,7 @@ firebase.initializeApp({
 var db = firebase.firestore();
 var result = [];
 [ "hoge", "fuga" ].forEach((tag) => {
-  $.merge(result db.collection["pictures"].where("tags", "array-contains", tag).get());
+  $.merge(result, db.collection["pictures"].where("tags", "array-contains", tag).get());
 });
 
 //var subset1 = db.collection("pictures").where("tags", "array-contains", "hoge").get();
