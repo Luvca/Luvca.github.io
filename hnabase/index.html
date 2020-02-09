@@ -239,7 +239,8 @@ db.collection("pictures").get().then((querySnapshot) => {
     $('<h5>', { class: 'card-title', text: 'Title' }).appendTo($cardBody);
     var $cardText = $('<div>', { class: 'card-text' }).appendTo($cardBody);
     doc.data().tags.forEach((tag) => { $('<span>', { class: 'badge badge-pill badge-info tag', text: tag }).appendTo($cardText); });
-    var $btnGroup = $('<div>', { class: 'btn-group' }).appendTo($cardBody);
+    var $flex = $('<div>', { class: 'd-flex justify-content-between align-items-center' }).appendTo($cardBody);
+    var $btnGroup = $('<div>', { class: 'btn-group' }).appendTo($flex);
     $('<button>', { type: 'button', class: 'btn btn-sm btn-outline-secondary', text: 'View' }).appendTo($btnGroup);
     $('<button>', { type: 'button', class: 'btn btn-sm btn-outline-secondary', text: 'Edit' }).appendTo($btnGroup);
   });
