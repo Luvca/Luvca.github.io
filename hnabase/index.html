@@ -236,7 +236,8 @@ var result;
   if (i === 0) {
     var result = collection.where("tags", "array-contains", tag).get();
   } else {
-    console.log(tag);
+    console.log(result);
+    console.log(collection);
     $.merge(result, collection.where("tags", "array-contains", tag).get());
   }
 });
