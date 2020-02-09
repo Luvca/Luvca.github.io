@@ -238,7 +238,7 @@ db.collection("pictures").get().then((querySnapshot) => {
         var $cardBody = $('<div>', { class: 'card-body' }).appendTo($card);
         $('<h5>', { class: 'card-title', text: 'Title' }).appendTo($cardBody);
         var $cardText = $('<div>', { class: 'card-text' }).appendTo($cardBody);
-        doc.data().tags.forEach((tag) => { $('<span>', { class: 'badge badge-pill badge-info tag', text: tag }).appendTo($cardText); });
+        doc.data().tags.forEach((tag) => { $('<span>', { class: 'badge badge-pill badge-success tag', text: tag }).appendTo($cardText); });
         //$("#pictures").append('<div class="card"><img class="card-img img-fluid rounded" src="https://dl.dropboxusercontent.com' + doc.id.replace('\\', '/') + '"><div class="card-body"><h5 class="card-title">Title</h5><p class="card-text">' + doc.data().tags.forEach((tag) => { return '<span class="badge badge-pill badge-info">' + tag + '</span>'; }) + '</p></div>');
     });
 });
