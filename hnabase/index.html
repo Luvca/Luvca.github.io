@@ -233,7 +233,7 @@ var db = firebase.firestore();
 db.collection("pictures").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
         console.log(`${doc.id} => ${doc.data()}`);
-        $("#pictures").append('<div class="card">' + doc.id.replace("\\", "/") + '</div>');
+        $("#pictures").append('<div class="card"><img class="card-img-fluid rounded" src="https://dl.dropboxusercontent.com' + doc.id.replace('\\', '/') + '"></div><div class="card-body"><h5 class="card-title">Title</h5><p class="card-text"></p></div>');
     });
 });
     </script>
