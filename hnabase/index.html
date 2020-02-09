@@ -234,10 +234,8 @@ var collection = db.collection("pictures");
 var result;
 [ "hoge", "fuga" ].forEach((tag, i) => {
   if (i === 0) {
-    var result = collection.where("tags", "array-contains", tag).get();
+    result = collection.where("tags", "array-contains", tag).get();
   } else {
-    console.log(result);
-    console.log(collection);
     $.merge(result, collection.where("tags", "array-contains", tag).get());
   }
 });
