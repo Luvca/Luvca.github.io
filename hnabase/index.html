@@ -230,13 +230,14 @@ firebase.initializeApp({
   projectId: 'hnabase'
 });
 var db = firebase.firestore();
+var collection = db.collection("pictures");
 var result;
 [ "hoge", "fuga" ].forEach((tag, i) => {
-  console.log(tag);
   if (i === 0) {
-    var result = db.collection("pictures").where("tags", "array-contains", tag).get();
+    var result = collection.where("tags", "array-contains", tag).get();
   } else {
-    $.merge(result, db.collection("pictures").where("tags", "array-contains", tag).get());
+    console.log(tag);
+    $.merge(result, collection.where("tags", "array-contains", tag).get());
   }
 });
 
