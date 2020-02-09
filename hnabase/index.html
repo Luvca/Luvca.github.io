@@ -230,7 +230,9 @@ firebase.initializeApp({
   projectId: 'hnabase'
 });
 var db = firebase.firestore();
-db.collection("pictures").where("tags", "array-contains", "hoge").get().then((querySnapshot) => {
+var subset1 = db.collection("pictures").where("tags", "array-contains", "hoge").get();
+var subset2 = db.collection("pictures").where("tags", "array-contains", "fuga").get();
+$.merge(subset1, subset2).then((querySnapshot) => {
   querySnapshot.forEach((doc) => {
     console.log(`${doc.id} => ${doc.data()}`);
     var $card = $('<div>', { class: 'card' }).appendTo("#pictures");
