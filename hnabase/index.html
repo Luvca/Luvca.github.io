@@ -231,15 +231,19 @@ firebase.initializeApp({
 });
 var db = firebase.firestore();
 var result;
-//[ "hoge", "fuga" ].forEach((tag) => {
-//  $.merge(result, db.collection["pictures"].where("tags", "array-contains", tag).get());
-//});
+[ "hoge", "fuga" ].forEach((tag, i) => {
+  if (i === 0) {
+    result = db.collection["pictures"].where("tags", "array-contains", tag).get();
+  } else {
+    $.merge(result, db.collection["pictures"].where("tags", "array-contains", tag).get());
+  }
+});
 
-var subset1 = db.collection("pictures").where("tags", "array-contains", "hoge").get();
-var subset2 = db.collection("pictures").where("tags", "array-contains", "fuga").get();
-$.merge(subset1, subset2);
-subset1.then((querySnapshot) => {
-  querySnapshot.forEach((doc) => {
+//var subset1 = db.collection("pictures").where("tags", "array-contains", "hoge").get();
+//var subset2 = db.collection("pictures").where("tags", "array-contains", "fuga").get();
+//$.merge(subset1, subset2);
+result.then((docs) => {
+  docs.forEach((doc) => {
     console.log(`${doc.id} => ${doc.data()}`);
     var $card = $('<div>', { class: 'card' }).appendTo("#pictures");
     var $cardImg = $('<img>', { class: 'card-img img-fluid rounded', src: 'https://dl.dropboxusercontent.com' + doc.id.replace('\\', '/') }).appendTo($card);
