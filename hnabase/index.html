@@ -231,12 +231,14 @@ firebase.initializeApp({
 });
 var db = firebase.firestore();
 var result;
-[ "hoge", "fuga" ].forEach((tag) => {
-  $.merge(result, db.collection["pictures"].where("tags", "array-contains", tag).get());
-});
+//[ "hoge", "fuga" ].forEach((tag) => {
+//  $.merge(result, db.collection["pictures"].where("tags", "array-contains", tag).get());
+//});
 
-//var subset1 = db.collection("pictures").where("tags", "array-contains", "hoge").get();
-//var subset2 = db.collection("pictures").where("tags", "array-contains", "fuga").get();
+var subset1 = db.collection("pictures").where("tags", "array-contains", "hoge").get();
+var subset2 = db.collection("pictures").where("tags", "array-contains", "fuga").get();
+$.merge(result, subset1);
+$.merge(result, subset2);
 result.then((querySnapshot) => {
   querySnapshot.forEach((doc) => {
     console.log(`${doc.id} => ${doc.data()}`);
