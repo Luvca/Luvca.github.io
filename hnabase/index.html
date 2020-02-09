@@ -237,9 +237,8 @@ var result;
 
 var subset1 = db.collection("pictures").where("tags", "array-contains", "hoge").get();
 var subset2 = db.collection("pictures").where("tags", "array-contains", "fuga").get();
-$.merge(result, subset1);
-$.merge(result, subset2);
-result.then((querySnapshot) => {
+$.merge(subset1, subset2);
+subset1.then((querySnapshot) => {
   querySnapshot.forEach((doc) => {
     console.log(`${doc.id} => ${doc.data()}`);
     var $card = $('<div>', { class: 'card' }).appendTo("#pictures");
