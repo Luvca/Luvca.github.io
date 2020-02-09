@@ -237,7 +237,7 @@ db.collection("pictures").get().then((querySnapshot) => {
     var $cardImg = $('<img>', { class: 'card-img img-fluid rounded', src: 'https://dl.dropboxusercontent.com' + doc.id.replace('\\', '/') }).appendTo($card);
     var $cardBody = $('<div>', { class: 'card-body' }).appendTo($card);
     $('<h5>', { class: 'card-title', text: 'Title' }).appendTo($cardBody);
-    var $cardText = $('<div>', { class: 'card-text' }).appendTo($cardBody);
+    var $cardText = $('<p>', { class: 'card-text' }).appendTo($cardBody);
     doc.data().tags.forEach((tag) => { $('<span>', { class: 'badge badge-pill badge-info tag', text: tag }).appendTo($cardText); });
     var $flex = $('<div>', { class: 'd-flex justify-content-between align-items-center' }).appendTo($cardBody);
     var $btnGroup = $('<div>', { class: 'btn-group' }).appendTo($flex);
