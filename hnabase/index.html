@@ -199,7 +199,7 @@
                 </div>
               </div>
             </div>
-            <div id="pictures"></div>
+            <div id="pictures"class="card-columns"></div>
           </div>
         </div>
       </div>
@@ -233,7 +233,7 @@ var db = firebase.firestore();
 db.collection("pictures").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
         console.log(`${doc.id} => ${doc.data()}`);
-        $("#pictures").append('<div>' + doc.id + '</div>');
+        $("#pictures").append('<div class="card">' + doc.id + '</div>');
     });
 });
     </script>
