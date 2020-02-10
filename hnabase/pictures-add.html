@@ -15,7 +15,7 @@
     <div class="container">
       <main>
         <div class="page-header">
-          <h2>Example</h2>
+          <h2>Examplyu</h2>
         </div>
 
         <div class="row">
@@ -54,6 +54,10 @@
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
     <script src="js/pictures-add.js"></script>
     <script>
+// Initialize Cloud Firestore through Firebase
+firebase.initializeApp({
+  projectId: 'hnabase'
+});
 var tags = [];
 var db = firebase.firestore();
 db.collection("tags").get().then(function (docs) {
