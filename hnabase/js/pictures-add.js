@@ -21,6 +21,19 @@ $(function () {
         local: tags
       });
       citynames.initialize();
+
+      /**
+       * Typeahead
+       */
+      var elt = $('.example_typeahead > > input');
+      elt.tagsinput({
+        typeaheadjs: {
+          name: 'citynames',
+          displayKey: 'name',
+          valueKey: 'name',
+          source: citynames.ttAdapter()
+        }
+      });
     });
 
     var cities = new Bloodhound({
@@ -30,18 +43,6 @@ $(function () {
     });
     cities.initialize();
 
-    /**
-     * Typeahead
-     */
-    var elt = $('.example_typeahead > > input');
-    elt.tagsinput({
-      typeaheadjs: {
-        name: 'citynames',
-        displayKey: 'name',
-        valueKey: 'name',
-        source: citynames.ttAdapter()
-      }
-    });
 
     /**
      * Objects as tags
