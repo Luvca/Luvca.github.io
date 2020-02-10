@@ -68,7 +68,16 @@ db.collection("tags").get().then(function (docs) {
 }).then(function () {
   console.log(tags);
   var autocomplete = new SelectPure(".autocomplete-select", {
-    options: tags,
+    options: [
+          {
+            label: "New York",
+            value: "NY",
+            disabled: true,
+          },
+          {
+            label: "San Francisco",
+            value: "sp",
+          }],
     value: ["sp"],
     multiple: true,
     autocomplete: true,
