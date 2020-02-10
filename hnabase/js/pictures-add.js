@@ -9,6 +9,7 @@ $(function () {
     var db = firebase.firestore();
     db.collection("tags").get().then(function (docs) {
       docs.forEach(function (doc) {
+        console.log(doc.id);
         tags.push(doc.id);
       });
     });
