@@ -59,7 +59,7 @@ var db = firebase.firestore();
 db.collection("tags").get().then(function (docs) {
   docs.forEach(function (doc) {
     console.log(doc.id);
-    tags.push(doc.id);
+    tags.push({ label: doc.id, value: doc.id );
   });
 }).then(function () {
   console.log(tags);
