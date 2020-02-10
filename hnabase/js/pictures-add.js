@@ -2,23 +2,23 @@ $(function () {
   'use strict';
 
   $(document).ready(function () {
-    var citynames = new Bloodhound({
+    var tags = new Bloodhound({
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
       queryTokenizer: Bloodhound.tokenizers.whitespace,
       prefetch: {
         url: 'https://firestore.googleapis.com/v1/projects/hnabase/databases/(default)/documents/tags',
         filter: function(list) {
-          return $.map(list, function(cityname) {
-            return { name: cityname }; });
+          return $.map(list, function(tag) {
+            return { name: tag.name }; });
         }
       }
     });
-    citynames.initialize();
+    tags.initialize();
 
     var cities = new Bloodhound({
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
       queryTokenizer: Bloodhound.tokenizers.whitespace,
-      prefetch: 'data/cities.json'
+      prefetch: 'https://firestore.googleapis.com/v1/projects/hnabase/databases/(default)/documents/tags'
     });
     cities.initialize();
 
@@ -28,10 +28,10 @@ $(function () {
     var elt = $('.example_typeahead > > input');
     elt.tagsinput({
       typeaheadjs: {
-        name: 'citynames',
+        name: 'tags',
         displayKey: 'name',
         valueKey: 'name',
-        source: citynames.ttAdapter()
+        source: tags.ttAdapter()
       }
     });
 
