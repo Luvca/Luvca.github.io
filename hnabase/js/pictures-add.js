@@ -2,16 +2,20 @@ $(function () {
   'use strict';
 
   $(document).ready(function () {
+    firebase.initializeApp({
+      projectId: 'hnabase'
+    });
+    var tags = [];
+    var db = firebase.firestore();
+    db.collection("tags").get().then(function (docs) {
+      docs.forEach(function (doc) {
+        tags.push(doc.id);
+      });
+    });
     var citynames = new Bloodhound({
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
       queryTokenizer: Bloodhound.tokenizers.whitespace,
-      prefetch: {
-        url: 'data/citynames.json',
-        filter: function(list) {
-          return $.map(list, function(cityname) {
-            return { name: cityname }; });
-        }
-      }
+      local: tags
     });
     citynames.initialize();
 
