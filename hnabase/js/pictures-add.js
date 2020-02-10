@@ -34,11 +34,8 @@ $(function () {
        */
       var elt = $('.example_typeahead > > input');
       elt.tagsinput({
-        typeaheadjs: {
-          name: 'citynames',
-          displayKey: 'name',
-          valueKey: 'name',
-          source: citynames.ttAdapter()
+        typeahead: {
+          source: tags
         }
       });
 
