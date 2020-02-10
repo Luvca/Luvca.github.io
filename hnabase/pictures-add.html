@@ -54,47 +54,24 @@
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
     <script src="js/pictures-add.js"></script>
     <script>
-var autocomplete = new SelectPure(".autocomplete-select", {
-        options: [
-          {
-            label: "Barbina",
-            value: "ba",
-          },
-          {
-            label: "Bigoli",
-            value: "bg",
-          },
-          {
-            label: "Bucatini",
-            value: "bu",
-          },
-          {
-            label: "Busiate",
-            value: "bus",
-          },
-          {
-            label: "Capellini",
-            value: "cp",
-          },
-          {
-            label: "Fedelini",
-            value: "fe",
-          },
-          {
-            label: "Maccheroni",
-            value: "ma",
-          },
-          {
-            label: "Spaghetti",
-            value: "sp",
-          },
-        ],
-        value: ["sp"],
-        multiple: true,
-        autocomplete: true,
-        icon: "fa fa-times",
-        onChange: value => { console.log(value); },
-      });
+var tags = [];
+var db = firebase.firestore();
+db.collection("tags").get().then(function (docs) {
+  docs.forEach(function (doc) {
+    console.log(doc.id);
+    tags.push(doc.id);
+  });
+}).then(function () {
+  console.log(tags);
+  var autocomplete = new SelectPure(".autocomplete-select", {
+    options: tags,
+    value: ["sp"],
+    multiple: true,
+    autocomplete: true,
+    icon: "fa fa-times",
+    onChange: value => { console.log(value); },
+  });
+});
     </script>
   </body>
 </html>
