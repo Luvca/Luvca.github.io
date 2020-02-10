@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/bootstrap3/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap3/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/bootstrap3/bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="css/vendor/selectpure.css">
     <link rel="stylesheet" href="css/pictures-add.css">
   </head>
 
@@ -30,7 +30,7 @@
               <div class="example example_typeahead">
                 <div class="form-group">
                   <label for="tags" class="control-label">Tags</label>
-                  <input type="text" class="form-control" id="tags">
+                  <span class="autocomplete-select"></span>
                 </div>
               </div>
 
@@ -48,9 +48,52 @@
     <script src="js/bootstrap3/bootstrap.min.js"></script>
     <script src="js/bootstrap3/validator.min.js"></script>
     <script src="js/bootstrap3/typeahead.bundle.min.js"></script>
-    <script src="js/bootstrap3/bootstrap-tagsinput.min.js"></script>
+    <script src="js/vendor/selectpure.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
     <script src="js/pictures-add.js"></script>
+    <script>
+var autocomplete = new SelectPure(".autocomplete-select", {
+        options: [
+          {
+            label: "Barbina",
+            value: "ba",
+          },
+          {
+            label: "Bigoli",
+            value: "bg",
+          },
+          {
+            label: "Bucatini",
+            value: "bu",
+          },
+          {
+            label: "Busiate",
+            value: "bus",
+          },
+          {
+            label: "Capellini",
+            value: "cp",
+          },
+          {
+            label: "Fedelini",
+            value: "fe",
+          },
+          {
+            label: "Maccheroni",
+            value: "ma",
+          },
+          {
+            label: "Spaghetti",
+            value: "sp",
+          },
+        ],
+        value: ["sp"],
+        multiple: true,
+        autocomplete: true,
+        icon: "fa fa-times",
+        onChange: value => { console.log(value); },
+      });
+    </script>
   </body>
 </html>
