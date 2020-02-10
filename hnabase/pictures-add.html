@@ -15,7 +15,7 @@
     <div class="container">
       <main>
         <div class="page-header">
-          <h2>Examplw</h2>
+          <h2>Exampli</h2>
         </div>
 
         <div class="row">
@@ -70,6 +70,7 @@ db.collection("tags").get().then(function (docs) {
   var autocomplete = new SelectPure(".autocomplete-select", {
     options: tags,
     /*value: ["cap"],*/
+    value: [],
     multiple: true,
     autocomplete: true,
     icon: "fa fa-times",
