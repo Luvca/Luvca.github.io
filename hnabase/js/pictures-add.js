@@ -13,6 +13,7 @@ $(function () {
         tags.push(doc.id);
       });
     }).then(function () {
+      console.log(tags);
       var citynames = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
