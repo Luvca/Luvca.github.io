@@ -6,7 +6,7 @@ $(function () {
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
       queryTokenizer: Bloodhound.tokenizers.whitespace,
       prefetch: {
-        url: 'data/citynames.json',
+        url: 'https://firestore.googleapis.com/v1/projects/hnabase/detabases/{default}/documents/tags',
         filter: function(list) {
           return $.map(list, function(cityname) {
             return { name: cityname }; });
