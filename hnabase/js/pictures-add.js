@@ -12,13 +12,14 @@ $(function () {
         console.log(doc.id);
         tags.push(doc.id);
       });
+    }).then(function () {
+      var citynames = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        local: tags
+      });
+      citynames.initialize();
     });
-    var citynames = new Bloodhound({
-      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-      queryTokenizer: Bloodhound.tokenizers.whitespace,
-      local: tags
-    });
-    citynames.initialize();
 
     var cities = new Bloodhound({
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
