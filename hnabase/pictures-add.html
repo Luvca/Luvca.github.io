@@ -15,7 +15,7 @@
     <div class="container">
       <main>
         <div class="page-header">
-          <h2>Examplu</h2>
+          <h2>Examplr</h2>
         </div>
 
         <div class="row">
@@ -68,7 +68,9 @@ db.collection("tags").get().then(function (docs) {
 }).then(function () {
   console.log(tags);
   var autocomplete = new SelectPure(".autocomplete-select", {
-    options: [
+    options: tags,
+    value: ["cap"],
+    /*options: [
           {
             label: "New York",
             value: "NY",
@@ -78,7 +80,7 @@ db.collection("tags").get().then(function (docs) {
             label: "San Francisco",
             value: "sp",
           }],
-    value: ["sp"],
+    value: ["sp"],*/
     multiple: true,
     autocomplete: true,
     icon: "fa fa-times",
