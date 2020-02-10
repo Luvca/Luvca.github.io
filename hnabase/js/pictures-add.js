@@ -6,6 +6,7 @@ $(function () {
       projectId: 'hnabase'
     });
     var tags = [];
+    var citynames;
     var db = firebase.firestore();
     db.collection("tags").get().then(function (docs) {
       docs.forEach(function (doc) {
@@ -14,7 +15,7 @@ $(function () {
       });
     }).then(function () {
       console.log(tags);
-      var citynames = new Bloodhound({
+      citynames = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         local: tags
