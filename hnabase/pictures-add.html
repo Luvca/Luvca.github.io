@@ -15,7 +15,7 @@
     <div class="container">
       <main>
         <div class="page-header">
-          <h2>Examplyu</h2>
+          <h2>Examply</h2>
         </div>
 
         <div class="row">
@@ -63,7 +63,7 @@ var db = firebase.firestore();
 db.collection("tags").get().then(function (docs) {
   docs.forEach(function (doc) {
     console.log(doc.id);
-    tags.push({ label: doc.id, value: doc.id );
+    tags.push({ label: doc.id, value: doc.id });
   });
 }).then(function () {
   console.log(tags);
