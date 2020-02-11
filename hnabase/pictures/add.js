@@ -12,7 +12,7 @@
           event.preventDefault();
           event.stopPropagation();
         } else {
-          console.log($(".autocomplete-select"));
+          console.log($(".autocomplete-select").innerText);
           $(".autocomplete-select").each(function (i, e) {
             alert(e);
           });
