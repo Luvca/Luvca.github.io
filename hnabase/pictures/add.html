@@ -13,7 +13,7 @@
     <div class="container">
       <main>
         <div class="py-5 text-center">
-          <h2>Examproovek</h2>
+          <h2>Examproovekz</h2>
         </div>
 
         <form class="needs-validation" novalidate>
@@ -46,6 +46,7 @@ firebase.initializeApp({
   projectId: 'hnabase'
 });
 var tags = [];
+var autocomplete;
 var db = firebase.firestore();
 db.collection("tags").get().then(function (docs) {
   docs.forEach(function (doc) {
@@ -54,7 +55,7 @@ db.collection("tags").get().then(function (docs) {
   });
 }).then(function () {
   console.log(tags);
-  var autocomplete = new SelectPure(".autocomplete-select", {
+  autocomplete = new SelectPure(".autocomplete-select", {
     options: tags,
     /*value: ["cap"],*/
     value: [],

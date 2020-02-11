@@ -12,7 +12,8 @@
           event.preventDefault();
           event.stopPropagation();
         } else {
-          console.log($(".autocomplete-select").value);
+          console.log(autoComplete.value);
+          console.log($(".autocomplete-select").text());
           $(".autocomplete-select").each(function (i, e) {
             alert(e);
           });
