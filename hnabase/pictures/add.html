@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>Input</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/bootstrap3/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap3/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/vendor/selectpure.css">
+    <link rel="stylesheet" href="css/pictures-add.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <div class="container">
+      <main>
+        <div class="page-header">
+          <h2>Exampli</h2>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Add Picture</h4>
+            <form id="form" role="form" data-toggle="validator">
+              <div class="form-group">
+                <label for="imageUrl" class="control-label">URL</label>
+                <textarea class="form-control" id="imageUrl" placeholder="" value="" required data-error="Valid image URL is required."></textarea>
+                <div class="help-block with-errors"></div>
+              </div>
+
+              <div class="example example_typeahead">
+                <div class="form-group">
+                  <label for="tags" class="control-label">Tags</label>
+                  <span class="autocomplete-select"></span>
+                </div>
+              </div>
+
+              <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+            </form>
+          </div>
+        </div>
+      </main>
+
+      <footer class="footer">
+      </footer>
+    </div>
+
+    <script src="js/jquery2/jquery.min.js"></script>
+    <script src="js/bootstrap3/bootstrap.min.js"></script>
+    <script src="js/bootstrap3/validator.min.js"></script>
+    <script src="js/bootstrap3/typeahead.bundle.min.js"></script>
+    <script src="js/vendor/selectpure.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+    <script src="js/pictures-add.js"></script>
+    <script>
+// Initialize Cloud Firestore through Firebase
+firebase.initializeApp({
+  projectId: 'hnabase'
+});
+var tags = [];
+var db = firebase.firestore();
+db.collection("tags").get().then(function (docs) {
+  docs.forEach(function (doc) {
+    console.log(doc.id);
+    tags.push({ label: doc.id, value: doc.id });
+  });
+}).then(function () {
+  console.log(tags);
+  var autocomplete = new SelectPure(".autocomplete-select", {
+    options: tags,
+    /*value: ["cap"],*/
+    value: [],
+    multiple: true,
+    autocomplete: true,
+    icon: "fa fa-times",
+    onChange: value => { console.log(value); },
+  });
+});
+    </script>
+  </body>
+</html>
