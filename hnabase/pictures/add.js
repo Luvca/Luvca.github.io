@@ -13,6 +13,7 @@
           event.stopPropagation();
         }
         form.classList.add('was-validated');
+        alert('Done.');
       }, false);
     });
   }, false);
