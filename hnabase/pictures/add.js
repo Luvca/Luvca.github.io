@@ -11,9 +11,10 @@
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
+        } else {
+          alert('Done.');
         }
         form.classList.add('was-validated');
-        alert('Done.');
       }, false);
     });
   }, false);
