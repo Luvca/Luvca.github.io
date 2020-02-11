@@ -12,7 +12,9 @@
           event.preventDefault();
           event.stopPropagation();
         } else {
-          alert($(".autocomplete-select"));
+          $(".autocomplete-select").each(function (t) {
+            alert(t);
+          });
         }
         form.classList.add('was-validated');
       }, false);
