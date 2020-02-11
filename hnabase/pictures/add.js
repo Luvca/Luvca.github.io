@@ -8,15 +8,12 @@
     // Loop over them and prevent submission
     var validation = Array.prototype.filter.call(forms, function(form) {
       form.addEventListener('submit', function(event) {
-        console.log(autoComplete.value());
-        console.log($(".autocomplete-select").text());
-        $(".autocomplete-select").each(function (i, e) {
-          alert(e);
-        });
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
-        } else {
+          console.log(autoComplete.value());
+          console.log($(".autocomplete-select").text());
+          } else {
           alert('OK');
         }
         form.classList.add('was-validated');
