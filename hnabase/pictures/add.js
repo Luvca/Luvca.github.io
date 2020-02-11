@@ -12,7 +12,7 @@
           event.preventDefault();
           event.stopPropagation();
         } else {
-          alert('Done.');
+          console.log($(".autocomplete-select"));
         }
         form.classList.add('was-validated');
       }, false);
