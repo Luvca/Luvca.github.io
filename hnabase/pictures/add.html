@@ -16,27 +16,18 @@
           <h2>Exampli</h2>
         </div>
 
-        <div class="row">
-          <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">Add Picture</h4>
-            <form class="form-validation" novalidate>
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label for="imageUrl">URL</label>
-                  <textarea class="form-control" id="imageUrl" placeholder="" value="" required data-error="Valid image URL is required."></textarea>
-                  <div class="invalid-feedback">Valid image URL is required.</div>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                  <label for="tags" class="control-label">Tags</label>
-                  <span class="autocomplete-select"></span>
-                </div>
-              </div>
-
-              <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
-            </form>
+        <form class="form-validation" novalidate>
+          <div class="form-group">
+            <label for="imageUrl">URL</label>
+            <textarea class="form-control" id="imageUrl" placeholder="" value="" required data-error="Valid image URL is required."></textarea>
+            <div class="invalid-feedback">Valid image URL is required.</div>
           </div>
-        </div>
+          <div class="form-group">
+            <label for="tags" class="control-label">Tags</label>
+            <span class="autocomplete-select"></span>
+          </div>
+          <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+        </form>
       </main>
 
       <footer class="footer">
