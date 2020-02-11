@@ -239,6 +239,8 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script>window.jQuery || document.write('<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"><\/script>')</script>
+    <script> https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js
+</script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
     <script src="../../assets/js/holderjs/holder.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
@@ -262,7 +264,7 @@ result.then((docs) => {
   docs.forEach((doc) => {
     console.log(`${doc.id} => ${doc.data()}`);
     var $card = $('<div>', { class: 'card' }).appendTo("#pictures");
-    var $cardImg = $('<img>', { class: 'card-img img-fluid rounded', src: 'https://dl.dropboxusercontent.com' + doc.id.replace('\\', '/') }).appendTo($card);
+    var $cardImg = $('<img>', { class: 'lazy card-img img-fluid rounded', src: 'holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail', data-original: 'https://dl.dropboxusercontent.com' + doc.id.replace('\\', '/') }).appendTo($card);
     var $cardBody = $('<div>', { class: 'card-body' }).appendTo($card);
     $('<h5>', { class: 'card-title', text: 'Title' }).appendTo($cardBody);
     var $cardText = $('<p>', { class: 'card-text' }).appendTo($cardBody);
