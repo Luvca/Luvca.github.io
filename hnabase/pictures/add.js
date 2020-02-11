@@ -12,8 +12,9 @@
           event.preventDefault();
           event.stopPropagation();
         } else {
-          $(".autocomplete-select").each(function (t) {
-            alert(t);
+          console.log($(".autocomplete-select"));
+          $(".autocomplete-select").each(function (i, e) {
+            alert(e);
           });
         }
         form.classList.add('was-validated');
