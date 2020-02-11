@@ -42,12 +42,11 @@
     <script src="add.js"></script>
     <script>
 // Initialize Cloud Firestore through Firebase
-alert('aaa');
 firebase.initializeApp({
   projectId: 'hnabase'
 });
 var tags = [];
-var autocomplete;
+var autoComplete;
 var db = firebase.firestore();
 db.collection("tags").get().then(function (docs) {
   docs.forEach(function (doc) {
@@ -56,7 +55,7 @@ db.collection("tags").get().then(function (docs) {
   });
 }).then(function () {
   console.log(tags);
-  autocomplete = new SelectPure(".autocomplete-select", {
+  autoComplete = new SelectPure(".autocomplete-select", {
     options: tags,
     /*value: ["cap"],*/
     value: [],
