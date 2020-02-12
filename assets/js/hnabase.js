@@ -6,7 +6,7 @@ var hnabase = hnabase || { };
   firebase.initializeApp({
     projectId: 'hnabase'
   });
-  //var db = firebase.firestore();
+  var db = firebase.firestore();
   //hnabase.dbtags = function () {
   //  db.collection('tags').get().then(function (docs) {
   //    return docs;
