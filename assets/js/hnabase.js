@@ -7,7 +7,7 @@ var hnabase = hnabase || { };
     projectId: 'hnabase'
   });
   var db = firebase.firestore();
-  hnabase.dbtags = db.collection("tags");
+  hnabase.dbtags = db.collection('tags').get();
   hnabase.pictures = function () {
     return [
       { url: '../../assets/img/iisstart.png', title: 'test 1', comment: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.' },
