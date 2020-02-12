@@ -8,8 +8,7 @@ var hnabase = hnabase || { };
   });
   var db = firebase.firestore();
   hnabase.tags = db.collection("tags");
-  /*
-  hnabase.tags = function () {
+  hnabase.pictures = function () {
     return [
       { url: '../../assets/img/iisstart.png', title: 'test 1', comment: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.' },
       { url: '../../assets/img/iisstart.png', title: 'test 2'  },
@@ -18,7 +17,6 @@ var hnabase = hnabase || { };
       { url: '../../assets/img/iisstart.png', title: 'test 5'  },
     ];
   };
-  */
 
   hnabase.tags = function () {
     return [
