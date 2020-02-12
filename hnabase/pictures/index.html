@@ -69,7 +69,7 @@
     <main role="main">
       <section class="jumbotron text-center">
         <div class="container">
-          <h1 class="jumbotron-heading">Album Example</h1>
+          <h1 class="jumbotron-heading">Album Examples</h1>
           <p class="lead text-muted">Something h and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
           <p>
             <a href="#" class="btn btn-primary my-2">Main call to action</a>
@@ -169,8 +169,10 @@
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
     <script>
-$("img.lazy").lazyload({
-  placeholder: 'holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail'
+$(function($) {
+  $("img.lazy").lazyload({
+    placeholder: 'holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail'
+  )};
 });
 
 // Initialize Cloud Firestore through Firebase
