@@ -27,4 +27,5 @@ var tags;
   });
 
   //$('#debug').val(JSON.stringify(hnabase.dbtags()));
+  $('#debug').val(hnabase.debugText);
 })();
