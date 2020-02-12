@@ -25,4 +25,6 @@ var tags;
     autocomplete: true,
     icon: "fa fa-times"
   });
+
+  $('#debug').value = JSON.stringify(hnabase.tags);
 })();
