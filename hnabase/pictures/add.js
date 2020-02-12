@@ -26,5 +26,5 @@ var tags;
     icon: "fa fa-times"
   });
 
-  $('#debug').value = JSON.stringify(hnabase.tags);
+  $('#debug').val(JSON.stringify(hnabase.dbtags));
 })();
