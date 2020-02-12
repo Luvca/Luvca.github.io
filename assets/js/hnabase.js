@@ -32,5 +32,5 @@ var hnabase = hnabase || { };
     ];
   };
 
-  //hnabase.debugText = 'hello world';
+  hnabase.debugText = 'hello world';
 }(hnabase));
