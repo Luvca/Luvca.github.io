@@ -29,4 +29,6 @@ var hnabase = hnabase || { };
       { label: "North Carolina", value: "NC" }
     ];
   };
+
+  hnabase.debug = 'hello world';
 }(hnabase));
