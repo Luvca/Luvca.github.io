@@ -8,7 +8,9 @@ var hnabase = hnabase || { };
   });
   var db = firebase.firestore();
   hnabase.dbtags = function () {
-    return db.collection('tags').get();
+    db.collection('tags').get().then(function (docs) {
+      return docs;
+    });
   });
   hnabase.pictures = function () {
     return [
