@@ -29,5 +29,5 @@ var hnabase = hnabase || { };
     ];
   };
 
-  hnabase.debugText = 'hello world 1';
+  //hnabase.debugText = 'hello world 1';
 }(hnabase));
