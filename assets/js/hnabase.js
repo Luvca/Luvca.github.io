@@ -21,7 +21,7 @@ var hnabase = hnabase || { };
 
   hnabase.tags = function () {
     return [
-      { label: "New York", value: "NY" },
+      { label: "New Yorkt", value: "NY" },
       { label: "Washington", value: "WA" },
       { label: "California", value: "CA" },
       { label: "New Jersey", value: "NJ" },
