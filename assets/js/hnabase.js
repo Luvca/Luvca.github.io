@@ -6,8 +6,8 @@ var hnabase = hnabase || { };
   firebase.initializeApp({
     projectId: 'hna-data'
   });
-  var db = firebase.firestore();
-  hnabase.dbtags = db.collection('tags');
+  hnabase.db = firebase.firestore();
+  hnabase.dbtags = hnabase.db.collection('tags');
 
   hnabase.pictures = function () {
     return [
@@ -29,5 +29,5 @@ var hnabase = hnabase || { };
     ];
   };
 
-  //hnabase.debugText = 'hello world';
+  hnabase.debugText = 'hello world 1';
 }(hnabase));
