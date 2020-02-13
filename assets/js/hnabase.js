@@ -4,7 +4,7 @@ var hnabase = hnabase || { };
 
 (function (hnabase) {
   firebase.initializeApp({
-    projectId: 'hnabase'
+    projectId: 'hna-data'
   });
   var db = firebase.firestore();
   hnabase.dbtags = db.collection('tags');
@@ -29,5 +29,5 @@ var hnabase = hnabase || { };
     ];
   };
 
-  hnabase.debugText = 'hello world';
+  //hnabase.debugText = 'hello world';
 }(hnabase));
