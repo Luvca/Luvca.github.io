@@ -3,12 +3,12 @@
 var hnabase = hnabase || { };
 
 (function (hnabase) {
-  /*firebase.initializeApp({
-    projectId: 'hnabase'
+  firebase.initializeApp({
+    projectId: 'hna-data'
   });
-  hnabase.db = firebase.firestore();
-  hnabase.dbtags = hnabase.db.collection('tags');
-*/
+  //hnabase.db = firebase.firestore();
+  //hnabase.dbtags = hnabase.db.collection('tags');
+
   hnabase.pictures = function () {
     return [
       { url: '../../assets/img/iisstart.png', title: 'test 1', comment: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.' },

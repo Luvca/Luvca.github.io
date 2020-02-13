@@ -28,9 +28,9 @@ var tags;
 
   //$('#debug').val(JSON.stringify(hnabase.dbtags()));
   //$('#debug').val(hnabase.debugText);
-  firebase.initializeApp({
-    projectId: 'hnabase'
-  });
+  //firebase.initializeApp({
+  //  projectId: 'hnabase'
+  //});
   var db = firebase.firestore();
 
 db.collection("tags").get().then(function(querySnapshot) {
