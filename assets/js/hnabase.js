@@ -4,7 +4,7 @@ var hnabase = hnabase || { };
 
 (function (hnabase) {
   firebase.initializeApp({
-    projectId: 'hna-data'
+    projectId: 'hnabase'
   });
   hnabase.db = firebase.firestore();
   hnabase.dbtags = hnabase.db.collection('tags');
@@ -22,7 +22,7 @@ var hnabase = hnabase || { };
   hnabase.tags = function () {
     return [
       { label: "New Yorkt", value: "NY" },
-      { label: "Washington", value: "WA" },
+      { label: "Washingtong", value: "WA" },
       { label: "California", value: "CA" },
       { label: "New Jersey", value: "NJ" },
       { label: "North Carolina", value: "NC" }
