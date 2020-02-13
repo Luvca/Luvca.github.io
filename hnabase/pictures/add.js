@@ -28,7 +28,11 @@ var tags;
 
   //$('#debug').val(JSON.stringify(hnabase.dbtags()));
   //$('#debug').val(hnabase.debugText);
-  hnabase.dbtags.get().then(function (docs) {
+  firebase.initializeApp({
+    projectId: 'hnabase'
+  });
+  var db = firebase.firestore();
+  db.collection('tags').get().then(function (docs) {
     alert('well');
     alert(docs);
     $('#debug').val(JSON.stringify(docs));
