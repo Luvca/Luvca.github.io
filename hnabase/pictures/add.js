@@ -27,8 +27,8 @@ var tags;
   });
 
   //$('#debug').val(JSON.stringify(hnabase.dbtags()));
-  $('#debug').val(hnabase.debugText);
-  hnabase.dbtags.get().then(function(docs) {
-    $('#debug').val(JSON.stringify(docs));
-  )};
+  //$('#debug').val(hnabase.debugText);
+  //hnabase.dbtags.get().then(function(docs) {
+  //  $('#debug').val(JSON.stringify(docs));
+  //)};
 })();
