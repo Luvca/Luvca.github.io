@@ -32,9 +32,10 @@ var tags;
     projectId: 'hnabase'
   });
   var db = firebase.firestore();
-  db.collection('tags').get().then(function (docs) {
-    alert('well');
-    alert(docs);
-    $('#debug').val(JSON.stringify(docs));
-  });
+
+db.collection("tags").get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        alert(doc.id);
+});
 })();
