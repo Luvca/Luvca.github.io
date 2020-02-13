@@ -30,6 +30,7 @@ var tags;
   //$('#debug').val(hnabase.debugText);
   hnabase.dbtags.get().then(function (docs) {
     alert('well');
+    alert(docs);
     $('#debug').val(JSON.stringify(docs));
   });
 })();
