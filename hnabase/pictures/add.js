@@ -22,7 +22,7 @@ var tagSelect;
   var tags = [];
   hnadata.db.collection("tags").get().then(function(docs) {
     docs.forEach(function (doc) {
-      tags.push({ label: doc.data.name, value: doc.id });
+      tags.push({ label: doc.data().name, value: doc.id });
       //doc.data() is never undefined for query doc snapshots
       //alert('id: ' + doc.id);
     });
