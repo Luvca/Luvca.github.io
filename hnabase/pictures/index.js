@@ -4,25 +4,24 @@ var app = app || {};
 
 (function (app) {
   var cardTemplate = ({ title, url, comment, tags }) => `
-<div class="card box-shadow">
-  <img class="lazy card-img-top" data-original="${url}">
-  <div class="card-body">
-    <p class="card-text">${title}</p>
-    ${tags}
-    <p class="card-text"><small class="text-muted">${comment}</small></p>
-    <div class="d-flex justify-content-between align-items-center">
-      <div class="btn-group">
-        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+    <div class="card box-shadow">
+      <img class="lazy card-img-top" data-original="${url}">
+      <div class="card-body">
+        <p class="card-text">${title}</p>
+        ${tags}
+        <p class="card-text"><small class="text-muted">${comment}</small></p>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+          </div>
+        </div>
+        <p class="card-text"><small class="text-muted">9 mins</small></p>
       </div>
     </div>
-    <p class="card-text"><small class="text-muted">9 mins</small></p>
-  </div>
-</div>
   `;
 
-  var tagsTemplate = (tag) => `<span class="badge badge-danger hna-tag">${tag}</span>
-  `;
+  var tagsTemplate = (tag) => `<span class="badge badge-danger hna-tag">${tag}</span> `;
 
   var pictures = [];
   hnadata.db.collection("pictures").get().then(function (docs) {
