@@ -37,7 +37,7 @@ var app = app || {};
     });
   }).then(function () {
     //$('#pictures').append(pictures.map(cardTemplate).join(''));
-    $('#pictures').append(pictures.join(""));
+    $('#pictures').append(pictures.join(''));
     //$(function($) {
       $('img.lazy').lazyload({
         effect: 'fadeIn',
