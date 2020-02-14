@@ -43,5 +43,4 @@ var tagSelect;
   //  projectId: 'hnabase'
   //});
   //var db = firebase.firestore();
-
 })();
