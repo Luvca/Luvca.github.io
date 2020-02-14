@@ -30,15 +30,11 @@ var app = app || {};
   }).then(function () {
     //$('#pictures').append(pictures.map(cardTemplate).join(''));
     $('#pictures').append(pictures.join(""));
-  });
-
-  $(document).ready(function () {
-  });
-  
-  $(function($) {
-    $('img.lazy').lazyload({
-      effect: 'fadeIn',
-      effectspeed: 1000
+    $(function($) {
+      $('img.lazy').lazyload({
+        effect: 'fadeIn',
+        effectspeed: 1000
+      });
     });
   });
 }(app));
