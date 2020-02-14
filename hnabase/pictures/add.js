@@ -25,7 +25,6 @@ var tagSelect;
   hnadata.db.collection("tags").get().then(function (docs) {
     docs.forEach(function (doc) {
       tags.push({ label: doc.data().name, value: doc.id });
-      //doc.data() is never undefined for query doc snapshots
     });
   }).then(function () {
     console.log(tags);
