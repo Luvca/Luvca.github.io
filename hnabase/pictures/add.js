@@ -26,6 +26,7 @@ var tagSelect;
       //doc.data() is never undefined for query doc snapshots
     });
   }).then(function () {
+    console.log('demo');
     console.log(tags);
     tagSelect = new SelectPure(".tags", {
       options : tags,
