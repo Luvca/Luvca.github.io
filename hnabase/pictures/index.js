@@ -23,7 +23,7 @@ var app = app || {};
   var pictures = [];
   hnadata.db.collection("pictures").get().then(function (docs) {
     docs.forEach(function (doc) {
-      pictures.push(cardTemplate(doc.data().title, doc.data().url, doc.data().comment));
+      pictures.push(cardTemplate({ title: doc.data().title, url: doc.data().url, comment: doc.data().comment }));
       //pictures.push({ title: doc.data().title, url: doc.data().url, comment: doc.data().comment });
       //doc.data() is never undefined for query doc snapshots
     });
