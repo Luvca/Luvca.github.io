@@ -1,6 +1,6 @@
 'use strict';
 
-var tags;
+var tagSelect;
 
 (function() {
   window.addEventListener('load', function() {
@@ -19,7 +19,18 @@ var tags;
     });
   }, false);
 
-  tags = new SelectPure(".tags", {
+  var tags;
+  hnabase.db.collection("tags").get().then(function(docs) {
+    tags = docs.map(function (id, data) {
+      return { text: data.name, value: id };
+    });
+    docs.forEach(function (doc) {
+      // doc.data() is never undefined for query doc snapshots
+      alert('id: ' + doc.id);
+    });
+  }); 
+
+  tagSelect = new SelectPure(".tags", {
     options : hnabase.tags(),
     multiple: true,
     autocomplete: true,
@@ -33,10 +44,4 @@ var tags;
   //});
   //var db = firebase.firestore();
 
-hnabase.db.collection("tags").get().then(function(querySnapshot) {
-    querySnapshot.forEach(function(doc) {
-        // doc.data() is never undefined for query doc snapshots
-        alert('id: ' + doc.id);
-    });
-});
 })();
