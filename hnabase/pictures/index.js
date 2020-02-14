@@ -21,7 +21,8 @@ var app = app || {};
 </div>
   `;
 
-  var tagsTemplate = (tag) => `<span class="badge badge-danger hna-tag">${tag}</span>`;
+  var tagsTemplate = (tag) => `<span class="badge badge-danger hna-tag">${tag}</span>
+  `;
 
   var pictures = [];
   hnadata.db.collection("pictures").get().then(function (docs) {
