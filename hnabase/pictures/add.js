@@ -20,13 +20,13 @@ var tagSelect;
   }, false);
 
   var tags;
-  hnabase.db.collection("tags").get().then(function(docs) {
+  hnadata.collection("tags").get().then(function(docs) {
     tags = docs.map(function (id, data) {
       return { text: data.name, value: id };
     });
     docs.forEach(function (doc) {
-      // doc.data() is never undefined for query doc snapshots
-      alert('id: ' + doc.id);
+      //doc.data() is never undefined for query doc snapshots
+      //alert('id: ' + doc.id);
     });
   }); 
 
