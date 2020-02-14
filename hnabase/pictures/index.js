@@ -21,7 +21,7 @@ var app = app || {};
 </div>
   `;
 
-  var tagsTemplate = ({ tag }) => `<span class="badge badge-danger">${tag}</span>
+  var tagsTemplate = (tag) => `<span class="badge badge-danger">${tag}</span>
   `;
 
   var pictures = [];
