@@ -27,13 +27,12 @@ var tagSelect;
     });
   }).then(function () {
     console.log(tags);
-  }); 
-
-  tagSelect = new SelectPure(".tags", {
-    options : tags,
-    multiple: true,
-    autocomplete: true,
-    icon: "fa fa-times"
+    tagSelect = new SelectPure(".tags", {
+      options : tags,
+      multiple: true,
+      autocomplete: true,
+      icon: "fa fa-times"
+    });
   });
 
   //$('#debug').val(JSON.stringify(hnabase.dbtags()));
