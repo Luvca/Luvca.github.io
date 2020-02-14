@@ -20,31 +20,19 @@ var app = app || {};
     </div>
   `;
 
-  // Initialize Cloud Firestore through Firebase
-  /*
-  firebase.initializeApp({
-    projectId: 'hnabase'
-  });
-  var db = firebase.firestore();
-  var pictures = db.collection("pictures");
-  var result;
-  [ "hoge", "fuga" ].forEach((tag, i) => {
-    if (i === 0) {
-      result = collection.where("tags", "array-contains", tag).get();
-    } else {
-      $.merge(result, collection.where("tags", "array-contains", tag).get());
-    }
-  });
-  result.then((docs) => {
-    docs.forEach((doc) => {
-      console.log(`${doc.id} => ${doc.data()}`);
+  var pictures = [];
+  hnadata.db.collection("pictures").get().then(function (docs) {
+    docs.forEach(function (doc) {
+      pictures.push(cardTemplate(doc.data().title, doc.data().url, doc.data().comment));
+      //pictures.push({ title: doc.data().title, url: doc.data().url, comment: doc.data().comment });
+      //doc.data() is never undefined for query doc snapshots
     });
+  }).then(function () {
+    //$('#pictures').append(pictures.map(cardTemplate).join(''));
+    $('#pictures').append(pictures.join(""));
   });
-
-  */
 
   $(document).ready(function () {
-    $('#pictures').append(hnabase.pictures().map(cardTemplate).join(''));
   });
   
   $(function($) {
@@ -53,8 +41,4 @@ var app = app || {};
       effectspeed: 1000
     });
   });
-
-  app.test = function () {
-    return 'test';
-  };
 }(app));

@@ -26,7 +26,6 @@ var tagSelect;
       //doc.data() is never undefined for query doc snapshots
     });
   }).then(function () {
-    console.log('demo');
     console.log(tags);
     tagSelect = new SelectPure(".tags", {
       options : tags,
@@ -35,11 +34,4 @@ var tagSelect;
       icon: "fa fa-times"
     });
   });
-
-  //$('#debug').val(JSON.stringify(hnabase.dbtags()));
-  //$('#debug').val(hnabase.debugText);
-  //firebase.initializeApp({
-  //  projectId: 'hnabase'
-  //});
-  //var db = firebase.firestore();
 })();
