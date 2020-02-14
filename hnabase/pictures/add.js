@@ -20,7 +20,7 @@ var tagSelect;
   }, false);
 
   var tags;
-  hnadata.collection("tags").get().then(function(docs) {
+  hnadata.db.collection("tags").get().then(function(docs) {
     tags = docs.map(function (id, data) {
       return { text: data.name, value: id };
     });

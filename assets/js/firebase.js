@@ -6,5 +6,5 @@ var hnadata = hnadata || { };
   firebase.initializeApp({
     projectId: 'hna-data'
   });
-  hnadata = firebase.firestore();
+  hnadata.db = firebase.firestore();
 }(hnadata));
