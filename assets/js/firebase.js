@@ -1,6 +1,6 @@
 'use strict';
 
-var hnadata = hnadata || { };
+var hnadata = hnadata || {};
 
 (function (hnadata) {
   firebase.initializeApp({

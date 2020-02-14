@@ -19,19 +19,17 @@ var tagSelect;
     });
   }, false);
 
-  var tags;
+  var tags = [];
   hnadata.db.collection("tags").get().then(function(docs) {
-    tags = docs.map(function (id, data) {
-      return { text: data.name, value: id };
-    });
     docs.forEach(function (doc) {
+      tags.append({ label: doc.data.name, value: doc.id });
       //doc.data() is never undefined for query doc snapshots
       //alert('id: ' + doc.id);
     });
   }); 
 
   tagSelect = new SelectPure(".tags", {
-    options : hnabase.tags(),
+    options : tags,
     multiple: true,
     autocomplete: true,
     icon: "fa fa-times"
