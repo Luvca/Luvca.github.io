@@ -17,7 +17,7 @@ var tagSelect;
           alert('OK');
           alert(tagSelect.value());
           hnadata.db.collection('pictures').add({
-            url: $('#url')
+            url: $('#url').val()
           });
         }
         form.classList.add('was-validated');
