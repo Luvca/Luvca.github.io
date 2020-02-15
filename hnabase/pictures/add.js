@@ -16,6 +16,9 @@ var tagSelect;
         } else {
           alert('OK');
           alert(tagSelect.value());
+          hnadata.db.collection('pictures').add({
+            url: $('#url')
+          });
         }
         form.classList.add('was-validated');
       }, false);
@@ -25,7 +28,7 @@ var tagSelect;
   var tags = [];
   hnadata.db.collection("tags").get().then(function (docs) {
     docs.forEach(function (doc) {
-      tags.push({ label: doc.data().name, value: doc.id });
+      tags.push({ label: doc.data().name, value: doc.data().name });
     });
   }).then(function () {
     console.log(tags);
