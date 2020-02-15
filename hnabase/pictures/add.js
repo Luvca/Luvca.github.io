@@ -15,7 +15,7 @@ var tagSelect;
           event.stopPropagation();
         } else {
           alert('OK');
-          alert(tagSelect.value);
+          alert(tagSelect.value());
         }
         form.classList.add('was-validated');
       }, false);
