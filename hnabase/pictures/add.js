@@ -19,7 +19,7 @@ var tagSelect;
           }).then(function () {
             alert('OK');
           }).catch(function (error) {
-            console.log(error);
+            alert(error);
           });
         }
         form.classList.add('was-validated');
