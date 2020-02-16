@@ -18,6 +18,8 @@ var tagSelect;
             url: $('#url').val()
           }).then(function () {
             alert('OK');
+          }).catch(function (error) {
+            console.error(error);
           });
         }
         form.classList.add('was-validated');
