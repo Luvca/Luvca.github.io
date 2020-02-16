@@ -14,10 +14,10 @@ var tagSelect;
           event.preventDefault();
           event.stopPropagation();
         } else {
-          alert('OK');
-          alert(tagSelect.value());
           hnadata.db.collection('pictures').add({
             url: $('#url').val()
+          }).then(function () {
+            alert('OK');
           });
         }
         form.classList.add('was-validated');
