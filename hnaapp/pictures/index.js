@@ -46,3 +46,7 @@ var app = app || {};
     //});
   });
 }(app));
+
+$(function() {
+  $('#debug').val(JSON.stringify(hnadata.args));
+});
