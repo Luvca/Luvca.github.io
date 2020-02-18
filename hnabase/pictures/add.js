@@ -8,7 +8,8 @@ var tagSelect;
     var form = document.getElementById('form');
     if (form.checkValidity() === true) {
       hnadata.db.collection('pictures').add({
-        url: $('#url').val()
+        url: $('#url').val(),
+        tags: tagSelect.value()
       }).then(function () {
         alert('OK');
         location.href = 'index.html';
