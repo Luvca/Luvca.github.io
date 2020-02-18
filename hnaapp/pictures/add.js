@@ -4,6 +4,11 @@ var app = app || {};
 var tagSelect;
 
 (function(app) {
+  app.paste = function () {
+    var range = document.getElementById('url').createTextRange();
+    range.execCommand('paste');
+  };
+
   app.add = function () {
     var form = document.getElementById('form');
     if (form.checkValidity() === true) {
