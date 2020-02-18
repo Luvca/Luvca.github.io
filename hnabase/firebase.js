@@ -5,7 +5,7 @@ var hnadata = hnadata || {};
 (function (hnadata) {
   // Firebase project configuration
   var firebaseConfig = {
-    projectId: "sasatests"
+    projectId: "hna-data"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
