@@ -10,4 +10,6 @@ var hnadata = hnadata || {};
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   hnadata.db = firebase.firestore();
-}(hnadata));
+
+  hnadata.args = [...new URLSearchParams(location.search).entries()].reduce((obj, e) => ({...obj, [e[0]]: e[1]}), {});
+})(hnadata);
