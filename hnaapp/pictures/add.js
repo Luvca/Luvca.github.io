@@ -15,7 +15,7 @@ var tagSelect;
       hnadata.db.collection('pictures').add({
         url: $('#url').val(),
         tags: tagSelect.value(),
-        createTimestamp: firebase.firestore.FieldValue.serverTimestamp()
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       }).then(function () {
         alert('OK');
         location.href = 'index.html';
