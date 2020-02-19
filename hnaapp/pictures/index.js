@@ -11,9 +11,11 @@ var app = app || {};
         ${tags}
         <p class="card-text"><small class="text-muted">${comment}</small></p>
         <div class="d-flex justify-content-between align-items-center">
-          <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-          <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="app.delete('${id}');">Delete</button>
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="app.delete('${id}');">Delete</button>
+          </div>
         </div>
         <p class="card-text"><small class="text-muted">9 mins</small></p>
       </div>
