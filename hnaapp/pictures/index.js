@@ -4,7 +4,7 @@ var app = app || {};
 
 (function (app) {
   var cardTemplate = ({ id, title, url, comment, tags }) => `
-    <div class="card box-shadow">
+    <div id="${id}" class="card box-shadow">
       <img class="lazy card-img-top" data-original="${url}">
       <div class="card-body">
         <p class="card-text">${title}</p>
@@ -14,7 +14,7 @@ var app = app || {};
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
             <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="app.delete('${id}');">Delete</button>
           </div>
         </div>
         <p class="card-text"><small class="text-muted">9 mins</small></p>
@@ -47,6 +47,13 @@ var app = app || {};
       });
     //});
   });
+
+  app.delete = function(id) {
+    if (confirm('OK?')) {
+      $(`#${id}`).remove();
+      alert('Done.');
+    }
+  };
 }(app));
 
 $(function() {
