@@ -26,6 +26,8 @@ var app = app || {};
 
   var pictures = [];
   var query = hnadata.db.collection('pictures');
+  if (hnadata.args['tags'])
+    query = query.where('tags', 'in', hnadata.args['tags'].split(','));
   query.orderBy('createdAt', 'desc').get().then(function (docs) {
     docs.forEach(function (doc) {
       pictures.push(cardTemplate({
