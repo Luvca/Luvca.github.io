@@ -50,7 +50,7 @@ var app = app || {};
 
   app.delete = function(id) {
     if (confirm('OK?')) {
-      hnadata.collection('pictures').doc(id).delete().then(function() {
+      hnadata.db.collection('pictures').doc(id).delete().then(function() {
         $(`#${id}`).remove();
         alert('Done.');
       }).catch(function(error) {
