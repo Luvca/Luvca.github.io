@@ -14,7 +14,8 @@ var tagSelect;
     if (form.checkValidity() === true) {
       hnadata.db.collection('pictures').add({
         url: $('#url').val(),
-        tags: tagSelect.value()
+        tags: tagSelect.value(),
+        createTimestamp: firebase.firestore.FieldValue.serverTimestamp()
       }).then(function () {
         alert('OK');
         location.href = 'index.html';
