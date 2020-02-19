@@ -50,8 +50,12 @@ var app = app || {};
 
   app.delete = function(id) {
     if (confirm('OK?')) {
-      $(`#${id}`).remove();
-      alert('Done.');
+      hnadata.collection('pictures').doc(id).delete().then(function() {
+        $(`#${id}`).remove();
+        alert('Done.');
+      }).catch(function(error) {
+        alert(error);
+      });
     }
   };
 }(app));
