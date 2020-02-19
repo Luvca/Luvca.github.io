@@ -25,9 +25,9 @@ var app = app || {};
   var tagsTemplate = (tag) => `<span class="badge badge-danger hna-tag">${tag}</span> `;
 
   var pictures = [];
-  var query = hnadata.db.collection('pictures');
-  if (hnadata.args['tags'])
-    query = query.where('tags', 'in', hnadata.args['tags'].split(','));
+  var query = hnaapp.db.collection('pictures');
+  if (hnaapp.args['tags'])
+    query = query.where('tags', 'in', hnaapp.args['tags'].split(','));
   query.orderBy('createdAt', 'desc').get().then(function (docs) {
     docs.forEach(function (doc) {
       pictures.push(cardTemplate({
@@ -53,7 +53,7 @@ var app = app || {};
 
   app.delete = function(id) {
     if (confirm('OK?')) {
-      hnadata.db.collection('pictures').doc(id).delete().then(function() {
+      hnaapp.db.collection('pictures').doc(id).delete().then(function() {
         $(`#${id}`).remove();
         alert('Done.');
       }).catch(function(error) {
@@ -64,5 +64,5 @@ var app = app || {};
 }(app));
 
 $(function() {
-  $('#debug').val(JSON.stringify(hnadata.args));
+  $('#debug').val(JSON.stringify(hnaapp.args));
 });
