@@ -25,7 +25,7 @@ var app = app || {};
   var tagsTemplate = (tag) => `<span class="badge badge-danger hna-tag">${tag}</span> `;
 
   var pictures = [];
-  hnadata.db.collection('pictures').get().orderBy('createTimestamp', 'desc').then(function (docs) {
+  hnadata.db.collection('pictures').orderBy('createTimestamp', 'desc').get().then(function (docs) {
     docs.forEach(function (doc) {
       pictures.push(cardTemplate({
         id: doc.id,
