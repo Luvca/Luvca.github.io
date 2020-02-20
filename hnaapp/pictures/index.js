@@ -68,9 +68,9 @@ $(function() {
 });
 
 
-  $('.open-edit-dialog').on('show.bs.modal', function(event) {
+  $('#editDialog').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget);
     var id = button.data('id');
     var dialog = $(this);
-    dialog.find('.dialog-url').val('id');
+    dialog.find('.dialog-url').val(id);
   });
