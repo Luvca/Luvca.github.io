@@ -4,7 +4,7 @@ var app = app || {};
 
 (function (app) {
   var cardTemplate = (picture) => `
-    <div id="${picture.id}" data-picture="${JSON.stringify(picture)}" class="card box-shadow">
+    <div id="${picture.id}" data-id="${picture.id}" class="card box-shadow">
       <img class="lazy card-img-top" data-original="${picture.url}">
       <div class="card-body">
         <p class="card-text">${picture.title}</p>
@@ -13,7 +13,7 @@ var app = app || {};
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href = 'edit.html?id=${picture.id}';">Edit</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary open-edit-dialog">Edit</button>
             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="app.delete('${picture.id}');">Delete</button>
           </div>
         </div>
@@ -65,4 +65,8 @@ var app = app || {};
 
 $(function() {
   $('#debug').val(JSON.stringify(hnaapp.args));
+  $('.open-edit-dialog').on('click', function() {
+    $('#picture-id').val($(this).data('id'));
+    $('#edit-dialog').modal('show');
+  });
 });
