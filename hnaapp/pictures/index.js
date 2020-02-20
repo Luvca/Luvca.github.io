@@ -27,7 +27,7 @@ var app = app || {};
   var pictures = [];
   var query = hnaapp.db.collection('pictures');
   if (hnaapp.args.tags)
-    query = query.where('tags', 'array-contains', 'apple');
+    query = query.where('tags', 'in', hnaapp.args.tags.split(','));
   query.orderBy('createdAt', 'desc').get().then(function (docs) {
     docs.forEach(function (doc) {
       pictures.push(cardTemplate({
