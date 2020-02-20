@@ -13,7 +13,7 @@ var app = app || {};
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href = 'edit.html?id=${id}';">Edit</button>
             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="app.delete('${id}');">Delete</button>
           </div>
         </div>
