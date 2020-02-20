@@ -71,6 +71,9 @@ $(function() {
   $('#editDialog').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget);
     var id = button.data('id');
+    var card = $(`#{id}`);
+    var url = card.find('.picture-url').data('original');
     var dialog = $(this);
-    dialog.find('.dialog-url').val(id);
+    dialog.find('.picture-id').val(id);
+    diadog.find('.picture-url').val(url);
   });
