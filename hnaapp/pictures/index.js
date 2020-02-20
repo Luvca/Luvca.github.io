@@ -4,7 +4,7 @@ var app = app || {};
 
 (function (app) {
   var cardTemplate = (picture) => `
-    <div id="${picture.id}" class="card box-shadow">
+    <div id="${picture.id}" data-picture="${JSON.stringify(picture)}" class="card box-shadow">
       <img class="lazy card-img-top" data-original="${picture.url}">
       <div class="card-body">
         <p class="card-text">${picture.title}</p>
