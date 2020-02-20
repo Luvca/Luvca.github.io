@@ -65,10 +65,12 @@ var app = app || {};
 
 $(function() {
   $('#debug').val(JSON.stringify(hnaapp.args));
-  $('.open-edit-dialog').on('show.bs.modal', function(event) {
+});
+
+
+  $('.open-sedit-dialog').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget);
     var id = button.data('id');
     var dialog = $(this);
     dialog.find('.dialog-url').val(id);
   });
-});
