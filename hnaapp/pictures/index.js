@@ -72,5 +72,5 @@ $(function() {
     var button = $(event.relatedTarget);
     var id = button.data('id');
     var dialog = $(this);
-    dialog.find('.dialog-url').val(id);
+    dialog.find('.dialog-url').val('id');
   });
