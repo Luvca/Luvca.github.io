@@ -12,7 +12,7 @@ var tagSelect;
   app.add = function () {
     var form = document.getElementById('form');
     if (form.checkValidity() === true) {
-      hnaapp.db.collection('pictures').doc(null).set({
+      hnaapp.db.collection('pictures').add({
         url: $('#url').val(),
         tags: tagSelect.value(),
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
