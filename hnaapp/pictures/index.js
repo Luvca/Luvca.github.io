@@ -13,7 +13,7 @@ var app = app || {};
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary open-edit-dialog" data-id="${picture.id}">Edit</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary open-edit-dialog" data-toggle="modal" data-target="#edit-dialog" data-id="${picture.id}">Edit</button>
             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="app.delete('${picture.id}');">Delete</button>
           </div>
         </div>
@@ -65,8 +65,10 @@ var app = app || {};
 
 $(function() {
   $('#debug').val(JSON.stringify(hnaapp.args));
-  $('.open-edit-dialog').on('click', function() {
-    $('#picture-id').val($(this).data('id'));
-    $('#edit-dialog').modal('show');
+  $('.open-edit-dialog').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget);
+    var id = button.data('id');
+    var dialog = $(this);
+    dialog.find('.dialog-url').val(id);
   });
 });
