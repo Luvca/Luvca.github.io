@@ -3,18 +3,18 @@
 var app = app || {};
 
 (function (app) {
-  var cardTemplate = (picture) => `
-    <div id="${picture.id}" class="card box-shadow">
-      <img class="lazy card-img-top" data-original="${picture.url}">
+  var cardTemplate = ({ id, title, url, comment, tags }) => `
+    <div id="${id}" class="card box-shadow">
+      <img class="lazy card-img-top" data-original="${url}">
       <div class="card-body">
-        <p class="card-text">${picture.title}</p>
-        ${picture.tags}
-        <p class="card-text"><small class="text-muted">${picture.comment}</small></p>
+        <p class="card-text">${title}</p>
+        ${tags}
+        <p class="card-text"><small class="text-muted">${comment}</small></p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href = 'edit.html?id=${picture.id}';">Edit</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="app.delete('${picture.id}');">Delete</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href = 'edit.html?id=${id}';">Edit</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="app.delete('${id}');">Delete</button>
           </div>
         </div>
         <p class="card-text"><small class="text-muted">9 mins</small></p>
