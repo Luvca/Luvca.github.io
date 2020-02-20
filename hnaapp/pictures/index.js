@@ -22,7 +22,7 @@ var app = app || {};
     </div>
   `;
 
-  var tagsTemplate = (tag) => `<span class="badge badge-danger hna-tag">${tag}</span> `;
+  var tagsTemplate = (tag) => `<a href="?tags=${tag}"><span class="badge badge-danger hna-tag">${tag}</span></a>`;
 
   var pictures = [];
   var query = hnaapp.db.collection('pictures');
