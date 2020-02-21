@@ -5,7 +5,8 @@ var app = app || {};
 (function (app) {
   var cardTemplate = (picture) => `
     <div id="${picture.id}" class="card box-shadow">
-      <img class="lazy card-img-top picture-url" data-original="${picture.url}">
+      <img class="lazy card-img-top" data-original="${picture.url}">
+      <p class="d-none picture-url">${picture.url}</p>
       <div class="card-body">
         <p class="card-text picture-title">${picture.title}</p>
         ${picture.tags}
@@ -72,7 +73,7 @@ $(function() {
     var button = $(event.relatedTarget);
     var id = button.data('id');
     var card = $(`#${id}`);
-    var url = card.find('.picture-url').attr('src');
+    var url = card.find('.picture-url').text();
     var title = card.find('.picture-title').text();
     alert(title);
     var dialog = $(this);
