@@ -13,7 +13,7 @@ var app = app || {};
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary open-edit-dialog" data-toggle="modal" data-target="#editDialog" data-id="${picture.id}" data-url="${picture.url}">Edit</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary open-edit-dialog" data-toggle="modal" data-target="#editDialog" data-id="${picture.id}" data-url="${picture.url}" data-title="${picture.title}">Edit</button>
             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="app.delete('${picture.id}');">Delete</button>
           </div>
         </div>
@@ -73,9 +73,10 @@ $(function() {
     var id = button.data('id');
     //var card = $(`#${id}`);
     var url = button.data('url');
-    //var title = card.find('.picture-title').text();
+    var title = button.data('title');
     //alert(title);
     var dialog = $(this);
     dialog.find('.picture-id').val(id);
-    //diadog.find('.picture-url').val(url);
+    dialog.find('.picture-url').val(url);
+    dialog.find('.picture-title').val(title);
   });
