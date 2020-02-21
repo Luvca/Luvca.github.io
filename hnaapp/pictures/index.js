@@ -3,7 +3,7 @@
 var app = app || {};
 
 (function (app) {
-  var cardTemplate = (picture) => `
+  app.cardTemplate = (picture) => `
     <div id="${picture.id}" class="card box-shadow">
       <img class="lazy card-img-top picture-url" data-original="${picture.url}">
       <div class="card-body">
@@ -22,7 +22,7 @@ var app = app || {};
     </div>
   `;
 
-  var tagsTemplate = (tag) => `<a href="?tags=${tag}"><span class="badge badge-danger hna-tag">${tag}</span></a>`;
+  app.tagsTemplate = (tag) => `<a href="?tags=${tag}"><span class="badge badge-danger hna-tag">${tag}</span></a>`;
 
   var pictures = [];
   var query = hnaapp.db.collection('pictures');
@@ -30,12 +30,12 @@ var app = app || {};
     query = query.where('tags', 'array-contains-any', hnaapp.args.tags.split(','));
   query.orderBy('createdAt', 'desc').get().then((docs) => {
     docs.forEach((doc) => {
-      pictures.push(cardTemplate({
+      pictures.push(app.cardTemplate({
         id: doc.id,
         title: doc.data().title,
         url: doc.data().url,
         comment: doc.data().comment,
-        tags: doc.data().tags.map(tagsTemplate).join('')
+        tags: doc.data().tags.map(app.tagsTemplate).join('')
       }));
       //pictures.push({ title: doc.data().title, url: doc.data().url, comment: doc.data().comment });
       //doc.data() is never undefined for query doc snapshots
@@ -68,7 +68,7 @@ $(function() {
 });
 
 
-  $('#editDialog').on('show.bs.modal', function(event) {
+  $('#editDialog').on('show.bs.modal', (event) => {
     var button = $(event.relatedTarget);
     var id = button.data('id');
     var card = $(`#${id}`);
