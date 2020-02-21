@@ -72,11 +72,11 @@ $(function() {
   $('#editDialog').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget);
     var id = button.data('id');
-    var card = $(`#${id}`);
-    var url = card.find('.picture-url').text();
-    var title = card.find('.picture-title').text();
-    alert(title);
+    //var card = $(`#${id}`);
+    //var url = card.find('.picture-url').text();
+    //var title = card.find('.picture-title').text();
+    //alert(title);
     var dialog = $(this);
     dialog.find('.picture-id').val(id);
-    diadog.find('.picture-url').val(url);
+    //diadog.find('.picture-url').val(url);
   });
