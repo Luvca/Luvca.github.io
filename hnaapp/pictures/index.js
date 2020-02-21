@@ -7,7 +7,7 @@ var app = app || {};
     <div id="${picture.id}" class="card box-shadow">
       <img class="lazy card-img-top picture-url" data-original="${picture.url}">
       <div class="card-body">
-        <p class="card-text">${picture.title}</p>
+        <p class="card-text picture-title">${picture.title}</p>
         ${picture.tags}
         <p class="card-text"><small class="text-muted">${picture.comment}</small></p>
         <div class="d-flex justify-content-between align-items-center">
@@ -73,8 +73,8 @@ $(function() {
     var id = button.data('id');
     var card = $(`#${id}`);
     alert(card);
-    //var title = card.find('.picture-title').val();
+    var title = card.find('.picture-title').text();
     var dialog = $(this);
     dialog.find('.picture-id').val(id);
-    //diadog.find('.picture-url').val(title);
+    diadog.find('.picture-url').val(title);
   });
