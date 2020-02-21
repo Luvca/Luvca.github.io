@@ -72,8 +72,9 @@ $(function() {
     var button = $(event.relatedTarget);
     var id = button.data('id');
     var card = $(`#${id}`);
-    var title = card.find('.picture-title').val();
+    alert(card);
+    //var title = card.find('.picture-title').val();
     var dialog = $(this);
     dialog.find('.picture-id').val(id);
-    diadog.find('.picture-url').val(title);
+    //diadog.find('.picture-url').val(title);
   });
