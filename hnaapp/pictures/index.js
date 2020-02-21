@@ -77,5 +77,5 @@ $(function() {
     //alert(title);
     var dialog = $(this);
     dialog.find('.picture-id').val(id);
-    diadog.find('.picture-url').val(url);
+    //diadog.find('.picture-url').val(url);
   });
