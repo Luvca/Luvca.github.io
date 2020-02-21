@@ -28,8 +28,8 @@ var app = app || {};
   var query = hnaapp.db.collection('pictures');
   if (hnaapp.args.tags)
     query = query.where('tags', 'array-contains-any', hnaapp.args.tags.split(','));
-  query.orderBy('createdAt', 'desc').get().then(function (docs) {
-    docs.forEach(function (doc) {
+  query.orderBy('createdAt', 'desc').get().then((docs) => {
+    docs.forEach((doc) => {
       pictures.push(cardTemplate({
         id: doc.id,
         title: doc.data().title,
@@ -40,7 +40,7 @@ var app = app || {};
       //pictures.push({ title: doc.data().title, url: doc.data().url, comment: doc.data().comment });
       //doc.data() is never undefined for query doc snapshots
     });
-  }).then(function () {
+  }).then(() => {
     //$('#pictures').append(pictures.map(cardTemplate).join(''));
     $('#pictures').append(pictures.join(''));
     //$(function($) {
@@ -53,10 +53,10 @@ var app = app || {};
 
   app.delete = function(id) {
     if (confirm('OK?')) {
-      hnaapp.db.collection('pictures').doc(id).delete().then(function() {
+      hnaapp.db.collection('pictures').doc(id).delete().then(() => {
         $(`#${id}`).remove();
         alert('Done.');
-      }).catch(function(error) {
+      }).catch((error) => {
         alert(error);
       });
     }
