@@ -80,5 +80,5 @@ $(function() {
     var dialog = $(this);
     dialog.find('.picture-id').val(id);
     dialog.find('.picture-url').val(url);
-    dialog.find('.picture-title').val(title);
+    dialog.find('.picture-title').val(title || null);
   });
