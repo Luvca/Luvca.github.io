@@ -6,15 +6,14 @@ var app = app || {};
   var cardTemplate = (picture) => `
     <div id="${picture.id}" class="card box-shadow">
       <img class="lazy card-img-top" data-original="${picture.url}">
-      <p class="d-none picture-url">${picture.url}</p>
       <div class="card-body">
-        <p class="card-text picture-title">${picture.title}</p>
+        <p class="card-text">${picture.title}</p>
         ${picture.tags}
         <p class="card-text"><small class="text-muted">${picture.comment}</small></p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary open-edit-dialog" data-toggle="modal" data-target="#editDialog" data-id="${picture.id}">Edit</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary open-edit-dialog" data-toggle="modal" data-target="#editDialog" data-id="${picture.id}" data-url="${picture.url}">Edit</button>
             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="app.delete('${picture.id}');">Delete</button>
           </div>
         </div>
@@ -73,10 +72,10 @@ $(function() {
     var button = $(event.relatedTarget);
     var id = button.data('id');
     //var card = $(`#${id}`);
-    //var url = card.find('.picture-url').text();
+    var url = button.data('url');
     //var title = card.find('.picture-title').text();
     //alert(title);
     var dialog = $(this);
     dialog.find('.picture-id').val(id);
-    //diadog.find('.picture-url').val(url);
+    diadog.find('.picture-url').val(url);
   });
