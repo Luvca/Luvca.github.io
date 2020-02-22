@@ -94,7 +94,7 @@ $(function() {
     });
   }).then(function() {
     console.log(tags);
-    app.tagSelect = new SelectPure(".tags", {
+    app.tagSelect = new SelectPure(".picture-tags", {
       options : tags,
       multiple: true,
       autocomplete: true,

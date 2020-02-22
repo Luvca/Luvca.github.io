@@ -35,13 +35,21 @@
           </div>
           <div class="modal-body">
             <form id="form" class="needs-validation" novalidate>
-              <input class="form-control picture-id">
-              <label for="pictureUrl">URL</label>
-              <textarea id="pictureUrl" class="form-control picture-url" required></textarea>
-              <label for="pictureTitle">Title</label>
-              <input id="pictureTitle" class="form-control picture-title">
-              <label for="tags">Tags</label>
-              <span id="tags" class="tags"></span>
+              <div class="form-group">
+                <input class="form-control picture-id">
+              </div>
+              <div class="form-group">
+                <label for="pictureUrl" class="col-form-label">URL</label>
+                <textarea id="pictureUrl" class="form-control picture-url" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="pictureTitle" class="col-form-label">Title</label>
+                <input id="pictureTitle" class="form-control picture-title">
+              </div>
+              <div class="form-group">
+                <label for="pictureTags" class="col-form-label">Tags</label>
+                <span id="pictureTags" class="picture-tags"></span>
+              </div>
             </form>
           </div>
           <div class="modal-footer">
