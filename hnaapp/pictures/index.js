@@ -114,5 +114,5 @@ $('#saveChanges').on('click', function(event) {
       });
     }
   }
-  form.classList.add('was-validated');
+  form.classList.get(0).add('was-validated');
 });
