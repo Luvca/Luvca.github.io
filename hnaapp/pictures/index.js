@@ -21,7 +21,7 @@ var app = app || {};
       </div>
     </div>
   `;
-  app.tagsTemplate = (tag) => `<a href="?tags=${tag}"><span class="badge badge-danger hna-tag">${tag}</span></a>`;
+  app.tagsTemplate = (tag) => `<a href="?tags=${tag}"><span class="badge badge-danger hna-tag">${tag}</span></a> `;
   app.tagSelect = {};
 
   app.delete = function(id) {
