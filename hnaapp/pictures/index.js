@@ -91,8 +91,8 @@ $('#editDialog').on('show.bs.modal', function(event) {
 });
 
 $('#saveChanges').on('click', function(event) {
-  var form = $('#editForm').get(0);
-  if (form.checkValidity() === true) {
+  var form = $('#editForm');
+  if (form.get(0).checkValidity() === true) {
     var id = form.find('.picture-id').val();
     var fields = {
       url: form.find('.picture-url').val(),
