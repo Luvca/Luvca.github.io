@@ -21,45 +21,8 @@ var app = app || {};
       </div>
     </div>
   `;
-
   app.tagsTemplate = (tag) => `<a href="?tags=${tag}"><span class="badge badge-danger hna-tag">${tag}</span></a>`;
-
-  var pictures = [];
-  var query = hnaapp.db.collection('pictures');
-  if (hnaapp.args.tags)
-    query = query.where('tags', 'array-contains-any', hnaapp.args.tags.split(','));
-  query.orderBy('createdAt', 'desc').get().then((docs) => {
-    docs.forEach((doc) => {
-      pictures.push(app.cardTemplate({
-        id: doc.id,
-        title: doc.data().title,
-        url: doc.data().url,
-        comment: doc.data().comment,
-        tags: doc.data().tags.map(app.tagsTemplate).join('')
-      }));
-    });
-  }).then(() => {
-    $('#pictures').append(pictures.join(''));
-      $('img.lazy').lazyload({
-        effect: 'fadeIn',
-        effectspeed: 1000
-      });
-  });
-
-  var tags = [];
-  hnaapp.db.collection("tags").get().then(function(docs) {
-    docs.forEach(function(doc) {
-      tags.push({ label: doc.data().name, value: doc.data().name });
-    });
-  }).then(function () {
-    console.log(tags);
-    app.tagSelect = new SelectPure(".tags", {
-      options : tags,
-      multiple: true,
-      autocomplete: true,
-      icon: "fa fa-times"
-    });
-  });
+  app.tagSelect = {};
 
   app.save = () => {
     var form = $('#form');
@@ -101,6 +64,43 @@ var app = app || {};
 
 $(function() {
   $('#debug').val(JSON.stringify(hnaapp.args));
+
+  var pictures = [];
+  var query = hnaapp.db.collection('pictures');
+  if (hnaapp.args.tags)
+    query = query.where('tags', 'array-contains-any', hnaapp.args.tags.split(','));
+  query.orderBy('createdAt', 'desc').get().then((docs) => {
+    docs.forEach((doc) => {
+      pictures.push(app.cardTemplate({
+        id: doc.id,
+        title: doc.data().title,
+        url: doc.data().url,
+        comment: doc.data().comment,
+        tags: doc.data().tags.map(app.tagsTemplate).join('')
+      }));
+    });
+  }).then(() => {
+    $('#pictures').append(pictures.join(''));
+      $('img.lazy').lazyload({
+        effect: 'fadeIn',
+        effectspeed: 1000
+      });
+  });
+
+  var tags = [];
+  hnaapp.db.collection("tags").get().then(function(docs) {
+    docs.forEach(function(doc) {
+      tags.push({ label: doc.data().name, value: doc.data().name });
+    });
+  }).then(function() {
+    console.log(tags);
+    app.tagSelect = new SelectPure(".tags", {
+      options : tags,
+      multiple: true,
+      autocomplete: true,
+      icon: "fa fa-times"
+    });
+  });
 });
 
 
