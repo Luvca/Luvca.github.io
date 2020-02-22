@@ -111,7 +111,7 @@ $(function() {
     var url = card.find('.picture-url').attr('src');
     var title = card.find('.picture-title').text();
     var dialog = $(this);
-    dialog.find('.modal-title').val('a');
+    dialog.find('.modal-title').text('a');
     dialog.find('.picture-id').val(id);
     dialog.find('.picture-url').val(url);
     dialog.find('.picture-title').val(title || null);
