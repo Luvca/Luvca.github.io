@@ -96,6 +96,7 @@ $('#saveChanges').on('click', function(event) {
     var id = form.find('.picture-id').val();
     var fields = {
       url: form.find('.picture-url').val(),
+      title: form.find('.picture-title').val(),
       tags: app.tagSelect.value(),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
