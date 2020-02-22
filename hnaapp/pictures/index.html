@@ -34,10 +34,8 @@
             </button>
           </div>
           <div class="modal-body">
-            <form id="form" class="needs-validation" novalidate>
-              <div class="form-group">
-                <input class="form-control picture-id">
-              </div>
+            <form id="editForm" class="needs-validation" novalidate>
+              <input class="d-none picture-id">
               <div class="form-group">
                 <label for="pictureUrl" class="col-form-label">URL</label>
                 <textarea id="pictureUrl" class="form-control picture-url" required></textarea>
@@ -54,7 +52,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button id="saveChanges" type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>

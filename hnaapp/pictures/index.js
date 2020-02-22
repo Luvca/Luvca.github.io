@@ -24,30 +24,7 @@ var app = app || {};
   app.tagsTemplate = (tag) => `<a href="?tags=${tag}"><span class="badge badge-danger hna-tag">${tag}</span></a>`;
   app.tagSelect = {};
 
-  app.save = () => {
-    var form = $('#form');
-    if (form.checkValidity() === true) {
-      var fields = {
-        url: $('#url').val(),
-        tags: app.tagSelect.value(),
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-      if (app.id) {
-        hnaapp.db.collection('pictures').doc(app.id).set(fields, { merge: true }).then(function() {
-          alert('Done.');
-        }).catch(function(error) {
-          alert(error);
-        });
-      } else {
-        fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-        hnaapp.db.collection('pictures').add(fields).then(function () {
-          alert('Done.');
-        }).catch(function (error) {
-          alert(error);
-        });
-      }
-    }
-    form.classList.add('was-validated');
+  app.save = (id) => {
   };
 
   app.delete = function(id) {
@@ -103,16 +80,42 @@ $(function() {
   });
 });
 
+$('#editDialog').on('show.bs.modal', function(event) {
+  var button = $(event.relatedTarget);
+  var id = button.data('id');
+  var card = $(`#${id}`);
+  var url = card.find('.picture-url').attr('src');
+  var title = card.find('.picture-title').text();
+  var dialog = $(this);
+  dialog.find('.modal-title').text('Edit');
+  dialog.find('.picture-id').val(id);
+  dialog.find('.picture-url').val(url);
+  dialog.find('.picture-title').val(title || null);
+});
 
-  $('#editDialog').on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget);
-    var id = button.data('id');
-    var card = $(`#${id}`);
-    var url = card.find('.picture-url').attr('src');
-    var title = card.find('.picture-title').text();
-    var dialog = $(this);
-    dialog.find('.modal-title').text('Edit');
-    dialog.find('.picture-id').val(id);
-    dialog.find('.picture-url').val(url);
-    dialog.find('.picture-title').val(title || null);
-  });
+$('#saveChanges').on('click', function(event) {
+  var form = $('#editForm');
+  if (form.checkValidity() === true) {
+    var id = form.find('.picture-id').val();
+    var fields = {
+      url: form.find('.picture-url').val(),
+      tags: app.tagSelect.value(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    if (id) {
+      hnaapp.db.collection('pictures').doc(id).set(fields, { merge: true }).then(function() {
+        alert('Done.');
+      }).catch(function(error) {
+        alert(error);
+      });
+    } else {
+      fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      hnaapp.db.collection('pictures').add(fields).then(function () {
+        alert('Done.');
+      }).catch(function (error) {
+        alert(error);
+      });
+    }
+  }
+  form.classList.add('was-validated');
+});
