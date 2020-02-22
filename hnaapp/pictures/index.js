@@ -51,20 +51,6 @@ var app = app || {};
     //});
   });
 
-hnaapp.db.collection("tags").get().then(function (docs) {
-    docs.forEach(function (doc) {
-      tags.push({ label: doc.data().name, value: doc.data().name });
-    });
-  }).then(function () {
-    console.log(tags);
-    app.tagSelect = new SelectPure(".tags", {
-      options : tags,
-      multiple: true,
-      autocomplete: true,
-      icon: "fa fa-times"
-    });
-  });
-
   app.save = () => {
     var form = $('#form');
     if (form.checkValidity() === true) {
@@ -105,6 +91,21 @@ hnaapp.db.collection("tags").get().then(function (docs) {
 
 $(function() {
   $('#debug').val(JSON.stringify(hnaapp.args));
+
+  var tags = [];
+  hnaapp.db.collection("tags").get().then(function(docs) {
+    docs.forEach(function(doc) {
+      tags.push({ label: doc.data().name, value: doc.data().name });
+    });
+  }).then(function () {
+    console.log(tags);
+    app.tagSelect = new SelectPure(".tags", {
+      options : tags,
+      multiple: true,
+      autocomplete: true,
+      icon: "fa fa-times"
+    });
+  });
 });
 
 
