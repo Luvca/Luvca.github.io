@@ -24,9 +24,6 @@ var app = app || {};
   app.tagsTemplate = (tag) => `<a href="?tags=${tag}"><span class="badge badge-danger hna-tag">${tag}</span></a>`;
   app.tagSelect = {};
 
-  app.save = (id) => {
-  };
-
   app.delete = function(id) {
     if (confirm('OK?')) {
       hnaapp.db.collection('pictures').doc(id).delete().then(() => {
@@ -90,11 +87,11 @@ $('#editDialog').on('show.bs.modal', function(event) {
   dialog.find('.modal-title').text('Edit');
   dialog.find('.picture-id').val(id);
   dialog.find('.picture-url').val(url);
-  dialog.find('.picture-title').val(title || null);
+  dialog.find('.picture-title').val(title);
 });
 
 $('#saveChanges').on('click', function(event) {
-  var form = $('#editForm');
+  var form = $('#editForm').get(0);
   if (form.checkValidity() === true) {
     var id = form.find('.picture-id').val();
     var fields = {
@@ -110,9 +107,9 @@ $('#saveChanges').on('click', function(event) {
       });
     } else {
       fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      hnaapp.db.collection('pictures').add(fields).then(function () {
+      hnaapp.db.collection('pictures').add(fields).then(function() {
         alert('Done.');
-      }).catch(function (error) {
+      }).catch(function(error) {
         alert(error);
       });
     }
