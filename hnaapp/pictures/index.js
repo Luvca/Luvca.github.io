@@ -37,18 +37,28 @@ var app = app || {};
         comment: doc.data().comment,
         tags: doc.data().tags.map(app.tagsTemplate).join('')
       }));
-      //pictures.push({ title: doc.data().title, url: doc.data().url, comment: doc.data().comment });
-      //doc.data() is never undefined for query doc snapshots
     });
   }).then(() => {
-    //$('#pictures').append(pictures.map(cardTemplate).join(''));
     $('#pictures').append(pictures.join(''));
-    //$(function($) {
       $('img.lazy').lazyload({
         effect: 'fadeIn',
         effectspeed: 1000
       });
-    //});
+  });
+
+  var tags = [];
+  hnaapp.db.collection("tags").get().then(function(docs) {
+    docs.forEach(function(doc) {
+      tags.push({ label: doc.data().name, value: doc.data().name });
+    });
+  }).then(function () {
+    console.log(tags);
+    app.tagSelect = new SelectPure(".tags", {
+      options : tags,
+      multiple: true,
+      autocomplete: true,
+      icon: "fa fa-times"
+    });
   });
 
   app.save = () => {
@@ -91,21 +101,6 @@ var app = app || {};
 
 $(function() {
   $('#debug').val(JSON.stringify(hnaapp.args));
-
-  var tags = [];
-  hnaapp.db.collection("tags").get().then(function(docs) {
-    docs.forEach(function(doc) {
-      tags.push({ label: doc.data().name, value: doc.data().name });
-    });
-  }).then(function () {
-    console.log(tags);
-    app.tagSelect = new SelectPure(".tags", {
-      options : tags,
-      multiple: true,
-      autocomplete: true,
-      icon: "fa fa-times"
-    });
-  });
 });
 
 
