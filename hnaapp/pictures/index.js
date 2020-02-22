@@ -57,7 +57,7 @@ hnaapp.db.collection("tags").get().then(function (docs) {
     });
   }).then(function () {
     console.log(tags);
-    tagSelect = new SelectPure(".tags", {
+    app.tagSelect = new SelectPure(".tags", {
       options : tags,
       multiple: true,
       autocomplete: true,
@@ -70,7 +70,7 @@ hnaapp.db.collection("tags").get().then(function (docs) {
     if (form.checkValidity() === true) {
       var fields = {
         url: $('#url').val(),
-        tags: tagSelect.value(),
+        tags: app.tagSelect.value(),
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       };
       if (app.id) {
