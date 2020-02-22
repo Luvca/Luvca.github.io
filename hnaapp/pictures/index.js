@@ -51,6 +51,46 @@ var app = app || {};
     //});
   });
 
+hnaapp.db.collection("tags").get().then(function (docs) {
+    docs.forEach(function (doc) {
+      tags.push({ label: doc.data().name, value: doc.data().name });
+    });
+  }).then(function () {
+    console.log(tags);
+    tagSelect = new SelectPure(".tags", {
+      options : tags,
+      multiple: true,
+      autocomplete: true,
+      icon: "fa fa-times"
+    });
+  });
+
+  app.save = () => {
+    var form = $('#form');
+    if (form.checkValidity() === true) {
+      var fields = {
+        url: $('#url').val(),
+        tags: tagSelect.value(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      if (app.id) {
+        hnaapp.db.collection('pictures').doc(app.id).set(fields, { merge: true }).then(function() {
+          alert('Done.');
+        }).catch(function(error) {
+          alert(error);
+        });
+      } else {
+        fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+        hnaapp.db.collection('pictures').add(fields).then(function () {
+          alert('Done.');
+        }).catch(function (error) {
+          alert(error);
+        });
+      }
+    }
+    form.classList.add('was-validated');
+  };
+
   app.delete = function(id) {
     if (confirm('OK?')) {
       hnaapp.db.collection('pictures').doc(id).delete().then(() => {

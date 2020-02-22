@@ -33,17 +33,21 @@
             </button>
           </div>
           <div class="modal-body">
-            <input class="form-control picture-id">
-            <textarea class="form-control picture-url"></textarea>
-            <input class="form-control picture-title">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+            <form id="form" class="needs-validation" novalidate>
+              <input class="form-control picture-id">
+              <label for="pictureUrl">URL</label>
+              <textarea id="pictureUrl" class="form-control picture-url" required></textarea>
+              <input class="form-control picture-title">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
