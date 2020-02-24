@@ -3,9 +3,10 @@
 var app = app || {};
 
 (function (app) {
-  app.cardTemplate = (picture) => `
+  app.createCard = (picture) => `
     <div id="${picture.id}" class="card box-shadow">
-      <img class="lazy card-img-top picture-url" data-original="${picture.url}">
+      <img class="lazy card-img-top" data-original="${picture.url}">
+      <div class="d-none picture-url">${picture.url}</div>
       <div class="card-body">
         <p class="card-text picture-title">${picture.title}</p>
         ${picture.tags}
@@ -21,17 +22,18 @@ var app = app || {};
       </div>
     </div>
   `;
-  app.tagsTemplate = (tag) => `<a href="?tags=${tag}"><span class="badge badge-danger hna-tag">${tag}</span></a> `;
   app.tags = [];
   app.tagSelect = {};
+  app.createTags = (tag) => `<a href="?tags=${tag}"><span class="badge badge-danger hna-tag">${tag}</span></a> `;
 
   app.delete = function(id) {
     if (confirm('OK?')) {
-      hnaapp.db.collection('pictures').doc(id).delete().then(() => {
-        $(`#${id}`).remove();
-        alert('Done.');
-      }).catch((error) => {
-        alert(error);
+      $(`#${id}`).fadeOut('normal', function() {
+        $(this).remove();
+        hnaapp.db.collection('pictures').doc(id).delete().then(() => {
+        }).catch((error) => {
+          alert(error);
+        });
       });
     }
   };
@@ -46,32 +48,24 @@ $(function() {
     query = query.where('tags', 'array-contains-any', hnaapp.args.tags.split(','));
   query.orderBy('createdAt', 'desc').get().then((docs) => {
     docs.forEach((doc) => {
-      pictures.push(app.cardTemplate({
+      $('#pictures').append(app.createCard({
         id: doc.id,
-        title: doc.data().title,
         url: doc.data().url,
+        title: doc.data().title,
         comment: doc.data().comment,
-        tags: doc.data().tags.map(app.tagsTemplate).join('')
+        tags: doc.data().tags.map(app.createTags).join('')
       }));
     });
   }).then(() => {
-    $('#pictures').append(pictures.join(''));
-      $('img.lazy').lazyload({
-        effect: 'fadeIn',
-        effectspeed: 1000
-      });
+    $('img.lazy').lazyload({
+      effect: 'fadeIn',
+      effectspeed: 1000
+    });
   });
   hnaapp.db.collection("tags").get().then(function(docs) {
     docs.forEach(function(doc) {
       app.tags.push({ label: doc.data().name, value: doc.data().name });
     });
-  }).then(function() {
-    //app.tagSelect = new SelectPure(".picture-tags", {
-      //options : tags,
-      //multiple: true,
-      //autocomplete: true,
-      //icon: "fa fa-times"
-    //});
   });
 });
 
@@ -79,9 +73,9 @@ $('#editDialog').on('show.bs.modal', function(event) {
   var button = $(event.relatedTarget);
   var id = button.data('id');
   var card = $(`#${id}`);
-  var url = card.find('.picture-url').attr('src');
+  var url = card.find('.picture-url').text();
   var title = card.find('.picture-title').text();
-  var tags = card.find('.hna-tag').map(function(index, value) { return value.text(); })
+  var tags = card.find('.hna-tag').map(function() { return $(this).text(); }).get();
   console.log(tags);
   var dialog = $(this);
   dialog.find('#editForm').removeClass('was-validated');
@@ -89,12 +83,13 @@ $('#editDialog').on('show.bs.modal', function(event) {
   dialog.find('.picture-id').val(id);
   dialog.find('.picture-url').val(url);
   dialog.find('.picture-title').val(title);
-  app.tagSelect = new SelectPure('.picture-tags', {
-    option: app.tags,
+  $('#pictureTags').text('');
+  app.tagSelect = new SelectPure('#pictureTags', {
+    options: app.tags,
     multiple: true,
     autocomplete: true,
     icon: 'fa fa-times',
-    value: tags
+    value: card.find('.hna-tag').map(function() { return $(this).text(); }).get()
   });
 });
 
@@ -103,24 +98,47 @@ $('#saveChanges').on('click', function(event) {
   if (form.get(0).checkValidity() === true) {
     form.find('.spinner-border').show();
     var id = form.find('.picture-id').val();
+    var url = form.find('.picture-url').val();
+    var title = form.find('.picture-title').val();
+    var tags = app.tagSelect.value();
     var fields = {
-      url: form.find('.picture-url').val(),
-      title: form.find('.picture-title').val(),
-      tags: app.tagSelect.value(),
+      url: url,
+      title: title,
+      tags: tags,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
     if (id) {
       hnaapp.db.collection('pictures').doc(id).set(fields, { merge: true }).then(function() {
-        alert('Done.');
         $('#editDialog').modal('hide');
+        $(`#${id}`).replaceWith(app.createCard({
+          id: id,
+          url: url,
+          title: title,
+          tags: tags.map(app.createTags).join('')
+        }));
+      }).then(function() {
+        $('img.lazy').lazyload({
+          effect: 'fadeIn',
+          effectspeed: 1000
+        });
       }).catch(function(error) {
         alert(error);
       });
     } else {
       fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
       hnaapp.db.collection('pictures').add(fields).then(function() {
-        alert('Done.');
         $('#editDialog').modal('hide');
+        $('#pictures').prepend(app.createCard({
+          id: id,
+          url: url,
+          title: title,
+          tags: tags.map(app.createTags).join('')
+        }));
+      }).then(function() {
+        $('img.lazy').lazyload({
+          effect: 'fadeIn',
+          effectspeed: 1000
+        });
       }).catch(function(error) {
         alert(error);
       });
