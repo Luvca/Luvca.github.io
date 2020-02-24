@@ -40,9 +40,6 @@ var app = app || {};
 }(app));
 
 $(function() {
-  $('#debug').val(JSON.stringify(hnaapp.args));
-
-  var pictures = [];
   var query = hnaapp.db.collection('pictures');
   if (hnaapp.args.tags)
     query = query.where('tags', 'array-contains-any', hnaapp.args.tags.split(','));
@@ -66,10 +63,10 @@ $(function() {
     docs.forEach(function(doc) {
       app.tags.push({ label: doc.data().name, value: doc.data().name });
     });
-  });
-
-  if (hnaapp.args.add)
-    $('#editDialog').modal('show');
+  }).then(function() {
+    if (hnaapp.args.add)
+      $('#editDialog').modal('show');
+  });;
 });
 
 $('#editDialog').on('show.bs.modal', function(event) {
