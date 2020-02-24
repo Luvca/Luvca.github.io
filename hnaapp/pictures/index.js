@@ -22,6 +22,7 @@ var app = app || {};
     </div>
   `;
   app.tagsTemplate = (tag) => `<a href="?tags=${tag}"><span class="badge badge-danger hna-tag">${tag}</span></a> `;
+  app.tags = [];
   app.tagSelect = {};
 
   app.delete = function(id) {
@@ -60,20 +61,17 @@ $(function() {
         effectspeed: 1000
       });
   });
-
-  var tags = [];
   hnaapp.db.collection("tags").get().then(function(docs) {
     docs.forEach(function(doc) {
-      tags.push({ label: doc.data().name, value: doc.data().name });
+      app.tags.push({ label: doc.data().name, value: doc.data().name });
     });
   }).then(function() {
-    console.log(tags);
-    app.tagSelect = new SelectPure(".picture-tags", {
-      options : tags,
-      multiple: true,
-      autocomplete: true,
-      icon: "fa fa-times"
-    });
+    //app.tagSelect = new SelectPure(".picture-tags", {
+      //options : tags,
+      //multiple: true,
+      //autocomplete: true,
+      //icon: "fa fa-times"
+    //});
   });
 });
 
@@ -83,12 +81,19 @@ $('#editDialog').on('show.bs.modal', function(event) {
   var card = $(`#${id}`);
   var url = card.find('.picture-url').attr('src');
   var title = card.find('.picture-title').text();
+  var tags = card.find('.hna-tags').text();
   var dialog = $(this);
   dialog.find('#editForm').removeClass('was-validated');
   dialog.find('.modal-title').text('Edit');
   dialog.find('.picture-id').val(id);
   dialog.find('.picture-url').val(url);
   dialog.find('.picture-title').val(title);
+  app.tagSelect = new SelectPure('.picture-tags', {
+    option: app.tags,
+    multiple: true,
+    autocomplete: true,
+    icon: 'fa fa-times',
+    value: tags
 });
 
 $('#saveChanges').on('click', function(event) {
