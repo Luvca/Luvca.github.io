@@ -69,7 +69,7 @@ $(function() {
   });
 
   if (hnaapp.args.add)
-    $('#editDialog').trigger('show.bs.modal');
+    $('#editDialog').modal('show');
 });
 
 $('#editDialog').on('show.bs.modal', function(event) {
