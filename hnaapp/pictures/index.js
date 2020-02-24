@@ -67,6 +67,9 @@ $(function() {
       app.tags.push({ label: doc.data().name, value: doc.data().name });
     });
   });
+
+  if (hnaapp.args.add)
+    $('#editDialog').trigger('show.bs.modal');
 });
 
 $('#editDialog').on('show.bs.modal', function(event) {
