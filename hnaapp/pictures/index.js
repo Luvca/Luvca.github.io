@@ -13,8 +13,7 @@ var app = app || {};
 
   app.createCard = (picture) => `
     <div id="${picture.id}" class="card box-shadow">
-      <img class="lazy card-img-top" data-original="${picture.url}">
-      <div class="d-none picture-url">${picture.url}</div>
+      <a class="picture-url" href="${picture.url}"><img class="lazy card-img-top" data-original="${picture.url}"></a>
       <div class="card-body">
         <p class="card-text picture-title">${picture.title}</p>
         ${picture.women}
@@ -89,7 +88,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
   var button = $(event.relatedTarget);
   var id = button.data('id');
   var card = $(`#${id}`);
-  var url = card.find('.picture-url').text();
+  var url = card.find('.picture-url').attr('href');
   var title = card.find('.picture-title').text();
   var women = card.find('.hna-woman').map(function() { return $(this).text(); }).get();
   console.log(women);
