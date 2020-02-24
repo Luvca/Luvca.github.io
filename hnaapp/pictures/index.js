@@ -104,6 +104,7 @@ $('#saveChanges').on('click', function(event) {
     if (id) {
       hnaapp.db.collection('pictures').doc(id).set(fields, { merge: true }).then(function() {
         alert('Done.');
+        $('#editDialog').modal('hide');
       }).catch(function(error) {
         alert(error);
       });
@@ -111,10 +112,12 @@ $('#saveChanges').on('click', function(event) {
       fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
       hnaapp.db.collection('pictures').add(fields).then(function() {
         alert('Done.');
+        $('#editDialog').modal('hide');
       }).catch(function(error) {
         alert(error);
       });
     }
+  } else {
+    form.addClass('was-validated');
   }
-  form.addClass('was-validated');
 });
