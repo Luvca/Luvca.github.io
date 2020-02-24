@@ -14,7 +14,7 @@ var app = app || {};
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary open-edit-dialog" data-toggle="modal" data-target="#editDialog" data-id="${picture.id}">Edit</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#editDialog" data-id="${picture.id}">Edit</button>
             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="app.delete('${picture.id}');">Delete</button>
           </div>
         </div>
