@@ -3,7 +3,7 @@
 var app = app || {};
 
 (function (app) {
-  app.women = [];
+  //app.women = [];
   app.womanSelect = {};
   app.createWomen = (woman) => `<a href="?women=${woman}"><span class="badge badge-danger hna-woman">${woman}</span></a> `;
 
@@ -102,7 +102,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
   dialog.find('.picture-title').val(title);
   $('#pictureWomen').text('');
   app.womanSelect = new SelectPure('#pictureWomen', {
-    options: app.women,
+    options: hnaapp.women,
     multiple: true,
     autocomplete: true,
     icon: 'fa fa-times',

@@ -11,6 +11,13 @@ var hnaapp = hnaapp || {};
   firebase.initializeApp(firebaseConfig);
   hnaapp.db = firebase.firestore();
 
+  hnaapp.women = [];
+  hnaapp.db.collection("women").get().then(function(docs) {
+    docs.forEach(function(doc) {
+      app.women.push({ label: doc.data().name, value: doc.data().name });
+    })
+  });
+
   hnaapp.args = [...new URLSearchParams(location.search).entries()].reduce((obj, e) => ({...obj, [e[0]]: e[1]}), {});
 
   hnaapp.emptify = function(value) {
