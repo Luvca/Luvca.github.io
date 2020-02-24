@@ -94,6 +94,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
     autocomplete: true,
     icon: 'fa fa-times',
     value: tags
+  });
 });
 
 $('#saveChanges').on('click', function(event) {
