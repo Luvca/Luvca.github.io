@@ -94,6 +94,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
 $('#saveChanges').on('click', function(event) {
   var form = $('#editForm');
   if (form.get(0).checkValidity() === true) {
+    form.find('.spinner-border').show();
     var id = form.find('.picture-id').val();
     var fields = {
       url: form.find('.picture-url').val(),
