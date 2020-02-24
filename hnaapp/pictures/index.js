@@ -81,7 +81,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
   var card = $(`#${id}`);
   var url = card.find('.picture-url').attr('src');
   var title = card.find('.picture-title').text();
-  var tags = card.find('.hna-tag').map(function(index, value) { return value; })
+  var tags = card.find('.hna-tag').map(function(index, value) { return value.text(); })
   console.log(tags);
   var dialog = $(this);
   dialog.find('#editForm').removeClass('was-validated');
