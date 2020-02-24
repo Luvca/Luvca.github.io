@@ -18,6 +18,13 @@ var hnaapp = hnaapp || {};
     })
   });
 
+  hnaapp.tags = [];
+  hnaapp.db.collection("tags").get().then(function(docs) {
+    docs.forEach(function(doc) {
+      hnaapp.tags.push({ label: doc.data().name, value: doc.data().name });
+    });
+  });
+
   hnaapp.args = [...new URLSearchParams(location.search).entries()].reduce((obj, e) => ({...obj, [e[0]]: e[1]}), {});
 
   hnaapp.emptify = function(value) {

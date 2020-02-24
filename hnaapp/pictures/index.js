@@ -68,20 +68,8 @@ $(function() {
     });
   });
 
-  hnaapp.db.collection("women").get().then(function(docs) {
-    docs.forEach(function(doc) {
-      app.women.push({ label: doc.data().name, value: doc.data().name });
-    })
-  }).then(function() {
-    hnaapp.db.collection("tags").get().then(function(docs) {
-      docs.forEach(function(doc) {
-        app.tags.push({ label: doc.data().name, value: doc.data().name });
-      });
-    }).then(function() {
-      if (hnaapp.args.add)
-        $('#editDialog').modal('show');
-    });
-  });
+  if (hnaapp.args.add)
+    $('#editDialog').modal('show');
 });
 
 $('#editDialog').on('show.bs.modal', function(event) {
@@ -110,7 +98,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
   });
   $('#pictureTags').text('');
   app.tagSelect = new SelectPure('#pictureTags', {
-    options: app.tags,
+    options: hnaapp.tags,
     multiple: true,
     autocomplete: true,
     icon: 'fa fa-times',
