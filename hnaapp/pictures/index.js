@@ -35,7 +35,7 @@ var app = app || {};
     if (confirm('OK?')) {
       $(`#${id}`).fadeOut('normal', function() {
         $(this).remove();
-        hnaapp.db.collection('pictures').doc(id).delete().then(() => {
+        hnaapp.db.pictures.doc(id).delete().then(() => {
         }).catch((error) => {
           alert(error);
         });
@@ -45,7 +45,7 @@ var app = app || {};
 }(app));
 
 $(function() {
-  var query = hnaapp.db.collection('pictures');
+  var query = hnaapp.db.pictures;
   if (hnaapp.args.women)
     query = query.where('women', 'array-contains-any', hnaapp.args.women.split(','));
   else if (hnaapp.args.tags)
@@ -123,7 +123,7 @@ $('#saveChanges').on('click', function(event) {
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
     if (id) {
-      hnaapp.db.collection('pictures').doc(id).set(fields, { merge: true }).then(function() {
+      hnaapp.db.pictures.doc(id).set(fields, { merge: true }).then(function() {
         $('#editDialog').modal('hide');
         $(`#${id}`).replaceWith(app.createCard({
           id: id,
@@ -142,7 +142,7 @@ $('#saveChanges').on('click', function(event) {
       });
     } else {
       fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      hnaapp.db.collection('pictures').add(fields).then(function() {
+      hnaapp.db.pictures.add(fields).then(function() {
         $('#editDialog').modal('hide');
         $('#pictures').prepend(app.createCard({
           id: id,

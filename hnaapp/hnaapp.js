@@ -9,17 +9,21 @@ var hnaapp = hnaapp || {};
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-  hnaapp.db = firebase.firestore();
+  var db = firebase.firestore();
+  hnaapp.db = {};
+  hnaapp.db.pictures = db.collection("pictures");
+  hnaapp.db.women = db.collection("women");
+  hnaapp.db.tags = db.collection("tags");
 
   hnaapp.women = [];
-  hnaapp.db.collection("women").get().then(function(docs) {
+  hnaapp.db.women.get().then(function(docs) {
     docs.forEach(function(doc) {
       hnaapp.women.push({ label: doc.data().name, value: doc.data().name });
     })
   });
 
   hnaapp.tags = [];
-  hnaapp.db.collection("tags").get().then(function(docs) {
+  hnaapp.db.tags.get().then(function(docs) {
     docs.forEach(function(doc) {
       hnaapp.tags.push({ label: doc.data().name, value: doc.data().name });
     });
