@@ -185,6 +185,7 @@ $('#saveWoman').on('click', function(event) {
     //} else {
       fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
       hnaapp.db.women.add(fields).then(function() {
+        hnaapp.women.push({ label: name, value: name });
         $('#womanDialog').modal('hide');
       }).catch(function(error) {
         alert(error);
