@@ -46,9 +46,10 @@
               </div>
               <div class="form-group">
                 <label for="pictureWomen" class="col-form-label">Cast</label>
-                <button class="btn btn-sm btn-outline-secondary">Add</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary add-woman" data-toggle="modal" data-target="#addWomanDialog">Add</button>
                 <span id="pictureWomen" class="picture-women"></span>
                 <label for="pictureTags" class="col-form-label">Tags</label>
+                <button type="button" class="btn btn-sm btn-outline-secondary add-tag">Add</button>
                 <span id="pictureTags" class="picture-tags"></span>
               </div>
             </form>
@@ -56,6 +57,37 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button id="saveChanges" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addWomanDialog" tabindex="-1" role="dialog" aria-labelledby="dialogLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="editForm" class="needs-validation" novalidate>
+              <div class="form-group">
+                <label for="womanName" class="col-form-label">Name</label>
+                <input id="womanName" class="form-control woman-name" required>
+                <div class="invalid-feedback">Name is required.</div>
+              </div>
+              <div class="form-group">
+                <label for="womanPhoneticName" class="col-form-label">Phonetic Name</label>
+                <input id="womanPhoneticName" class="form-control woman-phonetic-name">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="saveWoman" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Save changes</button>
           </div>
         </div>
       </div>
