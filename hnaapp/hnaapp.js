@@ -14,7 +14,7 @@ var hnaapp = hnaapp || {};
   hnaapp.women = [];
   hnaapp.db.collection("women").get().then(function(docs) {
     docs.forEach(function(doc) {
-      app.women.push({ label: doc.data().name, value: doc.data().name });
+      hnaapp.women.push({ label: doc.data().name, value: doc.data().name });
     })
   });
 

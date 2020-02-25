@@ -7,7 +7,7 @@ var app = app || {};
   app.womanSelect = {};
   app.createWomen = (woman) => `<a href="?women=${woman}"><span class="badge badge-danger hna-woman">${woman}</span></a> `;
 
-  app.tags = [];
+  //app.tags = [];
   app.tagSelect = {};
   app.createTags = (tag) => `<a href="?tags=${tag}"><span class="badge badge-danger hna-tag">${tag}</span></a> `;
 
