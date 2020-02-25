@@ -166,16 +166,16 @@ $('#saveChanges').on('click', function(event) {
 });
 
 $('#saveWoman').on('click', function(event) {
-  //var form = $('#womanForm');
-  //if (form.get(0).checkValidity() === true) {
+  var form = $('#womanForm');
+  if (form.get(0).checkValidity() === true) {
     //form.find('.spinner-border').show();
-    //var name = form.find('.woman-name').val();
-    //var phoneticName = form.find('.woman-phonetic-name').val();
-    //var fields = {
-      //name: name,
-      //phoneticName: phoneticName,
-      //updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    //};
+    var name = form.find('.woman-name').val();
+    var phoneticName = form.find('.woman-phonetic-name').val();
+    var fields = {
+      name: name,
+      phoneticName: phoneticName,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
     //if (id) {
       //hnaapp.db.women.doc(id).set(fields, { merge: true }).then(function() {
         $('#womanDialog').modal('hide');
@@ -190,7 +190,7 @@ $('#saveWoman').on('click', function(event) {
         //alert(error);
       //});
     //}
-  //} else {
-    //form.addClass('was-validated');
-  //}
+  } else {
+    form.addClass('was-validated');
+  }
 });
