@@ -7,16 +7,16 @@ var hnaapp = hnaapp || {};
   var firebaseConfig = {
     projectId: "hna-data"
   };
-  // Initialize Firebase
+  // Initialize Firebasew
   firebase.initializeApp(firebaseConfig);
   var db = firebase.firestore();
   hnaapp.db = {};
   hnaapp.db.pictures = db.collection('pictures');
-  hnaapp.db.women = db.collection('women').orderBy('phoneticName');
+  hnaapp.db.women = db.collection('women');
   hnaapp.db.tags = db.collection("tags");
 
   hnaapp.women = [];
-  hnaapp.db.women.get().then(function(docs) {
+  hnaapp.db.women.orderBy('phoneticName').get().then(function(docs) {
     docs.forEach(function(doc) {
       hnaapp.women.push({ label: doc.data().name, value: doc.data().name });
     })

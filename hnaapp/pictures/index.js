@@ -168,7 +168,7 @@ $('#saveChanges').on('click', function(event) {
 $('#saveWoman').on('click', function(event) {
   var form = $('#womanForm');
   if (form.get(0).checkValidity() === true) {
-    form.find('.spinner-border').show();
+    //form.find('.spinner-border').show();
     var name = form.find('.woman-name').val();
     var phoneticName = form.find('.woman-phonetic-name').val();
     var fields = {
