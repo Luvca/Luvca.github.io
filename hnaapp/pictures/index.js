@@ -178,17 +178,17 @@ $('#saveWoman').on('click', function(event) {
     };
     //if (id) {
       //hnaapp.db.women.doc(id).set(fields, { merge: true }).then(function() {
-        $('#womanDialog').modal('hide');
-      //}).catch(function(error) {
-        //alert(error);
-      //});
-    //} else {
-      //fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      //hnaapp.db.women.add(fields).then(function() {
         //$('#womanDialog').modal('hide');
       //}).catch(function(error) {
         //alert(error);
       //});
+    //} else {
+      fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      hnaapp.db.women.add(fields).then(function() {
+        $('#womanDialog').modal('hide');
+      }).catch(function(error) {
+        alert(error);
+      });
     //}
   } else {
     form.addClass('was-validated');
