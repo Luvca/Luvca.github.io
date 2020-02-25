@@ -11,8 +11,8 @@ var hnaapp = hnaapp || {};
   firebase.initializeApp(firebaseConfig);
   var db = firebase.firestore();
   hnaapp.db = {};
-  hnaapp.db.pictures = db.collection("pictures");
-  hnaapp.db.women = db.collection("women");
+  hnaapp.db.pictures = db.collection('pictures');
+  hnaapp.db.women = db.collection('women').orderBy('phoneticName');
   hnaapp.db.tags = db.collection("tags");
 
   hnaapp.women = [];
