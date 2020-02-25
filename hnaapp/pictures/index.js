@@ -164,3 +164,33 @@ $('#saveChanges').on('click', function(event) {
     form.addClass('was-validated');
   }
 });
+
+$('#saveWoman').on('click', function(event) {
+  var form = $('#womanForm');
+  if (form.get(0).checkValidity() === true) {
+    form.find('.spinner-border').show();
+    var name = form.find('.woman-name').val();
+    var phoneticName = form.find('.woman-phonetic-name').val();
+    var fields = {
+      name: name,
+      phoneticName: phoneticName,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    if (id) {
+      hnaapp.db.women.doc(id).set(fields, { merge: true }).then(function() {
+        $('#womanDialog').modal('hide');
+      }).catch(function(error) {
+        alert(error);
+      });
+    } else {
+      fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      hnaapp.db.women.add(fields).then(function() {
+        $('#womanDialog').modal('hide');
+      }).catch(function(error) {
+        alert(error);
+      });
+    }
+  } else {
+    form.addClass('was-validated');
+  }
+});
