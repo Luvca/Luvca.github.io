@@ -185,7 +185,16 @@ $('#saveWoman').on('click', function(event) {
     //} else {
       fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
       hnaapp.db.women.add(fields).then(function() {
-        hnaapp.women.push({ label: name, value: name });
+        var women = app.womanSelect.value();
+        women.push(name);
+        hnaapp.women.push{ label: name, value: name};
+        app.womanSelect = new SelectPure('#pictureWomen', {
+    options: hnaapp.women,
+    multiple: true,
+    autocomplete: true,
+    icon: 'fa fa-times',
+    value: women
+  });
         $('#womanDialog').modal('hide');
       }).catch(function(error) {
         alert(error);
