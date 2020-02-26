@@ -160,6 +160,7 @@ $('#saveChanges').on('click', function(event) {
         alert(error);
       });
     }
+    //$('html,body').animate({ scrollTop: $('セレクタ').offset().top} );
   } else {
     form.addClass('was-validated');
   }
