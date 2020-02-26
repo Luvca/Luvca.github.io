@@ -113,11 +113,13 @@ $('#saveChanges').on('click', function(event) {
     var id = form.find('.picture-id').val();
     var url = form.find('.picture-url').val();
     var title = form.find('.picture-title').val();
+    var type = form.find('input[name="type"]:checked').val();
     var women = app.womanSelect.value();
     var tags = app.tagSelect.value();
     var fields = {
       url: url,
       title: title,
+      type: type,
       women: women,
       tags: tags,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
