@@ -189,6 +189,7 @@ $('#saveWoman').on('click', function(event) {
         var women = app.womanSelect.value();
         women.push(name);
         hnaapp.women.push({ label: name, value: name});
+        $('#pictureWomen').text('');
         app.womanSelect = new SelectPure('#pictureWomen', {
     options: hnaapp.women,
     multiple: true,
