@@ -187,7 +187,7 @@ $('#saveWoman').on('click', function(event) {
       //});
     //} else {
       fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      hnaapp.db.women.add(fields).then(function() {
+      hnaapp.db.women.doc(name).set(fields).then(function() {
         var women = app.womanSelect.value();
         women.push(name);
         hnaapp.women.push({ label: name, value: name});
