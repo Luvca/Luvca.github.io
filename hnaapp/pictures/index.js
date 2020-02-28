@@ -121,6 +121,8 @@ $('#saveChanges').on('click', function(event) {
       title: title,
       type: type,
       women: women,
+      womanRefs: hnaapp.db.women.doc('時越芙美江').ref,
+      //test: 'hoge',
       tags: tags,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
@@ -132,8 +134,6 @@ $('#saveChanges').on('click', function(event) {
           url: url,
           title: title,
           women: women.map(app.createWomen).join(''),
-          //womanRefs: hnaapp.db.women.doc('3CkrEeXo4pKoozH8vAJH ').ref,
-          test: 'hoge',
           tags: tags.map(app.createTags).join('')
         }));
       }).then(function() {
