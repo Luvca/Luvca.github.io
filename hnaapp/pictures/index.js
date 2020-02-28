@@ -63,15 +63,6 @@ $(function() {
         data.womanData = {};
         $('#pictures').append(app.createCard(data));
       }
-      /*$('#pictures').append(app.createCard({
-        id: doc.id,
-        url: doc.data().url,
-        title: doc.data().title,
-        comment: doc.data().comment,
-        womanRefs: doc.data().womanRefs,
-        women: doc.data().women.map(app.createWomen).join(''),
-        tags: doc.data().tags.map(app.createTags).join('')
-      }));*/
     });
   }).then(() => {
     $('img.lazy').lazyload({
