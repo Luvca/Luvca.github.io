@@ -54,8 +54,8 @@ $(function() {
   query.orderBy('createdAt', 'desc').get().then((docs) => {
     docs.forEach((doc) => {
       var data = doc.data();
-      if (data.womanRef) {
-        data.womanRef.get().then(w => {
+      if (data.womanRefs) {
+        data.womanRefs.get().then(w => {
           data.womanData = w.data();
           $('#pictures').append(app.createCard(data));
         });
