@@ -16,7 +16,7 @@ var app = app || {};
       <a class="picture-url" href="${picture.url}"><img class="lazy card-img-top" data-original="${picture.url}"></a>
       <div class="card-body">
         <p class="card-text picture-title">${picture.title}</p>
-        <p class="card-text womanref">${picture.womanRefs.name}</p>
+        <p class="card-text womanref">${picture.womanRefs}</p>
         ${picture.women}
         ${picture.tags}
         <p class="card-text"><small class="text-muted">${picture.comment}</small></p>
@@ -53,7 +53,16 @@ $(function() {
     query = query.where('tags', 'array-contains-any', hnaapp.args.tags.split(','));
   query.orderBy('createdAt', 'desc').get().then((docs) => {
     docs.forEach((doc) => {
-      $('#pictures').append(app.createCard({
+      var data = doc.data();
+      if (data.womanRef) {
+        data.womanRef.get().then(w => {
+          data.womanData = w.data();
+          $('#pictures').append(app.createCard(data));
+        });
+      } else {
+        $('#pictures').append(app.createCard(data));
+      }
+      /*$('#pictures').append(app.createCard({
         id: doc.id,
         url: doc.data().url,
         title: doc.data().title,
@@ -61,7 +70,7 @@ $(function() {
         womanRefs: doc.data().womanRefs,
         women: doc.data().women.map(app.createWomen).join(''),
         tags: doc.data().tags.map(app.createTags).join('')
-      }));
+      }));*/
     });
   }).then(() => {
     $('img.lazy').lazyload({
