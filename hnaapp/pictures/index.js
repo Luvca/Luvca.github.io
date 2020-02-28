@@ -17,8 +17,8 @@ var app = app || {};
       <div class="card-body">
         <p class="card-text picture-title">${picture.title}</p>
         <p class="card-text womanref">${picture.womanData.name}</p>
-        ${picture.women.map(app.createWomen).join('')}
-        ${picture.tags.map(app.createTags).join('')}
+        ${picture.women}
+        ${picture.tags}
         <p class="card-text"><small class="text-muted">${picture.comment}</small></p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
