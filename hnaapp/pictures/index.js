@@ -16,7 +16,7 @@ var app = app || {};
       <a class="picture-url" href="${picture.url}"><img class="lazy card-img-top" data-original="${picture.url}"></a>
       <div class="card-body">
         <p class="card-text picture-title">${picture.title}</p>
-        <p class="card-text womanref">${picture.womanRefs}</p>
+        <p class="card-text womanref">${picture.womanRefs.name}</p>
         ${picture.women}
         ${picture.tags}
         <p class="card-text"><small class="text-muted">${picture.comment}</small></p>
@@ -58,7 +58,7 @@ $(function() {
         url: doc.data().url,
         title: doc.data().title,
         comment: doc.data().comment,
-        womanRefs: JSON.stringify(doc.data().womanRefs),
+        womanRefs: doc.data().womanRefs,
         women: doc.data().women.map(app.createWomen).join(''),
         tags: doc.data().tags.map(app.createTags).join('')
       }));
