@@ -121,7 +121,7 @@ $('#saveChanges').on('click', function(event) {
       title: title,
       type: type,
       women: women,
-      womanRefs: hnaapp.db.women.doc('時越芙美江').ref,
+      womanRefs: hnaapp.db.women.doc('時越芙美江'),
       //test: 'hoge',
       tags: tags,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
