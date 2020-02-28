@@ -16,6 +16,7 @@ var app = app || {};
       <a class="picture-url" href="${picture.url}"><img class="lazy card-img-top" data-original="${picture.url}"></a>
       <div class="card-body">
         <p class="card-text picture-title">${picture.title}</p>
+        <p class="card-text womanref">${picture.womanRefs}</p>
         ${picture.women}
         ${picture.tags}
         <p class="card-text"><small class="text-muted">${picture.comment}</small></p>
