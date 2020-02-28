@@ -80,6 +80,11 @@ $(function() {
     });
   });
 
+  $('img.lazy').lazyload({
+    effect: 'fadeIn',
+    effectspeed: 1000
+  });
+
   if (hnaapp.args.add)
     $('#editDialog').modal('show');
 });
