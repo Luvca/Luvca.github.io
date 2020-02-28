@@ -60,6 +60,7 @@ $(function() {
           $('#pictures').append(app.createCard(data));
         });
       } else {
+        data.womanData = {};
         $('#pictures').append(app.createCard(data));
       }
       /*$('#pictures').append(app.createCard({
