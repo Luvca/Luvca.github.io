@@ -132,7 +132,7 @@ $('#saveChanges').on('click', function(event) {
           url: url,
           title: title,
           women: women.map(app.createWomen).join(''),
-          womanRefs: hnaapp.db.women.doc('時越芙美江'),
+          womanRefs: hnaapp.db.women.doc('時越芙美江').ref,
           tags: tags.map(app.createTags).join('')
         }));
       }).then(function() {
