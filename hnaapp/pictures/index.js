@@ -133,6 +133,7 @@ $('#saveChanges').on('click', function(event) {
           title: title,
           women: women.map(app.createWomen).join(''),
           womanRefs: hnaapp.db.women.doc('3CkrEeXo4pKoozH8vAJH ').ref,
+          test: 'hoge',
           tags: tags.map(app.createTags).join('')
         }));
       }).then(function() {
