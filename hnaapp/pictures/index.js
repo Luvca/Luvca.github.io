@@ -58,6 +58,7 @@ $(function() {
         url: doc.data().url,
         title: doc.data().title,
         comment: doc.data().comment,
+        womanRefs: doc.data().womanRefs,
         women: doc.data().women.map(app.createWomen).join(''),
         tags: doc.data().tags.map(app.createTags).join('')
       }));
