@@ -59,6 +59,10 @@ $(function() {
           data.womanData = w.data();
           $('#pictures').append(app.createCard(data));
         });
+          $('img.lazy').lazyload({
+            effect: 'fadeIn',
+            effectspeed: 1000
+          });
       } else {
         data.womanData = {};
         $('#pictures').append(app.createCard(data));
