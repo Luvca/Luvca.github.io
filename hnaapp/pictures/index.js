@@ -46,6 +46,11 @@ var app = app || {};
 }(app));
 
 $(function() {
+  $('img.lazy').lazyload({
+    effect: 'fadeIn',
+    effectspeed: 1000
+  });
+
   var query = hnaapp.db.pictures;
   if (hnaapp.args.women)
     query = query.where('women', 'array-contains-any', hnaapp.args.women.split(','));
@@ -59,26 +64,22 @@ $(function() {
           data.womanData = w.data();
           $('#pictures').append(app.createCard(data));
         });
-          $('img.lazy').lazyload({
-            effect: 'fadeIn',
-            effectspeed: 1000
-          });
       } else {
         data.womanData = {};
         $('#pictures').append(app.createCard(data));
       }
     });
   }).then(() => {
-    $('img.lazy').lazyload({
-      effect: 'fadeIn',
-      effectspeed: 1000
-    });
+    //$('img.lazy').lazyload({
+      //effect: 'fadeIn',
+      //effectspeed: 1000
+    //});
   });
 
-  $('img.lazy').lazyload({
-    effect: 'fadeIn',
-    effectspeed: 1000
-  });
+  //$('img.lazy').lazyload({
+    //effect: 'fadeIn',
+    //effectspeed: 1000
+  //});
 
   if (hnaapp.args.add)
     $('#editDialog').modal('show');
