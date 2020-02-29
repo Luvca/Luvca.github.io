@@ -23,26 +23,26 @@
     </footer>
 
     <!-- Modal -->
-    <div class="modal fade" id="editDialog" tabindex="-1" role="dialog" aria-labelledby="dialogLabel" aria-hidden="true">
+    <div class="modal fade" id="editDialog" tabindex="-1" role="dialog" aria-labelledby="editDialogTitle" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 id="dialogLabel" class="modal-title"></h5>
+            <h5 id="editDialogTitle" class="modal-title">Add</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form id="editForm" class="needs-validation" novalidate>
-              <input type="hidden" class="picture-id">
+            <form id="editDialogForm" class="needs-validation" novalidate>
+              <input type="hidden" class="hna-id">
               <div class="form-group">
                 <label for="pictureUrl" class="col-form-label">URL</label>
-                <textarea id="pictureUrl" class="form-control picture-url" required></textarea>
+                <textarea id="pictureUrl" class="form-control hna-url" required></textarea>
                 <div class="invalid-feedback">URL is required.</div>
               </div>
               <div class="form-group">
                 <label for="pictureTitle" class="col-form-label">Title</label>
-                <input id="pictureTitle" class="form-control picture-title">
+                <input id="pictureTitle" class="form-control hna-title">
               </div>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="type" id="typePhoto" value="photo" required>
@@ -57,18 +57,18 @@
                 <label class="form-check-label" for="typeVideo">Video</label>
               </div>
               <div class="form-group">
-                <label for="pictureWomen" class="col-form-label">Cast</label>
+                <label for="hnaWomen" class="col-form-label">Cast</label>
                 <button type="button" class="btn btn-sm btn-outline-secondary add-woman" data-toggle="modal" data-target="#womanDialog">Add</button>
-                <span id="pictureWomen" class="picture-women"></span>
-                <label for="pictureTags" class="col-form-label">Tags</label>
+                <span id="hnaWomen" class="hna-women"></span>
+                <label for="hnaTags" class="col-form-label">Tags</label>
                 <button type="button" class="btn btn-sm btn-outline-secondary add-tag">Add</button>
-                <span id="pictureTags" class="picture-tags"></span>
+                <span id="hnaTags" class="hna-tags"></span>
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="saveChanges" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button id="saveChanges" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Save</button>
           </div>
         </div>
       </div>

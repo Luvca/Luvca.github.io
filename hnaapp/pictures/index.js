@@ -3,31 +3,40 @@
 var app = app || {};
 
 (function (app) {
-  //app.women = [];
   app.womanSelect = {};
-  app.createWomen = (woman) => `<a href="?women=${woman}"><span class="badge badge-danger hna-woman">${woman}</span></a> `;
+  app.createWomen = (woman) => `
+    <a href="?women=${woman}">
+      <span class="badge badge-danger hna-woman">${woman}</span>
+    </a> `;
 
-  //app.tags = [];
   app.tagSelect = {};
-  app.createTags = (tag) => `<a href="?tags=${tag}"><span class="badge badge-danger hna-tag">${tag}</span></a> `;
+  app.createTags = (tag) => `
+    <a href="?tags=${tag}">
+      <span class="badge badge-danger hna-tag">${tag}</span>
+    </a> `;
 
-  app.createCard = (picture) => `
-    <div id="${picture.id}" class="card box-shadow">
-      <a class="picture-url" href="${picture.url}"><img class="lazy card-img-top" data-original="${picture.url}"></a>
+  app.createCard = (id, data) => `
+    <div id="${id}" class="card box-shadow">
+      <a class="hna-url" href="${data.url}">
+        <img class="lazy card-img-top" data-original="${data.url}">
+      </a>
       <div class="card-body">
-        <p class="card-text picture-title">${picture.title}</p>
-        <p class="card-text womanref">${picture.womanData.name}</p>
-        ${picture.women}
-        ${picture.tags}
-        <p class="card-text"><small class="text-muted">${picture.comment}</small></p>
+        <p class="card-text hna-title">${data.title}</p>
+        <div class="hna-women"></div>
+        ${data.tags.map(app.createTags).join('')}
+        <p class="card-text">
+          <small class="text-muted">${data.comment}</small>
+        </p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#editDialog" data-id="${picture.id}">Edit</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="app.delete('${picture.id}');">Delete</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#editDialog" data-id="${id}">Edit</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary hna-delete-button" onclick="app.delete('${id}');">Delete</button>
           </div>
         </div>
-        <p class="card-text"><small class="text-muted">9 mins</small></p>
+        <p class="card-text">
+          <small class="text-muted hna-type">${data.type}</small>
+        </p>
       </div>
     </div>
   `;
@@ -46,27 +55,22 @@ var app = app || {};
 }(app));
 
 $(function() {
-  //$('img.lazy').lazyload({
-    //effect: 'fadeIn',
-    //effectspeed: 1000
-  //});
-
   var query = hnaapp.db.pictures;
-  if (hnaapp.args.women)
+  if (hnaapp.args.women) {
     query = query.where('women', 'array-contains-any', hnaapp.args.women.split(','));
-  else if (hnaapp.args.tags)
+  } else if (hnaapp.args.tags) {
     query = query.where('tags', 'array-contains-any', hnaapp.args.tags.split(','));
+  }
   query.orderBy('createdAt', 'desc').get().then((docs) => {
     docs.forEach((doc) => {
-      var data = doc.data();
-      if (data.womanRefs) {
-        data.womanRefs.get().then((w) => {
-          data.womanData = w.data();
-          $('#pictures').append(app.createCard(data));
+      $('#pictures').append(app.createCard(doc.id, doc.data()));
+      if (doc.data().women) {
+        var women = $(`#${doc.id}`).find('.hna-women');
+        doc.data().women.forEach((ref) => {
+          ref.get().then((w) => {
+            women.append(app.createWomen(w.id));
+          });
         });
-      } else {
-        data.womanData = {};
-        $('#pictures').append(app.createCard(data));
       }
     });
   }).then(() => {
@@ -76,41 +80,40 @@ $(function() {
     });
   });
 
-  //$('img.lazy').lazyload({
-    //effect: 'fadeIn',
-    //effectspeed: 1000
-  //});
-
-  if (hnaapp.args.add)
+  if (hnaapp.args.add) {
     $('#editDialog').modal('show');
+  }
 });
 
+//
+// Edit Dialog
+//
 $('#editDialog').on('show.bs.modal', function(event) {
-  var button = $(event.relatedTarget);
-  var id = button.data('id');
-  var card = $(`#${id}`);
-  var url = card.find('.picture-url').attr('href');
-  var title = card.find('.picture-title').text();
-  var women = card.find('.hna-woman').map(function() { return $(this).text(); }).get();
-  console.log(women);
-  var tags = card.find('.hna-tag').map(function() { return $(this).text(); }).get();
-  console.log(tags);
-  var dialog = $(this);
-  dialog.find('#editForm').removeClass('was-validated');
-  dialog.find('.modal-title').text('Edit');
-  dialog.find('.picture-id').val(id);
-  dialog.find('.picture-url').val(url);
-  dialog.find('.picture-title').val(title);
-  $('#pictureWomen').text('');
-  app.womanSelect = new SelectPure('#pictureWomen', {
+  $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
+  $(this).find('#editDialogForm').removeClass('was-validated');
+  $('#hnaWomen').text('');
+  $('#hnaTags').text('');
+  var women = [];
+  var tags = [];
+  var id = $(event.relatedTarget).data('id');
+  if (id) {
+    var card = $(`#${id}`);
+    $(this).find('.modal-title').text('Edit');
+    $(this).find('.hna-id').val(id);
+    $(this).find('.hna-url').val(card.find('.hna-url').attr('href'));
+    $(this).find('.hna-title').val(card.find('.hna-title').text());
+    $(this).find('input[name="type"]').filter(`[value=${card.find('.hna-type').text()}]`).prop('checked', true);
+    women = card.find('.hna-woman').map((i, v) => $(v).text()).get();
+    tags = card.find('.hna-tag').map((i, v) => $(v).text()).get()
+  }
+  app.womanSelect = new SelectPure('#hnaWomen', {
     options: hnaapp.women,
     multiple: true,
     autocomplete: true,
     icon: 'fa fa-times',
     value: women
   });
-  $('#pictureTags').text('');
-  app.tagSelect = new SelectPure('#pictureTags', {
+  app.tagSelect = new SelectPure('#hnaTags', {
     options: hnaapp.tags,
     multiple: true,
     autocomplete: true,
@@ -119,36 +122,29 @@ $('#editDialog').on('show.bs.modal', function(event) {
   });
 });
 
+//
+// Save Changes
+//
 $('#saveChanges').on('click', function(event) {
-  var form = $('#editForm');
+  var form = $('#editDialogForm');
   if (form.get(0).checkValidity() === true) {
-    form.find('.spinner-border').show();
-    var id = form.find('.picture-id').val();
-    var url = form.find('.picture-url').val();
-    var title = form.find('.picture-title').val();
-    var type = form.find('input[name="type"]:checked').val();
+    //form.find('.spinner-border').show();
+    var timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    var id = form.find('.hna-id').val();
     var women = app.womanSelect.value();
-    var tags = app.tagSelect.value();
     var fields = {
-      url: url,
-      title: title,
-      type: type,
-      women: women,
-      womanRefs: hnaapp.db.women.doc('時越芙美江'),
-      //test: 'hoge',
-      tags: tags,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      url: form.find('.hna-url').val(),
+      title: form.find('.hna-title').val(),
+      type: form.find('input[name="type"]:checked').val(),
+      women: women.map((w) => hnaapp.db.women.doc(w)),
+      tags: app.tagSelect.value(),
+      updatedAt: timestamp
     };
     if (id) {
       hnaapp.db.pictures.doc(id).set(fields, { merge: true }).then(function() {
         $('#editDialog').modal('hide');
-        $(`#${id}`).replaceWith(app.createCard({
-          id: id,
-          url: url,
-          title: title,
-          women: women.map(app.createWomen).join(''),
-          tags: tags.map(app.createTags).join('')
-        }));
+        $(`#${id}`).replaceWith(app.createCard(id, fields));
+        women.map((w) => $(`#${id}`).find('.hna-women').append(app.createWomen(w)));
       }).then(function() {
         $('img.lazy').lazyload({
           effect: 'fadeIn',
@@ -158,16 +154,10 @@ $('#saveChanges').on('click', function(event) {
         alert(error);
       });
     } else {
-      fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      hnaapp.db.pictures.add(fields).then(function() {
+      fields.createdAt = timestamp;
+      hnaapp.db.pictures.add(fields).then(function(doc) {
         $('#editDialog').modal('hide');
-        $('#pictures').prepend(app.createCard({
-          id: id,
-          url: url,
-          title: title,
-          women: women.map(app.createWomen).join(''),
-          tags: tags.map(app.createTags).join('')
-        }));
+        $('#pictures').prepend(app.createCard(doc.id, fields));
       }).then(function() {
         $('img.lazy').lazyload({
           effect: 'fadeIn',
@@ -183,6 +173,9 @@ $('#saveChanges').on('click', function(event) {
   }
 });
 
+//
+//
+//
 $('#saveWoman').on('click', function(event) {
   var form = $('#womanForm');
   if (form.get(0).checkValidity() === true) {
@@ -206,8 +199,8 @@ $('#saveWoman').on('click', function(event) {
         var women = app.womanSelect.value();
         women.push(name);
         hnaapp.women.push({ label: name, value: name});
-        $('#pictureWomen').text('');
-        app.womanSelect = new SelectPure('#pictureWomen', {
+        $('#hnaWomen').text('');
+        app.womanSelect = new SelectPure('#hnaWomen', {
     options: hnaapp.women,
     multiple: true,
     autocomplete: true,

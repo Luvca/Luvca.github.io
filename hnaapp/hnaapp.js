@@ -18,7 +18,7 @@ var hnaapp = hnaapp || {};
   hnaapp.women = [];
   hnaapp.db.women.orderBy('phoneticName').get().then(function(docs) {
     docs.forEach(function(doc) {
-      hnaapp.women.push({ label: doc.data().name, value: doc.data().name });
+      hnaapp.women.push({ label: doc.data().name, value: doc.id});
     })
   });
 
