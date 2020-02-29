@@ -60,7 +60,7 @@ $(function() {
     docs.forEach((doc) => {
       var data = doc.data();
       if (data.womanRefs) {
-        data.womanRefs.get().then(w => {
+        data.womanRefs.get().then((w) => {
           data.womanData = w.data();
           $('#pictures').append(app.createCard(data));
         });
