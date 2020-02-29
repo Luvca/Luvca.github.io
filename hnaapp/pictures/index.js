@@ -70,10 +70,10 @@ $(function() {
       }
     });
   }).then(() => {
-    //$('img.lazy').lazyload({
-      //effect: 'fadeIn',
-      //effectspeed: 1000
-    //});
+    $('img.lazy').lazyload({
+      effect: 'fadeIn',
+      effectspeed: 1000
+    });
   });
 
   //$('img.lazy').lazyload({
