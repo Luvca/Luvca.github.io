@@ -46,10 +46,10 @@ var app = app || {};
 }(app));
 
 $(function() {
-  $('img.lazy').lazyload({
-    effect: 'fadeIn',
-    effectspeed: 1000
-  });
+  //$('img.lazy').lazyload({
+    //effect: 'fadeIn',
+    //effectspeed: 1000
+  //});
 
   var query = hnaapp.db.pictures;
   if (hnaapp.args.women)
