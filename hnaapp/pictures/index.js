@@ -105,6 +105,8 @@ $('#editDialog').on('show.bs.modal', function(event) {
     $(this).find('input[name="type"]').filter(`[value=${card.find('.hna-type').text()}]`).prop('checked', true);
     women = card.find('.hna-woman').map((i, v) => $(v).text()).get();
     tags = card.find('.hna-tag').map((i, v) => $(v).text()).get()
+  } else {
+    $(this).find('.modal-title').text('Add');
   }
   app.womanSelect = new SelectPure('#hnaWomen', {
     options: hnaapp.women,
@@ -144,7 +146,9 @@ $('#saveChanges').on('click', function(event) {
       hnaapp.db.pictures.doc(id).set(fields, { merge: true }).then(function() {
         $('#editDialog').modal('hide');
         $(`#${id}`).replaceWith(app.createCard(id, fields));
-        women.map((w) => $(`#${id}`).find('.hna-women').append(app.createWomen(w)));
+        women.forEach((w) => {
+          $(`#${id}`).find('.hna-women').append(app.createWomen(w));
+        });
       }).then(function() {
         $('img.lazy').lazyload({
           effect: 'fadeIn',
@@ -158,6 +162,9 @@ $('#saveChanges').on('click', function(event) {
       hnaapp.db.pictures.add(fields).then(function(doc) {
         $('#editDialog').modal('hide');
         $('#pictures').prepend(app.createCard(doc.id, fields));
+        women.forEach((w) => {
+          $(`#${doc.id}`).find('.hna-women').append(app.createWomen(w));
+        });
       }).then(function() {
         $('img.lazy').lazyload({
           effect: 'fadeIn',
