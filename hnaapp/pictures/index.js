@@ -24,14 +24,16 @@ var app = app || {};
         <p class="card-text hna-title">${data.title}</p>
         <div class="hna-women"></div>
         ${data.tags.map(app.createTags).join('')}
+        <!--
         <p class="card-text">
           <small class="text-muted">${data.comment}</small>
         </p>
-        <div class="d-flex justify-content-between align-items-center">
+        -->
+        <div class="d-flex justify-content-between align-items-center mt-2">
           <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#editDialog" data-id="${id}">Edit</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary hna-delete-button" onclick="app.delete('${id}');">Delete</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary pt-0">View</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary pt-0" data-toggle="modal" data-target="#editDialog" data-id="${id}">Edit</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary pt-0 hna-delete-button" onclick="app.delete('${id}');">Delete</button>
           </div>
         </div>
         <p class="card-text">
