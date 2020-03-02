@@ -110,19 +110,35 @@ $('#editDialog').on('show.bs.modal', function(event) {
   } else {
     $(this).find('.modal-title').text('Add');
   }
-  app.womanSelect = new SelectPure('#hnaWomen', {
-    options: hnaapp.women,
-    multiple: true,
-    autocomplete: true,
-    icon: 'fa fa-times',
-    value: women
+
+  var dbWomen = [];
+  hnaapp.db.women.orderBy('phoneticName').get().then(function(docs) {
+    docs.forEach(function(doc) {
+      dbWomen.push({ label: doc.data().name, value: doc.id});
+    })
+  }).then(function() {
+    app.womanSelect = new SelectPure('#hnaWomen', {
+      options: dbWomen,
+      multiple: true,
+      autocomplete: true,
+      icon: 'fa fa-times',
+      value: women
+    });
   });
-  app.tagSelect = new SelectPure('#hnaTags', {
-    options: hnaapp.tags,
-    multiple: true,
-    autocomplete: true,
-    icon: 'fa fa-times',
-    value: tags
+
+  var dbTags = [];
+  hnaapp.db.tags.get().then(function(docs) {
+    docs.forEach(function(doc) {
+      dbTags.push({ label: doc.data().name, value: doc.data().name });
+    });
+  }).then(function() {
+    app.tagSelect = new SelectPure('#hnaTags', {
+      options: dbTags,
+      multiple: true,
+      autocomplete: true,
+      icon: 'fa fa-times',
+      value: tags
+    });
   });
 });
 
