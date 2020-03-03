@@ -20,6 +20,7 @@ var app = app || {};
       </a>
       <div class="card-body">
         <p class="card-text hna-title">${data.title}</p>
+        <p class="card-text hna-series"><a href="?series=${data.series}">${data.series}</a></p>
         <div class="hna-women"></div>
         ${data.tags.map(app.createTags).join('')}
         <!--
@@ -40,6 +41,12 @@ var app = app || {};
       </div>
     </div>
   `;
+
+  app.createSeries = (num, url) => `
+  <small class="text-muted hna-num">${num}</small>
+  <a class="hna-url2" href="${url}">
+      <img class="lazy card-img-top" src="${url}">
+    </a> `;
 
   app.delete = function(id) {
     if (confirm('OK?')) {
@@ -101,13 +108,21 @@ $(function() {
 
   // Pictures
   var query = app.db.pictures;
+  if (app.args.has('series')) {
+    query = query.where('series', '==', app.args.get('series'));
+  } else {
+    query = query.where('num', '==', 0);
+  }
   if (app.args.has('women')) {
     query = query.where('women', 'array-contains-any', app.args.get('women').split(','));
   } else if (app.args.has('tags')) {
     query = query.where('tags', 'array-contains-any', app.args.get('tags').split(','));
   }
-  query.orderBy('createdAt', 'desc').get().then((docs) => {
-    docs.forEach((doc) => {
+  query.get().then((ref) => {
+    ref.docs.sort(function(a, b) {
+      if (a.data().createdAt < b.data().createdAt) return 1;
+      else return -1;
+    }).forEach((doc) => {
       $('#pictures').append(app.createCard(doc.id, doc.data()));
       if (doc.data().women) {
         var women = $(`#${doc.id}`).find('.hna-women');
@@ -117,7 +132,7 @@ $(function() {
           });
         });
       }
-    });
+    })
   }).then(() => {
     $('img.lazy').lazyload({
       effect: 'fadeIn',
@@ -147,11 +162,14 @@ $('#editDialog').on('show.bs.modal', function(event) {
     $(this).find('.hna-id').val(id);
     $(this).find('.hna-url').val(card.find('.hna-url').attr('href'));
     $(this).find('.hna-title').val(card.find('.hna-title').text());
+    $(this).find('.hna-series').val(card.find('.hna-series').text());
+    $(this).find('.hna-num').val(card.find('.hna-num').text());
     $(this).find('input[name="type"]').filter(`[value=${card.find('.hna-type').text()}]`).prop('checked', true);
     women = card.find('.hna-woman').map((i, v) => $(v).text()).get();
     tags = card.find('.hna-tag').map((i, v) => $(v).text()).get()
   } else {
     $(this).find('.modal-title').text('Add');
+    $(this).find('.hna-num').val(0);
   }
 
   app.db.women.orderBy('phoneticName').get().then(function(docs) {
@@ -187,6 +205,8 @@ $('#saveChanges').on('click', function(event) {
       type: form.find('input[name="type"]:checked').val(),
       women: women.map((w) => app.db.women.doc(w)),
       tags: app.tagsSelect.value(),
+      series: form.find('.hna-series').val(),
+      num: Number(form.find('.hna-num').val()),
       updatedAt: timestamp
     };
     if (id) {
