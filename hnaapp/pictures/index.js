@@ -55,23 +55,51 @@ var app = app || {};
 }(app));
 
 //
-// Document Ready
+// Document ready
 //
 $(function() {
+  // URL parameters
+  app.args = new URLSearchParams(location.search);
+
   // Firebase project configuration
   var firebaseConfig = {
     projectId: "hna-data"
   };
-  // Initialize Firebasew
+  // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
+
   app.db = firebase.firestore();
   app.db.pictures = app.db.collection('pictures');
   app.db.women = app.db.collection('women');
   app.db.tags = app.db.collection('tags');
-  app.womanSelect = {};
-  app.tagSelect = {};
-  app.args = new URLSearchParams(location.search);
 
+  // Select for women
+  app.womenSelect = {};
+  app.womenSelectOptions = [];
+  app.createWomenSelect = function(options, value) {
+    app.womenSelect = new SelectPure('#hnaWomen', {
+      options: options,
+      multiple: true,
+      autocomplete: true,
+      icon: 'fa fa-times',
+      value: value
+    });
+  };
+
+  // Select for tags
+  app.tagsSelect = {};
+  app.tagsSelectOptions = [];
+  app.createTagsSelect = function(options, value) {
+    app.tagsSelect = new SelectPure('#hnaTags', {
+      options: options,
+      multiple: true,
+      autocomplete: true,
+      icon: 'fa fa-times',
+      value: value
+    });
+  };
+
+  // Pictures
   var query = app.db.pictures;
   if (app.args.has('women')) {
     query = query.where('women', 'array-contains-any', app.args.get('women').split(','));
@@ -126,39 +154,25 @@ $('#editDialog').on('show.bs.modal', function(event) {
     $(this).find('.modal-title').text('Add');
   }
 
-  var dbWomen = [];
   app.db.women.orderBy('phoneticName').get().then(function(docs) {
     docs.forEach(function(doc) {
-      dbWomen.push({ label: doc.data().name, value: doc.id});
+      app.womenSelectOptions.push({ label: doc.data().name, value: doc.id});
     })
   }).then(function() {
-    app.womanSelect = new SelectPure('#hnaWomen', {
-      options: dbWomen,
-      multiple: true,
-      autocomplete: true,
-      icon: 'fa fa-times',
-      value: women
-    });
+    app.createWomenSelect(app.womenSelectOptions, women);
   });
 
-  var dbTags = [];
   app.db.tags.get().then(function(docs) {
     docs.forEach(function(doc) {
-      dbTags.push({ label: doc.data().name, value: doc.data().name });
-    });
+      app.tagsSelectOptions.push({ label: doc.id, value: doc.id});
+    })
   }).then(function() {
-    app.tagSelect = new SelectPure('#hnaTags', {
-      options: dbTags,
-      multiple: true,
-      autocomplete: true,
-      icon: 'fa fa-times',
-      value: tags
-    });
+    app.createTagsSelect(app.tagsSelectOptions, tags);
   });
 });
 
 //
-// Save Changes
+// Save Picture
 //
 $('#saveChanges').on('click', function(event) {
   var form = $('#editDialogForm');
@@ -166,13 +180,13 @@ $('#saveChanges').on('click', function(event) {
     //form.find('.spinner-border').show();
     var timestamp = firebase.firestore.FieldValue.serverTimestamp();
     var id = form.find('.hna-id').val();
-    var women = app.womanSelect.value();
+    var women = app.womenSelect.value();
     var fields = {
       url: form.find('.hna-url').val(),
       title: form.find('.hna-title').val(),
       type: form.find('input[name="type"]:checked').val(),
       women: women.map((w) => app.db.women.doc(w)),
-      tags: app.tagSelect.value(),
+      tags: app.tagsSelect.value(),
       updatedAt: timestamp
     };
     if (id) {
@@ -214,7 +228,7 @@ $('#saveChanges').on('click', function(event) {
 });
 
 //
-//
+// Save woman
 //
 $('#saveWoman').on('click', function(event) {
   var form = $('#womanForm');
@@ -225,33 +239,48 @@ $('#saveWoman').on('click', function(event) {
     var fields = {
       name: name,
       phoneticName: phoneticName,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
-    //if (id) {
-      //app.db.women.doc(id).set(fields, { merge: true }).then(function() {
-        //$('#womanDialog').modal('hide');
-      //}).catch(function(error) {
-        //alert(error);
-      //});
-    //} else {
-      fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      app.db.women.doc(name).set(fields).then(function() {
-        var women = app.womanSelect.value();
-        women.push(name);
-        app.women.push({ label: name, value: name});
-        $('#hnaWomen').text('');
-        app.womanSelect = new SelectPure('#hnaWomen', {
-    options: app.women,
-    multiple: true,
-    autocomplete: true,
-    icon: 'fa fa-times',
-    value: women
-  });
-        $('#womanDialog').modal('hide');
-      }).catch(function(error) {
-        alert(error);
-      });
-    //}
+    app.db.women.doc(name).set(fields).then(function() {
+      app.womenSelectOptions.push({ label: name, value: name });
+      var women = app.womenSelect.value();
+      women.push(name);
+      $('#hnaWomen').text('');
+      app.createWomenSelect(app.womenSelectOptions, women);
+      $('#womanDialog').modal('hide');
+    }).catch(function(error) {
+      console.log(error);
+      alert(error);
+    });
+  } else {
+    form.addClass('was-validated');
+  }
+});
+
+//
+// Save tag
+//
+$('#saveTag').on('click', function(event) {
+  var form = $('#tagForm');
+  if (form.get(0).checkValidity() === true) {
+    //form.find('.spinner-border').show();
+    var id = form.find('.tag-id').val();
+    var fields = {
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    app.db.tags.doc(id).set(fields).then(function() {
+      app.tagsSelectOptions.push({ label: id, value: id });
+      var tags = app.tagsSelect.value();
+      tags.push(id);
+      $('#hnaTags').text('');
+      app.createTagsSelect(app.tagsSelectOptions, tags);
+      $('#tagDialog').modal('hide');
+    }).catch(function(error) {
+      console.log(error);
+      alert(error);
+    });
   } else {
     form.addClass('was-validated');
   }

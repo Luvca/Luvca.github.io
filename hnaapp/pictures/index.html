@@ -22,13 +22,13 @@
     <footer id="footer" class="footer">
     </footer>
 
-    <!-- Modal -->
-    <div class="modal fade" id="editDialog" tabindex="-1" role="dialog" aria-labelledby="editDialogTitle" aria-hidden="true">
+    <!-- Edit Dialog -->
+    <div class="modal fade" id="editDialog" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 id="editDialogTitle" class="modal-title"></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -61,7 +61,7 @@
                 <button type="button" class="btn btn-sm btn-outline-secondary pt-0 add-woman" data-toggle="modal" data-target="#womanDialog">Add</button>
                 <span id="hnaWomen" class="h-25 hna-women"></span>
                 <label for="hnaTags" class="col-form-label">Tags</label>
-                <button type="button" class="btn btn-sm btn-outline-secondary pt-0 add-tag">Add</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary pt-0 add-tag" data-toggle="modal" data-target="#tagDialog">Add</button>
                 <span id="hnaTags" class="hna-tags"></span>
               </div>
             </form>
@@ -74,13 +74,13 @@
       </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="womanDialog" tabindex="-1" role="dialog" aria-labelledby="dialogLabel" aria-hidden="true">
+    <!-- Woman Dialog -->
+    <div class="modal fade" id="womanDialog" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Add</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -99,7 +99,34 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="saveWoman" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Save changes</button>
+            <button id="saveWoman" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tag Dialog -->
+    <div class="modal fade" id="tagDialog" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="tagForm" class="needs-validation" novalidate>
+              <div class="form-group">
+                <label for="tagId" class="col-form-label">ID</label>
+                <input id="tagId" class="form-control tag-id" required>
+                <div class="invalid-feedback">ID is required.</div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="saveTag" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Save</button>
           </div>
         </div>
       </div>
