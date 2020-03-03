@@ -70,13 +70,13 @@ $(function() {
   app.db.tags = app.db.collection('tags');
   app.womanSelect = {};
   app.tagSelect = {};
-  app.args = {};
+  app.args = new URLSearchParams(location.search);
 
   var query = app.db.pictures;
-  if (app.args.women) {
-    query = query.where('women', 'array-contains-any', app.args.women.split(','));
-  } else if (app.args.tags) {
-    query = query.where('tags', 'array-contains-any', app.args.tags.split(','));
+  if (app.args.has('women')) {
+    query = query.where('women', 'array-contains-any', app.args.get('women').split(','));
+  } else if (app.args.has('tags')) {
+    query = query.where('tags', 'array-contains-any', app.args.get('tags').split(','));
   }
   query.orderBy('createdAt', 'desc').get().then((docs) => {
     docs.forEach((doc) => {
@@ -97,7 +97,7 @@ $(function() {
     });
   });
 
-  if (app.args.add) {
+  if (app.args.has("add")) {
     $('#editDialog').modal('show');
   }
 });
