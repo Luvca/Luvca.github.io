@@ -3,13 +3,11 @@
 var app = app || {};
 
 (function (app) {
-  app.womanSelect = {};
   app.createWomen = (woman) => `
     <a href="?women=${woman}">
       <span class="badge badge-danger hna-woman">${woman}</span>
     </a> `;
 
-  app.tagSelect = {};
   app.createTags = (tag) => `
     <a href="?tags=${tag}">
       <span class="badge badge-danger hna-tag">${tag}</span>
@@ -47,7 +45,7 @@ var app = app || {};
     if (confirm('OK?')) {
       $(`#${id}`).fadeOut('normal', function() {
         $(this).remove();
-        hnaapp.db.pictures.doc(id).delete().then(() => {
+        app.db.pictures.doc(id).delete().then(() => {
         }).catch((error) => {
           alert(error);
         });
@@ -56,12 +54,29 @@ var app = app || {};
   };
 }(app));
 
+//
+// Document Ready
+//
 $(function() {
-  var query = hnaapp.db.pictures;
-  if (hnaapp.args.women) {
-    query = query.where('women', 'array-contains-any', hnaapp.args.women.split(','));
-  } else if (hnaapp.args.tags) {
-    query = query.where('tags', 'array-contains-any', hnaapp.args.tags.split(','));
+  // Firebase project configuration
+  var firebaseConfig = {
+    projectId: "hna-data"
+  };
+  // Initialize Firebasew
+  firebase.initializeApp(firebaseConfig);
+  app.db = firebase.firestore();
+  app.db.pictures = app.db.collection('pictures');
+  app.db.women = app.db.collection('women');
+  app.db.tags = app.db.collection('tags');
+  app.womanSelect = {};
+  app.tagSelect = {};
+  app.args = {};
+
+  var query = app.db.pictures;
+  if (app.args.women) {
+    query = query.where('women', 'array-contains-any', app.args.women.split(','));
+  } else if (app.args.tags) {
+    query = query.where('tags', 'array-contains-any', app.args.tags.split(','));
   }
   query.orderBy('createdAt', 'desc').get().then((docs) => {
     docs.forEach((doc) => {
@@ -82,7 +97,7 @@ $(function() {
     });
   });
 
-  if (hnaapp.args.add) {
+  if (app.args.add) {
     $('#editDialog').modal('show');
   }
 });
@@ -112,7 +127,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
   }
 
   var dbWomen = [];
-  hnaapp.db.women.orderBy('phoneticName').get().then(function(docs) {
+  app.db.women.orderBy('phoneticName').get().then(function(docs) {
     docs.forEach(function(doc) {
       dbWomen.push({ label: doc.data().name, value: doc.id});
     })
@@ -127,7 +142,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
   });
 
   var dbTags = [];
-  hnaapp.db.tags.get().then(function(docs) {
+  app.db.tags.get().then(function(docs) {
     docs.forEach(function(doc) {
       dbTags.push({ label: doc.data().name, value: doc.data().name });
     });
@@ -156,12 +171,12 @@ $('#saveChanges').on('click', function(event) {
       url: form.find('.hna-url').val(),
       title: form.find('.hna-title').val(),
       type: form.find('input[name="type"]:checked').val(),
-      women: women.map((w) => hnaapp.db.women.doc(w)),
+      women: women.map((w) => app.db.women.doc(w)),
       tags: app.tagSelect.value(),
       updatedAt: timestamp
     };
     if (id) {
-      hnaapp.db.pictures.doc(id).set(fields, { merge: true }).then(function() {
+      app.db.pictures.doc(id).set(fields, { merge: true }).then(function() {
         $('#editDialog').modal('hide');
         $(`#${id}`).replaceWith(app.createCard(id, fields));
         women.forEach((w) => {
@@ -177,7 +192,7 @@ $('#saveChanges').on('click', function(event) {
       });
     } else {
       fields.createdAt = timestamp;
-      hnaapp.db.pictures.add(fields).then(function(doc) {
+      app.db.pictures.add(fields).then(function(doc) {
         $('#editDialog').modal('hide');
         $('#pictures').prepend(app.createCard(doc.id, fields));
         women.forEach((w) => {
@@ -213,20 +228,20 @@ $('#saveWoman').on('click', function(event) {
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
     //if (id) {
-      //hnaapp.db.women.doc(id).set(fields, { merge: true }).then(function() {
+      //app.db.women.doc(id).set(fields, { merge: true }).then(function() {
         //$('#womanDialog').modal('hide');
       //}).catch(function(error) {
         //alert(error);
       //});
     //} else {
       fields.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      hnaapp.db.women.doc(name).set(fields).then(function() {
+      app.db.women.doc(name).set(fields).then(function() {
         var women = app.womanSelect.value();
         women.push(name);
-        hnaapp.women.push({ label: name, value: name});
+        app.women.push({ label: name, value: name});
         $('#hnaWomen').text('');
         app.womanSelect = new SelectPure('#hnaWomen', {
-    options: hnaapp.women,
+    options: app.women,
     multiple: true,
     autocomplete: true,
     icon: 'fa fa-times',

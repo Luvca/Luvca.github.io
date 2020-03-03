@@ -29,7 +29,7 @@ var hnaapp = hnaapp || {};
     });
   });
 
-  hnaapp.args = [...new URLSearchParams(location.search).entries()].reduce((obj, e) => ({...obj, [e[0]]: e[1]}), {});
+  //hnaapp.args = [...new URLSearchParams(location.search).entries()].reduce((obj, e) => ({...obj, [e[0]]: e[1]}), {});
 
   hnaapp.emptify = function(value) {
     if (!value) return '';
