@@ -164,6 +164,8 @@ $(function() {
     var fields = {
       url: decodeURI(app.args.get("add")),
       type: 'photo',
+      num: 0,
+      tags: [],
       createdAt: timestamp,
       updatedAt: timestamp
     };
