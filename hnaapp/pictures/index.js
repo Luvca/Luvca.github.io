@@ -16,11 +16,14 @@ var app = app || {};
   app.createCard = (id, data) => `
     <div id="${id}" class="card box-shadow">
       <a class="hna-url" href="${data.url}">
-        <img class="lazy card-img-top" data-original="${data.url}">
+        <div class="row">
+          <div class="col">
+            <img class="lazy img-thumbnail" data-original="${data.url}">
+          </div>
+        </div>
       </a>
-      <div class="card-body">
+      <div class="card-body pt-2">
         <p class="card-text hna-title">${data.title}</p>
-        <p class="card-text hna-series"><a href="?series=${data.series}">${data.series}</a></p>
         <div class="hna-women"></div>
         ${data.tags.map(app.createTags).join('')}
         <!--
@@ -106,6 +109,21 @@ $(function() {
     });
   };
 
+  // File
+  var uploadFile = document.getElementById('uploadFile');
+  uploadFile.addEventListener('change', function (e) {
+    var file = e.srcElement.files[0];
+    var fr = new FileReader();
+    fr.addEventListener('load', function() {
+      var url = fr.result;
+      var img = new Image();
+      img.src = url;
+      img.height = 200;
+      document.body.appendChild(img);
+    });
+    fr.readAsDataURL(file);
+  });
+
   // Pictures
   var query = app.db.pictures;
   if (app.args.has('series')) {
@@ -141,7 +159,24 @@ $(function() {
   });
 
   if (app.args.has("add")) {
-    $('#editDialog').modal('show');
+    //$('#editDialog').modal('show');
+    var timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    var fields = {
+      url: decodeURI(app.args.get("add")),
+      type: 'photo',
+      createdAt: timestamp,
+      updatedAt: timestamp
+    };
+    app.db.pictures.add(fields).then(function(doc) {
+      $('#pictures').prepend(app.createCard(doc.id, fields));
+    }).then(function() {
+      $('img.lazy').lazyload({
+        effect: 'fadeIn',
+        effectspeed: 1000
+      });
+    }).catch(function(error) {
+      alert(error);
+    });
   }
 });
 
