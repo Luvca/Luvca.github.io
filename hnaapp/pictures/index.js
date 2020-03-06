@@ -3,6 +3,16 @@
 var app = app || {};
 
 (function (app) {
+  app.createImage = (url) => `
+  <div class="row">
+    <div class="col">
+      <a class="hna-url" href="${url}">
+        <img class="lazy card-img-top" data-original="${url}">
+      </a>
+    </div>
+  </div>
+  `;
+
   app.createWomen = (woman) => `
     <a href="?women=${woman}">
       <span class="badge badge-danger hna-woman">${woman}</span>
@@ -15,13 +25,7 @@ var app = app || {};
 
   app.createCard = (id, data) => `
     <div id="${id}" class="card box-shadow">
-      <a class="hna-url" href="${data.url}">
-        <div class="row">
-          <div class="col">
-            <img class="lazy img-thumbnail" data-original="${data.url}">
-          </div>
-        </div>
-      </a>
+      ${data.urls.map(app.createImage).join('')}
       <div class="card-body pt-2">
         <p class="card-text hna-title">${data.title}</p>
         <div class="hna-women"></div>
@@ -126,11 +130,11 @@ $(function() {
 
   // Pictures
   var query = app.db.pictures;
-  if (app.args.has('series')) {
-    query = query.where('series', '==', app.args.get('series'));
-  } else {
-    query = query.where('num', '==', 0);
-  }
+  //if (app.args.has('series')) {
+  //  query = query.where('series', '==', app.args.get('series'));
+  //} else {
+  //  query = query.where('num', '==', 0);
+  //}
   if (app.args.has('women')) {
     query = query.where('women', 'array-contains-any', app.args.get('women').split(','));
   } else if (app.args.has('tags')) {
@@ -237,7 +241,7 @@ $('#saveChanges').on('click', function(event) {
     var id = form.find('.hna-id').val();
     var women = app.womenSelect.value();
     var fields = {
-      url: form.find('.hna-url').val(),
+      urls: form.find('.hna-url').val(),
       title: form.find('.hna-title').val(),
       type: form.find('input[name="type"]:checked').val(),
       women: women.map((w) => app.db.women.doc(w)),
