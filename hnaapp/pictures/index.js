@@ -4,7 +4,7 @@ var app = app || {};
 
 (function (app) {
   app.createImage = (url) => `
-  <div class="row">
+  <div class="row mb-1">
     <div class="col">
       <a class="hna-url" href="${url}">
         <img class="lazy card-img-top" data-original="${url}">
@@ -114,7 +114,7 @@ $(function() {
   };
 
   // File
-  var uploadFile = document.getElementById('uploadFile');
+  /*var uploadFile = document.getElementById('uploadFile');
   uploadFile.addEventListener('change', function (e) {
     var file = e.srcElement.files[0];
     var fr = new FileReader();
@@ -126,7 +126,7 @@ $(function() {
       document.body.appendChild(img);
     });
     fr.readAsDataURL(file);
-  });
+  });*/
 
   // Pictures
   var query = app.db.pictures;
