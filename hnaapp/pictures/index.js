@@ -56,8 +56,12 @@ var app = app || {};
     </a> `;
 
   app.createUrls = (url) => `
-<input name="hnaUrl" class="form-control" value="${url}" required>
-<div class="invalid-feedback">URL is required.</div>
+<div class="input-group">
+<input name="hnaUrl" class="form-control" value="${url}">
+<div class="input-group-append">
+<button type="button" class="btn-del" onclick="app.delUrl(this);">&times;</button>
+</div>
+</div>
 `;
 
   app.delete = function(id) {
@@ -70,6 +74,14 @@ var app = app || {};
         });
       });
     }
+  };
+
+  app.addUrl = function() {
+    $('#pictureUrls').append(app.createUrls(''));
+  };
+
+  app.delUrl = function(e) {
+    $(e).parent().parent().remove();
   };
 }(app));
 
@@ -249,7 +261,9 @@ $('#saveChanges').on('click', function(event) {
     var id = form.find('.hna-id').val();
     var women = app.womenSelect.value();
     var fields = {
-      urls: form.find('.hna-url').get().serializeArray().map((e) => $(e).val()),
+      urls: form.find('input[name="hnaUrl"]').serializeArray().map((e) => {
+        if (e.value.length != 0) return e.value;
+      }),
       title: form.find('.hna-title').val(),
       type: form.find('input[name="type"]:checked').val(),
       women: women.map((w) => app.db.women.doc(w)),

@@ -10,8 +10,21 @@
   </head>
 
   <body>
+    <div class="pos-f-t">
+      <div class="collapse" id="navbarToggleExternalContent">
+        <div class="bg-dark p-2">
+          <h4 class="text-white">Collapsed content</h4>
+          <span class="text-muted">Toggleable via the navbar brand.</span>
+        </div>
+      </div>
+      <nav class="navbar navbar-dark bg-dark p-2">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav>
+    </div>
     <main role="main">
-      <div class="py-5 bg-light">
+      <div class="py-2 bg-light">
         <div class="container pl-2 pr-2">
           <div>
             <button type="button" class="btn btn-sm btn-outline-secondary mb-2 pt-0" data-toggle="modal" data-target="#editDialog">Add</button>
@@ -38,7 +51,14 @@
             <form id="editDialogForm" class="needs-validation" novalidate>
               <input type="hidden" class="hna-id">
               <div class="form-group">
-                <label for="pictureUrl" class="col-form-label">URL</label>
+                <div class="form-inline">
+                  <label for="pictureUrls" class="col-form-label">URL</label>
+                  <button type="button" class="btn-add" onclick="app.addUrl();">&#x2295;</button>
+                </div>
+                <div class="input-group">
+                  <input name="hnaUrl" class="form-control" required>
+                  <div class="invalid-feedback">URL is required.</div>
+                </div>
                 <div id="pictureUrls"></div>
               </div>
               <div class="form-group">
@@ -58,19 +78,16 @@
                 <label class="form-check-label" for="typeVideo">Video</label>
               </div>
               <div class="form-group">
-                <label for="hnaWomen" class="col-form-label">Cast</label>
-                <button type="button" class="btn btn-sm btn-outline-secondary pt-0 add-woman" data-toggle="modal" data-target="#womanDialog">Add</button>
-                <span id="hnaWomen" class="h-25 hna-women"></span>
-                <label for="hnaTags" class="col-form-label">Tags</label>
-                <button type="button" class="btn btn-sm btn-outline-secondary pt-0 add-tag" data-toggle="modal" data-target="#tagDialog">Add</button>
-                <span id="hnaTags" class="hna-tags"></span>
-              </div>
-              <div class="form-group">
-                <label for="pictureSeries" class="col-form-label">Series</label>
                 <div class="form-inline">
-                  <input id="pictureSeries" class="form-control col-sm-9 hna-series">
-                  <input id="pictureNum" class="form-control col-sm-3 hna-num" type="number">
+                  <label for="hnaWomen" class="col-form-label">Cast</label>
+                  <button type="button" class="btn-add add-woman" data-toggle="modal" data-target="#womanDialog">&#x2295;</button>
                 </div>
+                <span id="hnaWomen" class="h-25 hna-women"></span>
+                <div class="form-inline">
+                  <label for="hnaTags" class="col-form-label">Tags</label>
+                  <button type="button" class="btn-add add-tag" data-toggle="modal" data-target="#tagDialog">&#x2295;</button>
+                </div>
+                <span id="hnaTags" class="hna-tags"></span>
               </div>
             </form>
           </div>
