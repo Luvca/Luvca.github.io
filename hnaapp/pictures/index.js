@@ -55,8 +55,9 @@ var app = app || {};
       <img class="lazy card-img-top" src="${url}">
     </a> `;
 
-  app.cteateUrls = (url) => `
-<input name="hnaUrl" class="form-control" value="${url}">
+  app.createUrls = (url) => `
+<input name="hnaUrl" class="form-control" value="${url}" required>
+<div class="invalid-feedback">URL is required.</div>
 `;
 
   app.delete = function(id) {
@@ -205,7 +206,10 @@ $('#editDialog').on('show.bs.modal', function(event) {
     var card = $(`#${id}`);
     $(this).find('.modal-title').text('Edit');
     $(this).find('.hna-id').val(id);
-    $(this).find('.hna-url').val(card.find('.hna-url').attr('href'));
+    $('#pictureUrls').empty();
+    card.find('.hna-url').get().forEach((e) => {
+      $(this).find('#pictureUrls').append(app.createUrls($(e).attr('href')));
+    });
     $(this).find('.hna-title').val(card.find('.hna-title').text());
     $(this).find('.hna-series').val(card.find('.hna-series').text());
     $(this).find('.hna-num').val(card.find('.hna-num').text());
