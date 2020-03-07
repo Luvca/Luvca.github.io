@@ -55,6 +55,10 @@ var app = app || {};
       <img class="lazy card-img-top" src="${url}">
     </a> `;
 
+  app.cteateUrls = (url) => `
+<input name="hnaUrl" class="form-control" value="${url}">
+`;
+
   app.delete = function(id) {
     if (confirm('OK?')) {
       $(`#${id}`).fadeOut('normal', function() {
