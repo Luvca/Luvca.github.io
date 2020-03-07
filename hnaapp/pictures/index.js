@@ -249,7 +249,7 @@ $('#saveChanges').on('click', function(event) {
     var id = form.find('.hna-id').val();
     var women = app.womenSelect.value();
     var fields = {
-      urls: form.find('.hna-url').val(),
+      urls: form.find('.hna-url')get().serializeArray().map((e) => $(e).val()),
       title: form.find('.hna-title').val(),
       type: form.find('input[name="type"]:checked').val(),
       women: women.map((w) => app.db.women.doc(w)),
