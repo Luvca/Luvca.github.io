@@ -32,7 +32,7 @@ var app = app || {};
     ${data.tags.map(app.createTags).join('')}
     <!--
     <p class="card-text">
-      <small class="text-muted">${data.comment}</small>
+      <small class="text-muted">${data.comment} ${data.createdAt}</small>
     </p>
     -->
     <div class="d-flex justify-content-between align-items-center mt-2">
