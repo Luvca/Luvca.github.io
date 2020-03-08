@@ -37,9 +37,8 @@ var app = app || {};
     -->
     <div class="d-flex justify-content-between align-items-center mt-2">
       <div class="btn-group">
-        <button type="button" class="btn btn-sm btn-outline-secondary pt-0">View</button>
         <button type="button" class="btn btn-sm btn-outline-secondary pt-0" data-toggle="modal" data-target="#editDialog" data-id="${id}">Edit</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary pt-0 hna-delete-button" onclick="app.delete('${id}');">Delete</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary pt-0" onclick="app.delete('${id}');">Delete</button>
       </div>
     </div>
     <p class="card-text">
@@ -54,7 +53,7 @@ var app = app || {};
 <div class="input-group">
   <input name="hnaUrl" class="form-control" value="${url}">
   <div class="input-group-append">
-    <button type="button" class="form-control btn-del" onclick="app.delUrl(this);">&times;</button>
+    <button type="button" class="form-control" onclick="app.delUrl(this);">&times;</button>
   </div>
 </div>
 `;
