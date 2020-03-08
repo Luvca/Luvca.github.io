@@ -275,7 +275,7 @@ $('#saveChanges').on('click', function(event) {
     if (id) {
       app.db.pictures.doc(id).set(fields, { merge: true }).then(function() {
         $('#editDialog').modal('hide');
-        $(`#${id}`).replaceWith(app.createCard(id, fields, fields.createdAt));
+        $(`#${id}`).replaceWith(app.createCard(id, fields, fields.updatedAt));
         women.forEach((w) => {
           $(`#${id}`).find('.hna-women').append(app.createWomen(w));
         });
