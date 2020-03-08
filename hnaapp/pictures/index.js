@@ -57,10 +57,10 @@ var app = app || {};
 
   app.createUrls = (url) => `
 <div class="input-group">
-<input name="hnaUrl" class="form-control" value="${url}">
-<div class="input-group-append">
-<button type="button" class="btn-del" onclick="app.delUrl(this);">&times;</button>
-</div>
+  <input name="hnaUrl" class="form-control" value="${url}">
+  <div class="input-group-append">
+    <button type="button" class="form-control btn-del" onclick="app.delUrl(this);">&times;</button>
+  </div>
 </div>
 `;
 
@@ -265,15 +265,13 @@ $('#saveChanges').on('click', function(event) {
     var id = form.find('.hna-id').val();
     var women = app.womenSelect.value();
     var fields = {
-      urls: form.find('input[name="hnaUrl"]').serializeArray().map((e) => {
-        if (e.value.length != 0) return e.value;
-      }),
+      urls: form.find('input[name="hnaUrl"]').serializeArray().map((e) => e.value).filter((e) => e.length > 0),
       title: form.find('.hna-title').val(),
       type: form.find('input[name="type"]:checked').val(),
       women: women.map((w) => app.db.women.doc(w)),
       tags: app.tagsSelect.value(),
-      series: form.find('.hna-series').val(),
-      num: Number(form.find('.hna-num').val()),
+      //series: form.find('.hna-series').val(),
+      //num: Number(form.find('.hna-num').val()),
       updatedAt: timestamp
     };
     if (id) {
