@@ -46,7 +46,7 @@ var app = app || {};
     </div>
     <p class="card-text">
       <small class="text-muted hna-type">${data.type}</small>
-      <small class="text-muted">${data.createdAt.toDate()}</small>
+      <small class="text-muted">${data.createdAt.toDate().toLocaleString('ja-JP').replace(/\//g, '-')}</small>
     </p>
   </div>
 </div>
