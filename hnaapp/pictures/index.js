@@ -43,7 +43,7 @@ var app = app || {};
       </div>
     </div>
     <p class="card-text">
-      <small class="text-muted hna-type">${data.type} ${data.createdAt}</small>
+      <small class="text-muted hna-type">${data.type} ${new Date(data.createdAt)}</small>
     </p>
   </div>
 </div>
