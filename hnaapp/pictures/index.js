@@ -4,56 +4,56 @@ var app = app || {};
 
 (function (app) {
   app.createImage = (url) => `
-  <div class="row mb-1">
-    <div class="col">
-      <a class="hna-url" href="${url}">
-        <img class="lazy card-img-top" data-original="${url}">
-      </a>
-    </div>
+<div class="row mb-1">
+  <div class="col">
+    <a class="hna-url" href="${url}">
+      <img class="lazy card-img-top" data-original="${url}">
+    </a>
   </div>
-  `;
+</div>
+`;
 
   app.createWomen = (woman) => `
-    <a href="?women=${woman}">
-      <span class="badge badge-danger hna-woman">${woman}</span>
-    </a> `;
+<a href="?women=${woman}">
+  <span class="badge badge-danger hna-woman">${woman}</span>
+</a> `;
 
   app.createTags = (tag) => `
-    <a href="?tags=${tag}">
-      <span class="badge badge-danger hna-tag">${tag}</span>
-    </a> `;
+<a href="?tags=${tag}">
+  <span class="badge badge-danger hna-tag">${tag}</span>
+</a> `;
 
   app.createCard = (id, data) => `
-    <div id="${id}" class="card box-shadow">
-      ${data.urls.map(app.createImage).join('')}
-      <div class="card-body pt-2">
-        <p class="card-text hna-title">${data.title}</p>
-        <div class="hna-women"></div>
-        ${data.tags.map(app.createTags).join('')}
-        <!--
-        <p class="card-text">
-          <small class="text-muted">${data.comment}</small>
-        </p>
-        -->
-        <div class="d-flex justify-content-between align-items-center mt-2">
-          <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-outline-secondary pt-0">View</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary pt-0" data-toggle="modal" data-target="#editDialog" data-id="${id}">Edit</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary pt-0 hna-delete-button" onclick="app.delete('${id}');">Delete</button>
-          </div>
-        </div>
-        <p class="card-text">
-          <small class="text-muted hna-type">${data.type}</small>
-        </p>
+<div id="${id}" class="card box-shadow">
+  ${data.urls.map(app.createImage).join('')}
+  <div class="card-body pt-2">
+    <p class="card-text hna-title">${data.title}</p>
+    <div class="hna-women"></div>
+    ${data.tags.map(app.createTags).join('')}
+    <!--
+    <p class="card-text">
+      <small class="text-muted">${data.comment}</small>
+    </p>
+    -->
+    <div class="d-flex justify-content-between align-items-center mt-2">
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm btn-outline-secondary pt-0">View</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary pt-0" data-toggle="modal" data-target="#editDialog" data-id="${id}">Edit</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary pt-0 hna-delete-button" onclick="app.delete('${id}');">Delete</button>
       </div>
     </div>
-  `;
+    <p class="card-text">
+      <small class="text-muted hna-type">${data.type}</small>
+    </p>
+  </div>
+</div>
+`;
 
   app.createSeries = (num, url) => `
-  <small class="text-muted hna-num">${num}</small>
-  <a class="hna-url2" href="${url}">
-      <img class="lazy card-img-top" src="${url}">
-    </a> `;
+<small class="text-muted hna-num">${num}</small>
+<a class="hna-url2" href="${url}">
+  <img class="lazy card-img-top" src="${url}">
+</a> `;
 
   app.createUrls = (url) => `
 <div class="input-group">
