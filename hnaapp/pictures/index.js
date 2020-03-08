@@ -16,12 +16,14 @@ var app = app || {};
   app.createWomen = (woman) => `
 <a href="?women=${woman}">
   <span class="badge badge-danger hna-woman">${woman}</span>
-</a> `;
+</a>
+`;
 
   app.createTags = (tag) => `
 <a href="?tags=${tag}">
   <span class="badge badge-danger hna-tag">${tag}</span>
-</a> `;
+</a>
+`;
 
   app.createCard = (id, data) => `
 <div id="${id}" class="card box-shadow">
@@ -48,12 +50,6 @@ var app = app || {};
   </div>
 </div>
 `;
-
-  app.createSeries = (num, url) => `
-<small class="text-muted hna-num">${num}</small>
-<a class="hna-url2" href="${url}">
-  <img class="lazy card-img-top" src="${url}">
-</a> `;
 
   app.createUrls = (url) => `
 <div class="input-group">
@@ -158,6 +154,7 @@ $(function() {
     query = query.where('tags', 'array-contains-any', app.args.get('tags').split(','));
   }
   query.get().then((ref) => {
+    // Sort by create timestamp in descending order
     ref.docs.sort(function(a, b) {
       if (a.data().createdAt < b.data().createdAt) return 1;
       else return -1;
