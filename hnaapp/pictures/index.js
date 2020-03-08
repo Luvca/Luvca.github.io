@@ -219,8 +219,12 @@ $('#editDialog').on('show.bs.modal', function(event) {
     $(this).find('.modal-title').text('Edit');
     $(this).find('.hna-id').val(id);
     $('#pictureUrls').empty();
-    card.find('.hna-url').get().forEach((e) => {
-      $(this).find('#pictureUrls').append(app.createUrls($(e).attr('href')));
+    card.find('.hna-url').get().forEach((e, i) => {
+      if (i === 0) {
+        $('#hnaUrl0').val($(e).attr('href'));
+      } else {
+        $(this).find('#pictureUrls').append(app.createUrls($(e).attr('href')));
+      }
     });
     $(this).find('.hna-title').val(card.find('.hna-title').text());
     $(this).find('.hna-series').val(card.find('.hna-series').text());
