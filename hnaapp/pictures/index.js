@@ -222,14 +222,12 @@ $('#editDialog').on('show.bs.modal', function(event) {
       }
     });
     $(this).find('.hna-title').val(card.find('.hna-title').text());
-    $(this).find('.hna-series').val(card.find('.hna-series').text());
-    $(this).find('.hna-num').val(card.find('.hna-num').text());
     $(this).find('input[name="type"]').filter(`[value=${card.find('.hna-type').text()}]`).prop('checked', true);
     women = card.find('.hna-woman').map((i, v) => $(v).text()).get();
     tags = card.find('.hna-tag').map((i, v) => $(v).text()).get()
   } else {
     $(this).find('.modal-title').text('Add');
-    $(this).find('.hna-num').val(0);
+    $(this).find('.hna-id').val('');
   }
 
   app.db.women.orderBy('phoneticName').get().then(function(docs) {
