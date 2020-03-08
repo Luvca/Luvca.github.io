@@ -25,7 +25,7 @@ var app = app || {};
 </a>
 `;
 
-  app.createCard = (id, data) => `
+  app.createCard = (id, data, date) => `
 <div id="${id}" class="card box-shadow">
   ${data.urls.map(app.createImage).join('')}
   <div class="card-body pt-2">
@@ -46,7 +46,7 @@ var app = app || {};
     </div>
     <p class="card-text">
       <small class="text-muted hna-type">${data.type}</small>
-      <small class="text-muted">${data.updatedAt.toDate().toLocaleString('ja-JP').replace(/\//g, '-')}</small>
+      <small class="text-muted">${data.updatedAt.toLocaleString('ja-JP').replace(/\//g, '-')}</small>
     </p>
   </div>
 </div>
@@ -160,7 +160,7 @@ $(function() {
       if (a.data().createdAt < b.data().createdAt) return 1;
       else return -1;
     }).forEach((doc) => {
-      $('#pictures').append(app.createCard(doc.id, doc.data()));
+      $('#pictures').append(app.createCard(doc.id, doc.data(), doc.data().createdAt.toDate()));
       if (doc.data().women) {
         var women = $(`#${doc.id}`).find('.hna-women');
         doc.data().women.forEach((ref) => {
@@ -189,7 +189,7 @@ $(function() {
       updatedAt: timestamp
     };
     app.db.pictures.add(fields).then(function(doc) {
-      $('#pictures').prepend(app.createCard(doc.id, fields));
+      $('#pictures').prepend(app.createCard(doc.id, fields, fields.createdAt));
     }).then(function() {
       $('img.lazy').lazyload({
         effect: 'fadeIn',
@@ -275,7 +275,7 @@ $('#saveChanges').on('click', function(event) {
     if (id) {
       app.db.pictures.doc(id).set(fields, { merge: true }).then(function() {
         $('#editDialog').modal('hide');
-        $(`#${id}`).replaceWith(app.createCard(id, fields));
+        $(`#${id}`).replaceWith(app.createCard(id, fields, fields.createdAt));
         women.forEach((w) => {
           $(`#${id}`).find('.hna-women').append(app.createWomen(w));
         });
@@ -291,7 +291,7 @@ $('#saveChanges').on('click', function(event) {
       fields.createdAt = timestamp;
       app.db.pictures.add(fields).then(function(doc) {
         $('#editDialog').modal('hide');
-        $('#pictures').prepend(app.createCard(doc.id, fields));
+        $('#pictures').prepend(app.createCard(doc.id, fields, fields.createdAt));
         women.forEach((w) => {
           $(`#${doc.id}`).find('.hna-women').append(app.createWomen(w));
         });
