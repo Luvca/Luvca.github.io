@@ -7,7 +7,9 @@ var app = app || {};
 <div class="row mb-1">
   <div class="col">
     <a class="hna-url" href="${url}">
+    <!--
       <img class="lazy card-img-top" data-original="${url}">
+      -->
     </a>
   </div>
 </div>
