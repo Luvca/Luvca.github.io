@@ -25,7 +25,7 @@ var app = app || {};
 </a>
 `;
 
-  app.createCard = (id, data, date) => `
+  app.createCard = (id, data, updatedAt) => `
 <div id="${id}" class="card box-shadow">
   ${data.urls.map(app.createImage).join('')}
   <div class="card-body pt-2">
@@ -46,7 +46,7 @@ var app = app || {};
     </div>
     <p class="card-text">
       <small class="text-muted hna-type">${data.type}</small>
-      <small class="text-muted">${date.toLocaleString('ja-JP').replace(/\//g, '-')}</small>
+      <small class="text-muted">${updatedAt.toLocaleString('ja-JP').replace(/\//g, '-')}</small>
     </p>
   </div>
 </div>
@@ -259,7 +259,8 @@ $('#saveChanges').on('click', function(event) {
   var form = $('#editDialogForm');
   if (form.get(0).checkValidity() === true) {
     //form.find('.spinner-border').show();
-    var timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    //var timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    var timestamp = new Date();
     var id = form.find('.hna-id').val();
     var women = app.womenSelect.value();
     var fields = {
@@ -275,6 +276,7 @@ $('#saveChanges').on('click', function(event) {
     if (id) {
       app.db.pictures.doc(id).set(fields, { merge: true }).then(function() {
         $('#editDialog').modal('hide');
+        console.log(fields.updatedAt);
         $(`#${id}`).replaceWith(app.createCard(id, fields, fields.updatedAt));
         women.forEach((w) => {
           $(`#${id}`).find('.hna-women').append(app.createWomen(w));
@@ -319,11 +321,14 @@ $('#saveWoman').on('click', function(event) {
     //form.find('.spinner-border').show();
     var name = form.find('.woman-name').val();
     var phoneticName = form.find('.woman-phonetic-name').val();
+    var timestamp = new Date();
     var fields = {
       name: name,
       phoneticName: phoneticName,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      //createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      //updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      createdAt: timestamp,
+      updatedAt: timestamp
     };
     app.db.women.doc(name).set(fields).then(function() {
       app.womenSelectOptions.push({ label: name, value: name });
@@ -349,9 +354,12 @@ $('#saveTag').on('click', function(event) {
   if (form.get(0).checkValidity() === true) {
     //form.find('.spinner-border').show();
     var id = form.find('.tag-id').val();
+    var timestamp = new Date();
     var fields = {
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      //createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      //updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      createdAt: timestamp,
+      updatedAt: timestamp
     };
     app.db.tags.doc(id).set(fields).then(function() {
       app.tagsSelectOptions.push({ label: id, value: id });
