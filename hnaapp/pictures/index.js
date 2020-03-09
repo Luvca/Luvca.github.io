@@ -6,7 +6,7 @@ var app = app || {};
   app.createImage = (url) => `
 <div mb-1>
   <a class="hna-url" href="${url}">
-    <img class="lazy card-img-top" data-original="${url}">
+    <img class="lazyxx card-img-top" src="${url}">
   </a>
 </div>
 `;
