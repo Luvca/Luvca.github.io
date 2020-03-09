@@ -27,7 +27,9 @@ var app = app || {};
 <div id="${id}" class="card box-shadow">
   ${data.urls.map(app.createImage).join('')}
   <div class="card-body pt-2">
-    <p class="card-text hna-title">${data.title}</p>
+    <p class="card-text hna-title">
+      <span>${data.title}</span>
+    </p>
     <span class="hna-women"></span>
     ${data.tags.map(app.createTags).join('')}
     <!--
