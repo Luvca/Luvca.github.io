@@ -24,12 +24,10 @@ var app = app || {};
 `;
 
   app.createCard = (id, data, updatedAt) => `
-<div id="${id}" class="card box-shadow">
+<div id="${id}" class="card box-shadow mb-2">
   ${data.urls.map(app.createImage).join('')}
   <div class="card-body pt-2">
-    <p class="card-text hna-title">
-      <span>${data.title}</span>
-    </p>
+    <p class="card-text hna-title">${data.title}</p>
     <span class="hna-women"></span>
     ${data.tags.map(app.createTags).join('')}
     <!--
