@@ -32,9 +32,10 @@
     </div>
     <main role="main">
       <div class="py-2 bg-light">
-            <button type="button" class="btn btn-sm btn-outline-secondary ml-2" data-toggle="modal" data-target="#editDialog">Add</button>
-          </div>
-          <div id="pictures" class="bg-light"></div>
+        <button type="button" class="btn btn-sm btn-outline-secondary ml-2" data-toggle="modal" data-target="#editDialog">Add</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#batchDialog">Batch</button>
+      </div>
+      <div id="pictures" class="bg-light"></div>
     </main>
 
     <footer id="footer" class="footer">
@@ -156,6 +157,42 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button id="saveTag" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Batch Dialog -->
+    <div class="modal fade" id="batchDialog" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Batch</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="batchForm" class="needs-validation" novalidate>
+              <div class="form-group">
+                <label for="accessToken" class="col-form-label">Token</label>
+                <input id="accessToken" class="form-control" required>
+                <div class="invalid-feedback">Token is required.</div>
+              </div>
+              <div class="form-group">
+                <label for="path" class="col-form-label">Path</label>
+                <input id="path" class="form-control" required value="/#ladies/#persons/#Twitter/kumikomori">
+                <div class="invalid-feedback">Path is required.</div>
+              </div>
+              <div class="form-group">
+                <label for="title" class="col-form-label">Title</label>
+                <input id="title" class="form-control">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="goBatch" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Go</button>
           </div>
         </div>
       </div>

@@ -64,6 +64,32 @@ var app = app || {};
   app.delUrl = function(e) {
     $(e).parent().parent().remove();
   };
+
+  app.postPicture = function(urls, title) {
+    var timestamp = new Date();
+    var fields = {
+      urls: urls.map((e) => e.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '')),
+      title: title,
+      tags: ['new'],
+      createdAt: timestamp,
+      updatedAt: timestamp
+    };
+    console.log(fields);
+    app.db.pictures.add(fields).then(function(doc) {
+      //$('#batchDialog').modal('hide');
+      $('#pictures').prepend(app.createCard(doc.id, fields, fields.createdAt));
+      //women.forEach((w) => {
+      //  $(`#${doc.id}`).find('.hna-women').append(app.createWomen(w));
+      //});
+    }).then(function() {
+      //$('img.lazy').lazyload({
+      //  effect: 'fadeIn',
+      //  effectspeed: 1000
+      //});
+    }).catch(function(error) {
+      alert(error);
+    });
+  };
 }(app));
 
 //
@@ -393,4 +419,83 @@ $('#saveTag').on('click', function(event) {
   } else {
     form.addClass('was-validated');
   }
+});
+
+//
+// Batch
+//
+$('#goBatch').on('click', function(event) {
+  if (confirm('OK?')) {
+    var token = $('#accessToken').val();
+    var title = $('#title').val();
+  
+    $.ajax({
+      url: 'https://api.dropboxapi.com/2/files/list_folder',
+      type: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      dataType: 'json',
+      data: JSON.stringify({
+        'path': $('#path').val()
+      })
+    }).done((list) => {
+      var urls = [];
+      list.entries.sort(function(a, b) {
+        if (a.server_modified < b.server_modified) return 1;
+        else return -1;
+      }).forEach((item, index, array) => {
+        $.ajax({
+          url: 'https://api.dropboxapi.com/2/sharing/list_shared_links',
+          type: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          dataType: 'json',
+          data: JSON.stringify({
+            'path': `${item.id}`
+          })
+        }).done((share) => {
+          if (share.links.length === 0) {
+            $.ajax({
+              url: 'https://api.dropboxapi.com/2/sharing/create_shared_link_with_settings',
+              type: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              },
+              dataType: 'json',
+              data: JSON.stringify({
+                'path': `${item.id}`
+              })
+            }).done((newShare) => {
+              urls.push(newShare.links[0].url);
+              console.log(JSON.stringify(newShare.links[0].url));
+              if (urls.length === array.length) {
+                app.postPicture(urls, title);
+              }
+            }).fail((error) => {
+              console.log(error);
+            }).always(() => {
+            });
+          } else {
+            urls.push(share.links[0].url);
+            console.log(JSON.stringify(share.links[0].url));
+            if (urls.length === array.length) {
+              app.postPicture(urls, title);
+            }
+        }
+        }).fail((error) => {
+          console.log(error);
+        }).always(() => {
+        });
+      });
+    }).fail((error) => {
+        console.log(error);
+    }).always(() => {
+    })
+  }
+  $('#batchDialog').modal('hide');
 });
