@@ -11,17 +11,24 @@
 
   <body>
     <div class="pos-f-t">
-      <div class="collapse" id="navbarToggleExternalContent">
-        <div class="bg-dark p-2">
-          <h4 class="text-white">Collapsed content</h4>
-          <span class="text-muted">Toggleable via the navbar brand.</span>
-        </div>
-      </div>
       <nav class="navbar navbar-dark bg-dark p-2">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
       </nav>
+      <div class="collapse" id="navbarToggleExternalContent">
+        <div class="bg-dark p-2">
+          <h4 class="text-white">Collapsed content</h4>
+          <ul class="nav navbar-nav text-muted">
+            <li class="nav-item">
+              <a class="nav-link" href=".">Recent</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="?type=video&presence=have">Link2</a>
+            </li>
+          </ul>
+          </div>
+      </div>
     </div>
     <main role="main">
       <div class="py-2 bg-light">
@@ -88,8 +95,9 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button id="saveChanges" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Save</button>
+            <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+            <button id="deletePicture" type="button" class="btn btn-danger"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Delete</button>
           </div>
         </div>
       </div>
@@ -119,8 +127,8 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button id="saveWoman" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

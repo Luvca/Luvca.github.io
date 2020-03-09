@@ -38,7 +38,6 @@ var app = app || {};
     <div class="d-flex justify-content-between align-items-center mt-2">
       <div class="btn-group">
         <button type="button" class="btn btn-sm btn-outline-secondary pt-0" data-toggle="modal" data-target="#editDialog" data-id="${id}">Edit</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary pt-0" onclick="app.delete('${id}');">Delete</button>
       </div>
     </div>
     <p class="card-text">
@@ -57,18 +56,6 @@ var app = app || {};
   </div>
 </div>
 `;
-
-  app.delete = function(id) {
-    if (confirm('OK?')) {
-      $(`#${id}`).fadeOut('normal', function() {
-        $(this).remove();
-        app.db.pictures.doc(id).delete().then(() => {
-        }).catch((error) => {
-          alert(error);
-        });
-      });
-    }
-  };
 
   app.addUrl = function() {
     $('#pictureUrls').append(app.createUrls(''));
@@ -146,8 +133,24 @@ $(function() {
   //} else {
   //  query = query.where('num', '==', 0);
   //}
+  console.log(app.args);
+  if (app.args.has('type')) {
+    query = query.where('type', '==', app.args.get('type'));
+  }
+  if (app.args.has('presence')) {
+    query = query.where('presence', '==', app.args.get('presence'));
+  }
   if (app.args.has('women')) {
-    query = query.where('women', 'array-contains-any', app.args.get('women').split(','));
+    //query = query.where('women', 'array-contains-any', app.args.get('women').split(','));
+    query = query.where('women', 'array-contains-any', app.args.get('women').split(',').map((e) => {
+      //console.log(e);
+      return app.db.women.doc(e);
+    }));
+    //console.log(app.args.get('women').split(','));
+    //console.log(app.args.get('women').split(',').map((e) => {
+    //  console.log(e);
+    //  return app.db.women.doc(e);
+    //}));
   } else if (app.args.has('tags')) {
     query = query.where('tags', 'array-contains-any', app.args.get('tags').split(','));
   }
@@ -304,6 +307,24 @@ $('#saveChanges').on('click', function(event) {
     //$('html,body').animate({ scrollTop: $('セレクタ').offset().top} );
   } else {
     form.addClass('was-validated');
+  }
+});
+
+//
+// Delete Picture
+//
+$('#deletePicture').on('click', function(event) {
+  if (confirm('OK?')) {
+    $('#editDialog').modal('hide');
+    var form = $('#editDialogForm');
+    var id = form.find('.hna-id').val();
+    $(`#${id}`).fadeOut('normal', function() {
+      $(`#${id}`).remove();
+      app.db.pictures.doc(id).delete().then(() => {
+      }).catch((error) => {
+        alert(error);
+      });
+    });
   }
 });
 
