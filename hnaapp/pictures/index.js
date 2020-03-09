@@ -105,7 +105,7 @@ $(function() {
     app.tagsSelect = new SelectPure('#hnaTags', {
       options: options,
       multiple: true,
-      autocomplete: true,
+      //autocomplete: true,
       icon: 'fa fa-times',
       value: value
     });
@@ -234,6 +234,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
   }
 
   app.db.women.orderBy('phoneticName').get().then(function(docs) {
+    app.womenSelectOptions = [];
     docs.forEach(function(doc) {
       app.womenSelectOptions.push({ label: doc.data().name, value: doc.id});
     })
@@ -242,6 +243,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
   });
 
   app.db.tags.get().then(function(docs) {
+    app.tagsSelectOptions = [];
     docs.forEach(function(doc) {
       app.tagsSelectOptions.push({ label: doc.id, value: doc.id});
     })
