@@ -473,11 +473,11 @@ $('#goBatch').on('click', function(event) {
       var urls = [];
       var createdAt;
       list.entries.sort(function(a, b) {
-        if (a.server_modified < b.server_modified) return 1;
+        if (a.client_modified < b.client_modified) return 1;
         else return -1;
       }).forEach((item, index, array) => {
         if (index === 0) {
-          createdAt = item.server_modified;
+          createdAt = new Date(item.client_modified);
         }
         $.ajax({
           url: 'https://api.dropboxapi.com/2/sharing/list_shared_links',
