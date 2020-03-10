@@ -20,7 +20,7 @@ var app = app || {};
     }
     return `
 <div class="carousel-item${active}">
-  <img class="d-block w-100" src="${url}">
+  <img class="d-block w-100 hna-url" src="${url}">
 </div>
 `;
   };
@@ -274,9 +274,9 @@ $('#editDialog').on('show.bs.modal', function(event) {
     $('#pictureUrls').empty();
     card.find('.hna-url').get().forEach((e, i) => {
       if (i === 0) {
-        $('#hnaUrl0').val($(e).attr('href'));
+        $('#hnaUrl0').val($(e).attr('src'));
       } else {
-        $(this).find('#pictureUrls').append(app.createUrls($(e).attr('href')));
+        $(this).find('#pictureUrls').append(app.createUrls($(e).attr('src')));
       }
     });
     $(this).find('.hna-title').val(card.find('.hna-title').text());
