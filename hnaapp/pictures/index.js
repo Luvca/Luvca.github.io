@@ -30,12 +30,15 @@ var app = app || {};
 `;
 
   app.createCard = (id, data, updatedAt) => `
-<div id="${id}" class="card box-shadow mb-2">
+
   <div id="hnaCarousel${id}" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
     ${data.urls.map(app.createCarousel).join('')}
     </div>
   </div>
+
+<div id="${id}" class="card box-shadow mb-2">
+
   ${data.urls.map(app.createImage).join('')}
   <div class="card-body pt-2">
     <p class="card-text hna-title">${data.title}</p>
