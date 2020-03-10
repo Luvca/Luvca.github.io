@@ -19,6 +19,7 @@ var app = app || {};
       }
       if (result.length === a.length - 1) {
         return result.map(app.createImage).join('');
+      }
     });
   };
 
