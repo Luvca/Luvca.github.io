@@ -12,10 +12,13 @@ var app = app || {};
 `;
 
   app.createImages = (urls) => {
-    urls.forEach((e, i) => {
+    var result = [];
+    urls.forEach((e, i, a) => {
       if (i > 0) {
-        return createImage(e);
+        result.push(e);
       }
+      if (result.length === a.length - 1) {
+        return result.map(app.createImage).join('');
     });
   };
 
