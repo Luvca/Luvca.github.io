@@ -4,7 +4,7 @@ var app = app || {};
 
 (function (app) {
   app.createImage = (url) => `
-<div mb-1>
+<div class="mb-1">
   <a class="hna-url" href="${url}">
     <img class="lazyxx card-img-top" src="${url}">
   </a>
@@ -37,8 +37,11 @@ var app = app || {};
 
   app.createCard = (id, data, updatedAt) => `
 <div id="${id}" class="card box-shadow mb-2">
-  ${app.createImage(data.urls[0])}
-  ${app.createImages(data.urls)}
+  <div class="mb-1">
+    <a class="hna-url" href="${data.urls[0]}">
+    <img class="lazyxx card-img-top" src="${data.urls[0]}">
+    </a>
+  </div>
   ${data.urls.map(app.createImage).join('')}
   <div class="card-body pt-2">
     <p class="card-text hna-title">${data.title}</p>
