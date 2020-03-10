@@ -11,11 +11,19 @@ var app = app || {};
 </div>
 `;
 
-  app.createCarousel = (url) => `
-<div class="carousel-item">
+  app.createCarousel = (url, i) => {
+    var active = '';
+    if (i === 0) {
+      active = ' active';
+    } else {
+      active = '';
+    }
+    return `
+<div class="carousel-item${active}">
   <img class="d-block w-100" src="${url}">
 </div>
 `;
+  };
 
   app.createWomen = (woman) => `
 <a href="?women=${woman}">
@@ -30,16 +38,20 @@ var app = app || {};
 `;
 
   app.createCard = (id, data, updatedAt) => `
-
+<div id="${id}" class="card box-shadow mb-2">
   <div id="hnaCarousel${id}" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
-    ${data.urls.map(app.createCarousel).join('')}
+      ${data.urls.map(app.createCarousel).join('')}
+      <a class="carousel-control-prev" href="#hnaCarousel${id}" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#hnaCarousel${id}" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
     </div>
   </div>
-
-<div id="${id}" class="card box-shadow mb-2">
-
-  ${data.urls.map(app.createImage).join('')}
   <div class="card-body pt-2">
     <p class="card-text hna-title">${data.title}</p>
     <span class="hna-women"></span>
