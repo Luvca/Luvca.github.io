@@ -94,13 +94,13 @@ var app = app || {};
     $(e).parent().parent().remove();
   };
 
-  app.postPicture = function(urls, title) {
+  app.postPicture = function(urls, title, createdAt) {
     var timestamp = new Date();
     var fields = {
       urls: urls.map((e) => e.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '')),
       title: title,
       tags: ['new'],
-      createdAt: timestamp,
+      createdAt: createdAt,
       updatedAt: timestamp
     };
     console.log(fields);
@@ -471,10 +471,14 @@ $('#goBatch').on('click', function(event) {
       })
     }).done((list) => {
       var urls = [];
+      var createdAt;
       list.entries.sort(function(a, b) {
         if (a.server_modified < b.server_modified) return 1;
         else return -1;
       }).forEach((item, index, array) => {
+        if (index === 0) {
+          createdAt = item.server_modified;
+        }
         $.ajax({
           url: 'https://api.dropboxapi.com/2/sharing/list_shared_links',
           type: 'POST',
@@ -503,7 +507,7 @@ $('#goBatch').on('click', function(event) {
               urls.push(newShare.links[0].url);
               console.log(JSON.stringify(newShare.links[0].url));
               if (urls.length === array.length) {
-                app.postPicture(urls, title);
+                app.postPicture(urls, title, createdAt);
               }
             }).fail((error) => {
               console.log(error);
@@ -513,7 +517,7 @@ $('#goBatch').on('click', function(event) {
             urls.push(share.links[0].url);
             console.log(JSON.stringify(share.links[0].url));
             if (urls.length === array.length) {
-              app.postPicture(urls, title);
+              app.postPicture(urls, title, createdAt);
             }
         }
         }).fail((error) => {
