@@ -38,7 +38,7 @@ var app = app || {};
     <div class="d-flex justify-content-between align-items-center mt-2">
       <div class="btn-group">
         <button type="button" class="btn btn-sm btn-outline-secondary pt-0" data-id="${id}">View</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary pt-0" data-toggle="modal" data-target="#editDialog" data-id="${id}">Edit</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary pt-0 mr-auto" data-toggle="modal" data-target="#editDialog" data-id="${id}">Edit</button>
         <button type="button" class="btn btn-sm btn-outline-secondary pt-0" data-id="${id}">Delele</button>
 
       </div>
