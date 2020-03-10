@@ -37,6 +37,19 @@ var app = app || {};
 
   app.createCard = (id, data, updatedAt) => `
 <div id="${id}" class="card box-shadow mb-2">
+  <div id="hnaCarousel${id}" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="..." alt="First slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="..." alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="..." alt="Third slide">
+    </div>
+  </div>
+</div>
   <div class="mb-1">
     <a class="hna-url" href="${data.urls[0]}">
     <img class="lazyxx card-img-top" src="${data.urls[0]}">
