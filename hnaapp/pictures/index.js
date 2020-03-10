@@ -70,7 +70,7 @@ var app = app || {};
       </div>
     </div>
     <p class="card-text">
-      <small class="text-muted hna-type">${data.type} &#x00D7; ${data.urls.length}</small>
+      <small class="text-muted hna-type">${data.type}</small><small> &#x00D7; ${data.urls.length}</small>
       <small class="text-muted">${updatedAt.toLocaleString('ja-JP').replace(/\//g, '-')}</small>
     </p>
   </div>
