@@ -32,14 +32,9 @@ var app = app || {};
   app.createCard = (id, data, updatedAt) => `
 <div id="${id}" class="card box-shadow mb-2">
   <div id="hnaCarousel${id}" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
+    <div class="carousel-inner">
     ${data.urls.map(app.createCarousel).join('')}
-  </div>
-</div>
-  <div class="mb-1">
-    <a class="hna-url" href="${data.urls[0]}">
-    <img class="lazyxx card-img-top" src="${data.urls[0]}">
-    </a>
+    </div>
   </div>
   ${data.urls.map(app.createImage).join('')}
   <div class="card-body pt-2">
