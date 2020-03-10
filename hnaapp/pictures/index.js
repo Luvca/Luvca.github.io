@@ -11,6 +11,14 @@ var app = app || {};
 </div>
 `;
 
+  app.createImages = (urls) => {
+    urls.forEach((e, i) => {
+      if (i > 0) {
+        return createImage(e);
+      }
+    });
+  };
+
   app.createWomen = (woman) => `
 <a href="?women=${woman}">
   <span class="badge badge-danger hna-woman">${woman}</span>
@@ -26,6 +34,7 @@ var app = app || {};
   app.createCard = (id, data, updatedAt) => `
 <div id="${id}" class="card box-shadow mb-2">
   ${app.createImage(data.urls[0])}
+  ${app.createImages(data.urls)}
   ${data.urls.map(app.createImage).join('')}
   <div class="card-body pt-2">
     <p class="card-text hna-title">${data.title}</p>
