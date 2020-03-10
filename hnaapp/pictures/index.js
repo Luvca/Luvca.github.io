@@ -25,6 +25,7 @@ var app = app || {};
 
   app.createCard = (id, data, updatedAt) => `
 <div id="${id}" class="card box-shadow mb-2">
+  ${app.createImage(data.urls[0])}
   ${data.urls.map(app.createImage).join('')}
   <div class="card-body pt-2">
     <p class="card-text hna-title">${data.title}</p>
