@@ -134,7 +134,7 @@ var app = app || {};
     var direct = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '');
     $(`#${id.substring(3)}`).append(`
 <div class="form-check form-check-inline">
-  <input name="pictureToAdd" type="checkbox" class="form-check-input" value="${direct}" style="transform: scale(1.5)" data-title="${title}" data-timestamp="${timestamp}">
+  <input name="pictureToAdd" type="checkbox" class="form-check-input" value="${direct}" data-title="${title}" data-timestamp="${timestamp}">
   <label class="form-check-label" for="pictureToAdd">${title}</label>
 </div>
 <img class="card-img-bottom hna-picture" src="${direct}">
