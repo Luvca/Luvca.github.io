@@ -147,9 +147,9 @@ var app = app || {};
   app.loadPictureDiv = (id, url, title, timestamp) => {
     var direct = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '');
     $(`#${id.substring(3)}`).append(`
-<div class="form-check p-0">
-  <input name="pictureToAdd" type="checkbox" class="form-check-input mt-2 ml-1" value="${direct}" style="transform: scale(1.5)" data-title="${title}" data-timestamp="${timestamp}">
-  <label class="form-check-label ml-4" for="pictureToAdd">${title}</label>
+<div class="form-check form-check-inline">
+  <input name="pictureToAdd" type="checkbox" class="form-check-input" value="${direct}" style="transform: scale(1.5)" data-title="${title}" data-timestamp="${timestamp}">
+  <label class="form-check-label" for="pictureToAdd">${title}</label>
 </div>
 <img class="card-img-bottom hna-picture" src="${direct}">
 `);
@@ -171,6 +171,10 @@ var app = app || {};
   app.reloadPicture = (name) => {
     $('#path').val(name);
     $('#getPictures').click();
+  };
+
+  app.selectAll = (check) => {
+    $('input[name="pictureToAdd"]').prop('checked', check.checked);
   };
 }(app));
 
