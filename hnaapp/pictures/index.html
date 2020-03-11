@@ -105,6 +105,76 @@
       </div>
     </div>
 
+    <!-- Batch Dialog -->
+    <div class="modal fade" id="batchDialog" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Batch</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="batchForm" class="needs-validation" novalidate>
+              <input id="accessToken" type="hidden" class="form-control">
+              <div class="form-group">
+                <label for="path" class="col-form-label">Path</label>
+                <div class="input-group">
+                  <input id="path" class="form-control" required value="/#ladies/misc">
+                  <div class="invalid-feedback">Path is required.</div>
+                  <div class="input-group-append">
+                    <button id="getPictures" type="button" class="btn btn-outline-secondary">Load</button>
+                  </div>
+                </div>
+                <!-- Title -->
+                <div class="form-group">
+                  <label for="batchTitle" class="col-form-label">Title</label>
+                  <input id="batchTitle" class="form-control hna-title">
+                </div>
+                <!-- Type -->
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="type" id="typePhoto" value="photo" required>
+                  <label class="form-check-label" for="typePhoto">Photo</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="type" id="typeIllust" value="illust" required>
+                  <label class="form-check-label" for="typeIllust">Illust</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="type" id="typeVideo" value="video" required>
+                  <label class="form-check-label" for="typeVideo">Video</label>
+                </div>
+                <!-- Cast -->
+                <div class="form-group">
+                  <div class="form-inline">
+                    <label for="hnaWomen" class="col-form-label">Cast</label>
+                    <button type="button" class="btn-add add-woman" data-toggle="modal" data-target="#womanDialog">&#x2295;</button>
+                  </div>
+                  <span id="hnaWomen" class="h-25 hna-women"></span>
+                </div>
+                <!-- Tags -->
+                <div class="form-group">
+                  <div class="form-inline">
+                    <label for="hnaTags" class="col-form-label">Tags</label>
+                    <button type="button" class="btn-add add-tag" data-toggle="modal" data-target="#tagDialog">&#x2295;</button>
+                  </div>
+                  <span id="hnaTags" class="hna-tags"></span>
+                </div>
+                <!-- Pictures -->
+                <div id="pictureList" class="mt-2"></div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button id="goBatchSingle" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Add (Sigle)</button>
+            <button id="goBatchMulti" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Add (Multi)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Woman Dialog -->
     <div class="modal fade" id="womanDialog" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
@@ -158,72 +228,6 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button id="saveTag" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Save</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Batch Dialog -->
-    <div class="modal fade" id="batchDialog" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Batch</h5>
-            <button type="button" class="close" data-dismiss="modal">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form id="batchForm" class="needs-validation" novalidate>
-              <div class="form-group">
-                <label for="accessToken" class="col-form-label">Token</label>
-                <input id="accessToken" class="form-control" required>
-                <div class="invalid-feedback">Token is required.</div>
-              </div>
-              <div class="form-group">
-                <label for="path" class="col-form-label">Path</label>
-                <div class="input-group">
-                  <input id="path" class="form-control" required value="/#ladies/misc">
-                  <div class="invalid-feedback">Path is required.</div>
-                  <div class="input-group-append">
-                    <button id="getPictures" type="button" class="btn btn-outline-secondary">Load</button>
-                  </div>
-                </div>
-                <div id="pictureList" class="mt-2"></div>
-              </div>
-              <div class="form-group">
-                <label for="batchTitle" class="col-form-label">Title</label>
-                <input id="batchTitle" class="form-control hna-title">
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="type" id="typePhoto" value="photo" required>
-                <label class="form-check-label" for="typePhoto">Photo</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="type" id="typeIllust" value="illust" required>
-                <label class="form-check-label" for="typeIllust">Illust</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="type" id="typeVideo" value="video" required>
-                <label class="form-check-label" for="typeVideo">Video</label>
-              </div>
-              <div class="form-group">
-                <div class="form-inline">
-                  <label for="hnaWomen" class="col-form-label">Cast</label>
-                  <button type="button" class="btn-add add-woman" data-toggle="modal" data-target="#womanDialog">&#x2295;</button>
-                </div>
-                <span id="hnaWomen" class="h-25 hna-women"></span>
-                <div class="form-inline">
-                  <label for="hnaTags" class="col-form-label">Tags</label>
-                  <button type="button" class="btn-add add-tag" data-toggle="modal" data-target="#tagDialog">&#x2295;</button>
-                </div>
-                <span id="hnaTags" class="hna-tags"></span>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="goBatch" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status" aria-hidden="true"></span>Go</button>
           </div>
         </div>
       </div>

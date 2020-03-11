@@ -137,14 +137,15 @@ var app = app || {};
     };
   }
 
-  app.loadPicture = (url, timestamp) => {
+  app.loadPicture = (url, title, timestamp) => {
     var direct = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '');
     $('#pictureList').append(`
 <div class="card mb-2">
-  <img class="bd-placeholder-img bd-placeholder-img-lg card-img hna-picture" src="${direct}" data-timestamp="${timestamp}">
-  <div class="card-img-overlay p-1">
-    <input name="pictureToAdd" type="checkbox" class="form-check-input mt-1 ml-1" value="${direct}" style="transform: scale(1.5)">
+  <div class="form-check p-0">
+    <input name="pictureToAdd" type="checkbox" class="form-check-input mt-2 ml-1" value="${direct}" style="transform: scale(1.5)" data-title="${title}" data-timestamp="${timestamp}">
+    <label class="form-check-label ml-4" for="pictureToAdd">${title}</label>
   </div>
+  <img class="card-img-bottom hna-picture" src="${direct}">
 </div>
 `);
   };
@@ -344,6 +345,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
 $('#batchDialog').on('show.bs.modal', function(event) {
   console.log(app.args.get('k'));
   $(this).find('#accessToken').val(app.args.get('k'));
+  $('#pictureList').empty();
 });
 
 //
@@ -486,8 +488,7 @@ $('#saveTag').on('click', function(event) {
 //
 $('#getPictures').on('click', function(event) {
   var token = $('#accessToken').val();
-
-  $('#pictureList').empty();
+  
   $.ajax({
     url: 'https://api.dropboxapi.com/2/files/list_folder',
     type: 'POST',
@@ -532,13 +533,13 @@ $('#getPictures').on('click', function(event) {
                 'path': `${item.id}`
               })
             }).done((newShare) => {
-              app.loadPicture(newShare.url, item.client_modified);
+              app.loadPicture(newShare.url, item.name.replace(/\.[^/.]+$/, ''), item.client_modified);
             }).fail((error) => {
               console.log(error);
             }).always(() => {
             });
           } else {
-            app.loadPicture(share.links[0].url, item.client_modified);
+            app.loadPicture(share.links[0].url, item.name.replace(/\.[^/.]+$/, ''), item.client_modified);
           }
         }).fail((error) => {
           console.log(error);
@@ -555,17 +556,32 @@ $('#getPictures').on('click', function(event) {
 //
 // Go Batch
 //
-$('#goBatch').on('click', function(event) {
+$('#goBatchSingle').on('click', function(event) {
   var checked = $('#batchDialog').find('input[name="pictureToAdd"]:checked').get();
   if (checked.length > 0) {
     if (confirm('OK?')) {
       var urls = checked.map((e) => $(e).val());
       var title = $('#batchDialog').find('#batchTitle').val();
-      var timestamp = new Date(Math.min.apply(null, $('#batchDialog').find('.hna-picture').get().map((e) => new Date($(e).data('timestamp')))));
+      var timestamp = new Date(Math.min.apply(null, checked.map((e) => new Date($(e).data('timestamp')))));
       console.log(urls);
       console.log(title);
       console.log(timestamp);
       app.postPicture(urls, title, timestamp);
+    }
+  }
+  $('#batchDialog').modal('hide');
+});
+
+$('#goBatchMulti').on('click', function(event) {
+  var checked = $('#batchDialog').find('input[name="pictureToAdd"]:checked').get();
+  if (checked.length > 0) {
+    if (confirm('OK?')) {
+      checked.forEach((e) => {
+        console.log($(e).val());
+        console.log($(e).data('title'));
+        console.log($(e).data('timestamp'));
+        app.postPicture([$(e).val()], $(e).data('title'), new Date($(e).data('timestamp')))
+      });
     }
   }
   $('#batchDialog').modal('hide');
