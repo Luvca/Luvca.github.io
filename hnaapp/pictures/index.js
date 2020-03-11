@@ -60,6 +60,7 @@ var app = app || {};
         <span class="hna-type">${data.type}</span>
         <span>&#x00D7;</span>
         <span>${data.urls.length}</span>
+        <span class="hna-presence d-none">${data.presence}</span>
         <span class="hna-timestamp">${timestamp.toLocaleString('ja-JP').replace(/\//g, '-')}</span>
       </small>
     </p>
@@ -322,6 +323,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
     $(this).find('.hna-timestamp').val(card.find('.hna-timestamp').text());
     $(this).find('.hna-title').val(card.find('.hna-title').text());
     $(this).find('input[name="type"]').filter(`[value=${card.find('.hna-type').text()}]`).prop('checked', true);
+    $(this).find('input[name="presence"]').filter(`[value=${card.find('.hna-presence').text()}]`).prop('checked', true);
     women = card.find('.hna-woman').map((i, v) => $(v).text()).get();
     tags = card.find('.hna-tag').map((i, v) => $(v).text()).get()
   } else {
@@ -375,6 +377,7 @@ $('#saveChanges').on('click', function(event) {
       urls: form.find('input[name="hnaUrl"]').serializeArray().map((e) => e.value).filter((e) => e.length > 0),
       title: form.find('.hna-title').val(),
       type: form.find('input[name="type"]:checked').val(),
+      presence: form.find('input[name="presence"]:checked').val(),
       women: women.map((w) => app.db.women.doc(w)),
       tags: app.tagsSelect.value(),
       updatedAt: timestamp
