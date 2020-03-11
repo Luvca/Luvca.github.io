@@ -73,8 +73,8 @@ var app = app || {};
       <small class="text-muted">
         <span class="hna-type">${data.type}</span>
         <span>&#x00D7;</span>
-        <span class="hna-timestamp">${data.urls.length}</span>
-        <span>${timestamp.toLocaleString('ja-JP').replace(/\//g, '-')}</span>
+        <span>${data.urls.length}</span>
+        <span class="hna-timestamp">${timestamp.toLocaleString('ja-JP').replace(/\//g, '-')}</span>
       </small>
     </p>
   </div>
@@ -137,17 +137,40 @@ var app = app || {};
     };
   }
 
-  app.loadPicture = (url, title, timestamp) => {
+  app.loadPicture = (id, name, timestamp, callback) => {
+    $('#pictureList').append(`
+<div id="${id.substring(3)}" class="card mb-2"></div>
+`);
+    callback(id, name, timestamp);
+  };
+
+  app.loadPictureDiv = (id, url, title, timestamp) => {
     var direct = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '');
+    $(`#${id.substring(3)}`).append(`
+<div class="form-check p-0">
+  <input name="pictureToAdd" type="checkbox" class="form-check-input mt-2 ml-1" value="${direct}" style="transform: scale(1.5)" data-title="${title}" data-timestamp="${timestamp}">
+  <label class="form-check-label ml-4" for="pictureToAdd">${title}</label>
+</div>
+<img class="card-img-bottom hna-picture" src="${direct}">
+`);
+  };
+  
+  app.showFolder = (name, title, timestamp) => {
     $('#pictureList').append(`
 <div class="card mb-2">
-  <div class="form-check p-0">
-    <input name="pictureToAdd" type="checkbox" class="form-check-input mt-2 ml-1" value="${direct}" style="transform: scale(1.5)" data-title="${title}" data-timestamp="${timestamp}">
-    <label class="form-check-label ml-4" for="pictureToAdd">${title}</label>
+  <div class="input-group">
+    <input id="path" class="form-control" value="${name}">
+    <div class="input-group-append">
+      <button type="button" class="btn btn-outline-secondary" onclick="app.reloadPicture('${name}');">↑</button>
+    </div>
   </div>
-  <img class="card-img-bottom hna-picture" src="${direct}">
 </div>
 `);
+  };
+
+  app.reloadPicture = (name) => {
+    $('#path').val(name);
+    $('#getPictures').click();
   };
 }(app));
 
@@ -345,7 +368,8 @@ $('#editDialog').on('show.bs.modal', function(event) {
 $('#batchDialog').on('show.bs.modal', function(event) {
   console.log(app.args.get('k'));
   $(this).find('#accessToken').val(app.args.get('k'));
-  $('#pictureList').empty();
+  $('#path').val('/#ladies');
+  $('#getPictures').click();
 });
 
 //
@@ -366,8 +390,6 @@ $('#saveChanges').on('click', function(event) {
       type: form.find('input[name="type"]:checked').val(),
       women: women.map((w) => app.db.women.doc(w)),
       tags: app.tagsSelect.value(),
-      //series: form.find('.hna-series').val(),
-      //num: Number(form.find('.hna-num').val()),
       updatedAt: timestamp
     };
     if (id) {
@@ -488,6 +510,7 @@ $('#saveTag').on('click', function(event) {
 //
 $('#getPictures').on('click', function(event) {
   var token = $('#accessToken').val();
+  $('#pictureList').empty();
   
   $.ajax({
     url: 'https://api.dropboxapi.com/2/files/list_folder',
@@ -506,45 +529,48 @@ $('#getPictures').on('click', function(event) {
       else return 1;
     }).forEach((item, index, array) => {
       if (item['.tag'] === 'file' && item.name.split('.').pop().match(/jpe?g|png|gif|bmp/i)) {
-        //console.log(item.client_modified);
-        $.ajax({
-          url: 'https://api.dropboxapi.com/2/sharing/list_shared_links',
-          type: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          dataType: 'json',
-          data: JSON.stringify({
-            'path': `${item.id}`,
-            'direct_only': true
-          })
-        }).done((share) => {
-          if (share.links.length === 0) {
-            $.ajax({
-              url: 'https://api.dropboxapi.com/2/sharing/create_shared_link_with_settings',
-              type: 'POST',
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              },
-              dataType: 'json',
-              data: JSON.stringify({
-                'path': `${item.id}`
-              })
-            }).done((newShare) => {
-              app.loadPicture(newShare.url, item.name.replace(/\.[^/.]+$/, ''), item.client_modified);
-            }).fail((error) => {
-              console.log(error);
-            }).always(() => {
-            });
-          } else {
-            app.loadPicture(share.links[0].url, item.name.replace(/\.[^/.]+$/, ''), item.client_modified);
-          }
-        }).fail((error) => {
-          console.log(error);
-        }).always(() => {
+        app.loadPicture(item.id, item.name, item.client_modified, function(id, name, timestamp) {
+          $.ajax({
+            url: 'https://api.dropboxapi.com/2/sharing/list_shared_links',
+            type: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            dataType: 'json',
+            data: JSON.stringify({
+              'path': `${id}`,
+              'direct_only': true
+            })
+          }).done((share) => {
+            if (share.links.length === 0) {
+              $.ajax({
+                url: 'https://api.dropboxapi.com/2/sharing/create_shared_link_with_settings',
+                type: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Content-Type': 'application/json'
+                },
+                dataType: 'json',
+                data: JSON.stringify({
+                  'path': `${id}`
+                })
+              }).done((newShare) => {
+                app.loadPictureDiv(id, newShare.url, name.replace(/\.[^/.]+$/, ''), timestamp);
+              }).fail((error) => {
+                console.log(error);
+              }).always(() => {
+              });
+            } else {
+              app.loadPictureDiv(id, share.links[0].url, name.replace(/\.[^/.]+$/, ''), timestamp);
+            }
+          }).fail((error) => {
+            console.log(error);
+          }).always(() => {
+          });
         });
+      } else if (item['.tag'] === 'folder') {
+        app.showFolder($('#path').val() + '/' + item.name);
       }
     });
   }).fail((error) => {

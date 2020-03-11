@@ -119,9 +119,8 @@
             <form id="batchForm" class="needs-validation" novalidate>
               <input id="accessToken" type="hidden" class="form-control">
               <div class="form-group">
-                <label for="path" class="col-form-label">Path</label>
-                <div class="input-group">
-                  <input id="path" class="form-control" required value="/#ladies/misc">
+                <div class="input-group d-none">
+                  <input id="path" class="form-control" value="/#ladies">
                   <div class="invalid-feedback">Path is required.</div>
                   <div class="input-group-append">
                     <button id="getPictures" type="button" class="btn btn-outline-secondary">Load</button>
@@ -162,6 +161,14 @@
                   <span id="hnaTags" class="hna-tags"></span>
                 </div>
                 <!-- Pictures -->
+                <div class="card mb-2">
+                  <div class="input-group">
+                    <input id="path" class="form-control" value="/#ladies">
+                    <div class="input-group-append">
+                      <button type="button" class="btn btn-outline-secondary" onclick="app.reloadPicture('/#ladies');">↑</button>
+                    </div>
+                  </div>
+                </div>
                 <div id="pictureList" class="mt-2"></div>
               </div>
             </form>
