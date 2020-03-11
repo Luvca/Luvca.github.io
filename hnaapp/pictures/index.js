@@ -37,7 +37,7 @@ var app = app || {};
 </a>
 `;
 
-  app.createCard = (id, data, updatedAt) => `
+  app.createCard = (id, data, timestamp) => `
 <div id="${id}" class="card box-shadow mb-2">
   <div id="hnaCarousel${id}" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
@@ -65,13 +65,17 @@ var app = app || {};
       <div class="btn-groupxx">
         <button type="button" class="btn btn-sm btn-outline-secondary pt-0" data-id="${id}">View</button>
         <button type="button" class="btn btn-sm btn-outline-secondary pt-0 mr-auto" data-toggle="modal" data-target="#editDialog" data-id="${id}">Edit</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary pt-0" data-id="${id}">Delele</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary pt-0" onclick="app.deletePicture('${id}');"">Delele</button>
 
       </div>
     </div>
     <p class="card-text">
-      <small class="text-muted hna-type">${data.type}</small><small> &#x00D7; ${data.urls.length}</small>
-      <small class="text-muted">${updatedAt.toLocaleString('ja-JP').replace(/\//g, '-')}</small>
+      <small class="text-muted">
+        <span class="hna-type">${data.type}</span>
+        <span>&#x00D7;</span>
+        <span class="hna-timestamp">${data.urls.length}</span>
+        <span>${timestamp.toLocaleString('ja-JP').replace(/\//g, '-')}</span>
+      </small>
     </p>
   </div>
 </div>
@@ -118,6 +122,31 @@ var app = app || {};
     }).catch(function(error) {
       alert(error);
     });
+  };
+
+  app.deletePicture = (id, callback) => {
+    if (confirm('OK')) {
+      app.db.pictures.doc(id).delete().then(() => {
+        $(`#${id}`).fadeOut('normal', function() {
+          $(`#${id}`).remove();
+          if (callback) callback();
+        });
+      }).catch((error) => {
+        alert(error);
+      });
+    };
+  }
+
+  app.loadPicture = (url, timestamp) => {
+    var direct = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '');
+    $('#pictureList').append(`
+<div class="card mb-2">
+  <img class="bd-placeholder-img bd-placeholder-img-lg card-img hna-picture" src="${direct}" data-timestamp="${timestamp}">
+  <div class="card-img-overlay p-1">
+    <input name="pictureToAdd" type="checkbox" class="form-check-input mt-1 ml-1" value="${direct}" style="transform: scale(1.5)">
+  </div>
+</div>
+`);
   };
 }(app));
 
@@ -279,6 +308,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
         $(this).find('#pictureUrls').append(app.createUrls($(e).attr('src')));
       }
     });
+    $(this).find('.hna-timestamp').val(card.find('.hna-timestamp').text());
     $(this).find('.hna-title').val(card.find('.hna-title').text());
     $(this).find('input[name="type"]').filter(`[value=${card.find('.hna-type').text()}]`).prop('checked', true);
     women = card.find('.hna-woman').map((i, v) => $(v).text()).get();
@@ -286,6 +316,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
   } else {
     $(this).find('.modal-title').text('Add');
     $(this).find('.hna-id').val('');
+    $(this).find('.hna-timestamp').val('');
   }
 
   app.db.women.orderBy('phoneticName').get().then(function(docs) {
@@ -308,6 +339,14 @@ $('#editDialog').on('show.bs.modal', function(event) {
 });
 
 //
+// Batch Dialog
+//
+$('#batchDialog').on('show.bs.modal', function(event) {
+  console.log(app.args.get('k'));
+  $(this).find('#accessToken').val(app.args.get('k'));
+});
+
+//
 // Save Picture
 //
 $('#saveChanges').on('click', function(event) {
@@ -317,6 +356,7 @@ $('#saveChanges').on('click', function(event) {
     //var timestamp = firebase.firestore.FieldValue.serverTimestamp();
     var timestamp = new Date();
     var id = form.find('.hna-id').val();
+    var createdAt = form.find('.hna-timestamp').val();
     var women = app.womenSelect.value();
     var fields = {
       urls: form.find('input[name="hnaUrl"]').serializeArray().map((e) => e.value).filter((e) => e.length > 0),
@@ -332,7 +372,7 @@ $('#saveChanges').on('click', function(event) {
       app.db.pictures.doc(id).set(fields, { merge: true }).then(function() {
         $('#editDialog').modal('hide');
         console.log(fields.updatedAt);
-        $(`#${id}`).replaceWith(app.createCard(id, fields, fields.updatedAt));
+        $(`#${id}`).replaceWith(app.createCard(id, fields, createdAt));
         women.forEach((w) => {
           $(`#${id}`).find('.hna-women').append(app.createWomen(w));
         });
@@ -371,18 +411,9 @@ $('#saveChanges').on('click', function(event) {
 // Delete Picture
 //
 $('#deletePicture').on('click', function(event) {
-  if (confirm('OK?')) {
-    $('#editDialog').modal('hide');
-    var form = $('#editDialogForm');
-    var id = form.find('.hna-id').val();
-    $(`#${id}`).fadeOut('normal', function() {
-      $(`#${id}`).remove();
-      app.db.pictures.doc(id).delete().then(() => {
-      }).catch((error) => {
-        alert(error);
-      });
-    });
-  }
+  var form = $('#editDialogForm');
+  var id = form.find('.hna-id').val();
+  app.deletePicture(id, function() {$('#editDialog').modal('hide')});
 });
 
 //
@@ -451,34 +482,30 @@ $('#saveTag').on('click', function(event) {
 });
 
 //
-// Batch
+// List Pictures
 //
-$('#goBatch').on('click', function(event) {
-  if (confirm('OK?')) {
-    var token = $('#accessToken').val();
-    var title = $('#title').val();
-  
-    $.ajax({
-      url: 'https://api.dropboxapi.com/2/files/list_folder',
-      type: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      dataType: 'json',
-      data: JSON.stringify({
-        'path': $('#path').val()
-      })
-    }).done((list) => {
-      var urls = [];
-      var createdAt;
-      list.entries.sort(function(a, b) {
-        if (a.client_modified < b.client_modified) return 1;
-        else return -1;
-      }).forEach((item, index, array) => {
-        if (index === 0) {
-          createdAt = new Date(item.client_modified);
-        }
+$('#getPictures').on('click', function(event) {
+  var token = $('#accessToken').val();
+
+  $('#pictureList').empty();
+  $.ajax({
+    url: 'https://api.dropboxapi.com/2/files/list_folder',
+    type: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    dataType: 'json',
+    data: JSON.stringify({
+      'path': $('#path').val()
+    })
+  }).done((list) => {
+    list.entries.sort(function(a, b) {
+      if (a.client_modified < b.client_modified) return -1;
+      else return 1;
+    }).forEach((item, index, array) => {
+      if (item['.tag'] === 'file' && item.name.split('.').pop().match(/jpe?g|png|gif|bmp/i)) {
+        //console.log(item.client_modified);
         $.ajax({
           url: 'https://api.dropboxapi.com/2/sharing/list_shared_links',
           type: 'POST',
@@ -488,7 +515,8 @@ $('#goBatch').on('click', function(event) {
           },
           dataType: 'json',
           data: JSON.stringify({
-            'path': `${item.id}`
+            'path': `${item.id}`,
+            'direct_only': true
           })
         }).done((share) => {
           if (share.links.length === 0) {
@@ -504,31 +532,41 @@ $('#goBatch').on('click', function(event) {
                 'path': `${item.id}`
               })
             }).done((newShare) => {
-              urls.push(newShare.links[0].url);
-              console.log(JSON.stringify(newShare.links[0].url));
-              if (urls.length === array.length) {
-                app.postPicture(urls, title, createdAt);
-              }
+              app.loadPicture(newShare.url, item.client_modified);
             }).fail((error) => {
               console.log(error);
             }).always(() => {
             });
           } else {
-            urls.push(share.links[0].url);
-            console.log(JSON.stringify(share.links[0].url));
-            if (urls.length === array.length) {
-              app.postPicture(urls, title, createdAt);
-            }
-        }
+            app.loadPicture(share.links[0].url, item.client_modified);
+          }
         }).fail((error) => {
           console.log(error);
         }).always(() => {
         });
-      });
-    }).fail((error) => {
-        console.log(error);
-    }).always(() => {
-    })
+      }
+    });
+  }).fail((error) => {
+      console.log(error);
+  }).always(() => {
+  })
+});
+
+//
+// Go Batch
+//
+$('#goBatch').on('click', function(event) {
+  var checked = $('#batchDialog').find('input[name="pictureToAdd"]:checked').get();
+  if (checked.length > 0) {
+    if (confirm('OK?')) {
+      var urls = checked.map((e) => $(e).val());
+      var title = $('#batchDialog').find('#batchTitle').val();
+      var timestamp = new Date(Math.min.apply(null, $('#batchDialog').find('.hna-picture').get().map((e) => new Date($(e).data('timestamp')))));
+      console.log(urls);
+      console.log(title);
+      console.log(timestamp);
+      app.postPicture(urls, title, timestamp);
+    }
   }
   $('#batchDialog').modal('hide');
 });
