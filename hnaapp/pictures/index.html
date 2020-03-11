@@ -110,25 +110,24 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Batch</h5>
+            <h5 class="modal-title">Add from Dropbox</h5>
             <button type="button" class="close" data-dismiss="modal">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <form id="batchForm" class="needs-validation" novalidate>
-              <input id="accessToken" type="hidden" class="form-control">
+              <input id="accessToken" type="hidden">
               <div class="form-group">
                 <div class="input-group d-none">
                   <input id="path" class="form-control" value="/#ladies">
-                  <div class="invalid-feedback">Path is required.</div>
                   <div class="input-group-append">
-                    <button id="getPictures" type="button" class="btn btn-outline-secondary">Load</button>
+                    <button id="getPictures" type="button">Get</button>
                   </div>
                 </div>
                 <!-- Title -->
                 <div class="form-group">
-                  <label for="batchTitle" class="col-form-label">Title</label>
+                  <label for="batchTitle" class="col-form-label">Title (for Single)</label>
                   <input id="batchTitle" class="form-control hna-title">
                 </div>
                 <!-- Type -->
@@ -161,17 +160,15 @@
                   <span id="hnaTags" class="hna-tags"></span>
                 </div>
                 <!-- Pictures -->
+                <div class="form-group mb-1">
+                  <label class="col-form-label">Pictures</label>
+                </div>
                 <div class="form-check form-check-inline">
                   <input type="checkbox" class="form-check-input" style="transform: scale(1.5)" onclick="app.selectAll(this);">
                   <label class="form-check-label">Select All</label>
                 </div>
                 <div class="card mb-2">
-                  <div class="input-group">
-                    <input id="path" class="form-control" value="/#ladies">
-                    <div class="input-group-append">
-                      <button type="button" class="btn btn-outline-secondary" onclick="app.reloadPicture('/#ladies');">↑</button>
-                    </div>
-                  </div>
+                  <button type="button" class="btn btn-outline-secondary w-100" onclick="app.reloadPicture('/#ladies');">/#ladies</button>
                 </div>
                 <div id="pictureList" class="mt-2"></div>
               </div>

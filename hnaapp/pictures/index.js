@@ -3,17 +3,9 @@
 var app = app || {};
 
 (function (app) {
-  app.createImage = (url) => `
-<div class="mb-1">
-  <a class="hna-url" href="${url}">
-    <img class="lazyxx card-img-top" src="${url}">
-  </a>
-</div>
-`;
-
-  app.createCarousel = (url, i) => {
+  app.createCarouselItem = (url, index) => {
     var active = '';
-    if (i === 0) {
+    if (index === 0) {
       active = ' active';
     } else {
       active = '';
@@ -25,13 +17,13 @@ var app = app || {};
 `;
   };
 
-  app.createWomen = (woman) => `
+  app.createWomanBadge = (woman) => `
 <a href="?women=${woman}">
   <span class="badge badge-danger hna-woman">${woman}</span>
 </a>
 `;
 
-  app.createTags = (tag) => `
+  app.createTagBadge = (tag) => `
 <a href="?tags=${tag}">
   <span class="badge badge-danger hna-tag">${tag}</span>
 </a>
@@ -41,7 +33,7 @@ var app = app || {};
 <div id="${id}" class="card box-shadow mb-2">
   <div id="hnaCarousel${id}" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
-      ${data.urls.map(app.createCarousel).join('')}
+      ${data.urls.map(app.createCarouselItem).join('')}
       <a class="carousel-control-prev" href="#hnaCarousel${id}" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
@@ -55,20 +47,14 @@ var app = app || {};
   <div class="card-body pt-2">
     <p class="card-text hna-title">${data.title}</p>
     <span class="hna-women"></span>
-    ${data.tags.map(app.createTags).join('')}
-    <!--
-    <p class="card-text">
-      <small class="text-muted">${data.comment}</small>
-    </p>
-    -->
+    ${data.tags.map(app.createTagBadge).join('')}
     <div class="d-flex justify-content-between align-items-center mt-2">
-      <div class="btn-groupxx">
-        <button type="button" class="btn btn-sm btn-outline-secondary pt-0" data-id="${id}">View</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary pt-0 mr-auto" data-toggle="modal" data-target="#editDialog" data-id="${id}">Edit</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary pt-0" onclick="app.deletePicture('${id}');"">Delele</button>
-
+      <button type="button" class="btn btn-sm btn-outline-secondary pt-0 mr-1" data-id="${id}">View</button>
+      <button type="button" class="btn btn-sm btn-outline-secondary pt-0 mr-auto" data-toggle="modal" data-target="#editDialog" data-id="${id}">Edit</button>
+      <!--
+      <button type="button" class="btn btn-sm btn-outline-secondary pt-0" onclick="app.deletePicture('${id}');">Delele</button>
+      -->
       </div>
-    </div>
     <p class="card-text">
       <small class="text-muted">
         <span class="hna-type">${data.type}</span>
@@ -90,15 +76,15 @@ var app = app || {};
 </div>
 `;
 
-  app.addUrl = function() {
+  app.addUrl = () => {
     $('#pictureUrls').append(app.createUrls(''));
   };
 
-  app.delUrl = function(e) {
+  app.delUrl = (e) => {
     $(e).parent().parent().remove();
   };
 
-  app.postPicture = function(urls, title, createdAt) {
+  app.postPicture = (urls, title, createdAt) => {
     var timestamp = new Date();
     var fields = {
       urls: urls.map((e) => e.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '')),
@@ -112,7 +98,7 @@ var app = app || {};
       //$('#batchDialog').modal('hide');
       $('#pictures').prepend(app.createCard(doc.id, fields, fields.createdAt));
       //women.forEach((w) => {
-      //  $(`#${doc.id}`).find('.hna-women').append(app.createWomen(w));
+      //  $(`#${doc.id}`).find('.hna-women').append(app.createWomanBadge(w));
       //});
     }).then(function() {
       //$('img.lazy').lazyload({
@@ -158,12 +144,15 @@ var app = app || {};
   app.showFolder = (name, title, timestamp) => {
     $('#pictureList').append(`
 <div class="card mb-2">
+  <button type="button" class="btn btn-outline-secondary w-100" onclick="app.reloadPicture('${name}');">${name}</button>
+  <!--
   <div class="input-group">
     <input id="path" class="form-control" value="${name}">
     <div class="input-group-append">
       <button type="button" class="btn btn-outline-secondary" onclick="app.reloadPicture('${name}');">↑</button>
     </div>
   </div>
+  -->
 </div>
 `);
   };
@@ -240,12 +229,6 @@ $(function() {
 
   // Pictures
   var query = app.db.pictures;
-  //if (app.args.has('series')) {
-  //  query = query.where('series', '==', app.args.get('series'));
-  //} else {
-  //  query = query.where('num', '==', 0);
-  //}
-  console.log(app.args);
   if (app.args.has('type')) {
     query = query.where('type', '==', app.args.get('type'));
   }
@@ -277,7 +260,7 @@ $(function() {
         var women = $(`#${doc.id}`).find('.hna-women');
         doc.data().women.forEach((ref) => {
           ref.get().then((w) => {
-            women.append(app.createWomen(w.id));
+            women.append(app.createWomanBadge(w.id));
           });
         });
       }
@@ -402,7 +385,7 @@ $('#saveChanges').on('click', function(event) {
         console.log(fields.updatedAt);
         $(`#${id}`).replaceWith(app.createCard(id, fields, createdAt));
         women.forEach((w) => {
-          $(`#${id}`).find('.hna-women').append(app.createWomen(w));
+          $(`#${id}`).find('.hna-women').append(app.createWomanBadge(w));
         });
       }).then(function() {
         $('img.lazy').lazyload({
@@ -418,7 +401,7 @@ $('#saveChanges').on('click', function(event) {
         $('#editDialog').modal('hide');
         $('#pictures').prepend(app.createCard(doc.id, fields, fields.createdAt));
         women.forEach((w) => {
-          $(`#${doc.id}`).find('.hna-women').append(app.createWomen(w));
+          $(`#${doc.id}`).find('.hna-women').append(app.createWomanBadge(w));
         });
       }).then(function() {
         $('img.lazy').lazyload({
