@@ -251,6 +251,7 @@ $(function() {
     query = query.where('tags', 'array-contains-any', app.args.get('tags').split(','));
   }
   query.get().then((ref) => {
+    $('#pictureCount').text(ref.size);
     // Sort by create timestamp in descending order
     ref.docs.sort(function(a, b) {
       if (a.data().createdAt < b.data().createdAt) return 1;
