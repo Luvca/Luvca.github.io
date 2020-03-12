@@ -194,7 +194,7 @@ $(function() {
     app.womenSelect = new SelectPure('#hnaWomen', {
       options: options,
       multiple: true,
-      autocomplete: true,
+      //autocomplete: true,
       icon: 'fa fa-times',
       value: value
     });
