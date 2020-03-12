@@ -368,14 +368,14 @@ $('#batchDialog').on('show.bs.modal', function(event) {
 //
 $('#womanDialog').on('show.bs.modal', function(event) {
   $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
-)};
+});
 
 //
 // Tag Dialog
 //
 $('#tagDialog').on('show.bs.modal', function(event) {
   $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
-)};
+});
 
 //
 // Save Picture
