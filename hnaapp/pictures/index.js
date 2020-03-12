@@ -356,7 +356,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
 // Batch Dialog
 //
 $('#batchDialog').on('show.bs.modal', function(event) {
-  $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
+  //$(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
   console.log(app.args.get('k'));
   $(this).find('#accessToken').val(app.args.get('k'));
   $('#path').val('/#ladies');
