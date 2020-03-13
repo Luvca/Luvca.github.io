@@ -3,32 +3,7 @@
 var app = app || {};
 
 (function (app) {
-  app.createCarouselItem = (url, index) => {
-    var active = '';
-    if (index === 0) {
-      active = ' active';
-    } else {
-      active = '';
-    }
-    return `
-<div class="carousel-item${active}">
-  <img class="d-block w-100 hna-url" src="${url}">
-</div>
-`;
-  };
-
-  app.createWomanBadge = (woman) => `
-<a href="?women=${woman}">
-  <span class="badge badge-danger hna-woman">${woman}</span>
-</a>
-`;
-
-  app.createTagBadge = (tag) => `
-<a href="?tags=${tag}">
-  <span class="badge badge-danger hna-tag">${tag}</span>
-</a>
-`;
-
+  // Card
   app.createCard = (id, data, timestamp) => `
 <div id="${id}" class="card box-shadow mb-2">
   <div id="hnaCarousel${id}" class="carousel slide" data-ride="carousel">
@@ -60,7 +35,6 @@ var app = app || {};
         <span class="hna-type">${data.type}</span>
         <span>&#x00D7;</span>
         <span>${data.urls.length}</span>
-        <span class="hna-presence d-none">${data.presence}</span>
         <span class="hna-timestamp">${timestamp.toLocaleString('ja-JP').replace(/\//g, '-')}</span>
       </small>
     </p>
@@ -68,14 +42,102 @@ var app = app || {};
 </div>
 `;
 
-  app.createUrls = (url) => `
-<div class="input-group">
-  <input name="hnaUrl" class="form-control" value="${url}">
-  <div class="input-group-append">
-    <button type="button" class="form-control" onclick="app.delUrl(this);">&times;</button>
+  // Carousel Item
+  app.createCarouselItem = (url, index) => {
+    var active = '';
+    if (index === 0) {
+      active = ' active';
+    } else {
+      active = '';
+    }
+    return `
+  <div class="carousel-item${active}">
+  <img class="d-block w-100 hna-url" src="${url}">
   </div>
+  `;
+  };
+
+  // Women badge
+  app.createWomanBadge = (woman) => `
+<a href="?women=${woman}">
+  <span class="badge badge-danger hna-woman">${woman}</span>
+</a>
+`;
+
+  // Tag badge
+  app.createTagBadge = (tag) => `
+<a href="?tags=${tag}">
+  <span class="badge badge-danger hna-tag">${tag}</span>
+</a>
+`;
+
+  // Type radio
+  app.createTypeRadio = (type) => `
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="type" id="type${type}" value="${type}" required>
+  <label class="form-check-label" for="type${type}">${type}</label>
 </div>
 `;
+
+  // Women select
+  app.createWomenSelectOptions = (callback) => {
+    app.womenSelectOptions = [];
+    app.db.women.orderBy('phoneticName').get().then((ref) => {
+      ref.forEach(function(e) {
+        app.womenSelectOptions.push({ label: e.data().name, value: e.id});
+        if (app.womenSelectOptions.length === ref.size) {
+          if (callback) {
+            callback();
+          }
+        }
+      })
+    })
+  };
+
+  app.createWomenSelect = (id, value) => {
+    return new SelectPure(id, {
+      options: app.womenSelectOptions,
+      multiple: true,
+      //autocomplete: true,
+      icon: 'fa fa-times',
+      value: value
+    });
+  };
+
+  // Tags select
+  app.createTagsSelectOptions = (callback) => {
+    app.tagsSelectOptions = [];
+    app.db.tags.get().then((ref) => {
+      app.tagsSelectOptions = [];
+      ref.forEach((doc) => {
+        app.tagsSelectOptions.push({ label: doc.id, value: doc.id});
+        if (app.tagsSelectOptions.length === ref.size) {
+          if (callback) {
+            callback();
+          }
+        }
+      })
+    })
+  };
+
+  app.createTagsSelect = (id, value) => {
+    return new SelectPure(id, {
+      options: app.tagsSelectOptions,
+      multiple: true,
+      //autocomplete: true,
+      icon: 'fa fa-times',
+      value: value
+    });
+  };
+
+  app.createUrls = (url) => `
+  <div class="input-group">
+    <input name="hnaUrl" class="form-control" value="${url}">
+    <div class="input-group-append">
+      <button type="button" class="form-control" onclick="app.delUrl(this);">&times;</button>
+    </div>
+  </div>
+  `;
 
   app.addUrl = () => {
     $('#pictureUrls').append(app.createUrls(''));
@@ -85,12 +147,13 @@ var app = app || {};
     $(e).parent().parent().remove();
   };
 
-  app.postPicture = (urls, title, createdAt) => {
+  app.postPicture = (urls, title, women, tags, createdAt) => {
     var timestamp = new Date();
     var fields = {
       urls: urls.map((e) => e.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '')),
       title: title,
-      tags: ['new'],
+      women: women.map((w) => app.db.women.doc(w)),
+      tags: tags,
       createdAt: createdAt,
       updatedAt: timestamp
     };
@@ -184,34 +247,31 @@ $(function() {
 
   app.db = firebase.firestore();
   app.db.pictures = app.db.collection('pictures');
+  app.db.types = app.db.collection('types');
   app.db.women = app.db.collection('women');
   app.db.tags = app.db.collection('tags');
 
-  // Select for women
-  app.womenSelect = {};
-  app.womenSelectOptions = [];
-  app.createWomenSelect = function(options, value) {
-    app.womenSelect = new SelectPure('#hnaWomen', {
-      options: options,
-      multiple: true,
-      //autocomplete: true,
-      icon: 'fa fa-times',
-      value: value
-    });
-  };
+  // Types radio
+  app.db.types.get().then((ref) => {
+    ref.docs.sort((a, b) => {
+      if (a.id < b.id) return 1;
+      else return -1;
+    }).forEach((e) => {
+      $('#hnaTypes').append(app.createTypeRadio(e.id));
+    })
+  });
 
-  // Select for tags
-  app.tagsSelect = {};
+  // Women select
+  app.womenSelectOptions = [];
+  app.createWomenSelectOptions();
+  app.womenSelectEdit = {};
+  app.womenSelectBatch = {};
+
+  // Tags select
   app.tagsSelectOptions = [];
-  app.createTagsSelect = function(options, value) {
-    app.tagsSelect = new SelectPure('#hnaTags', {
-      options: options,
-      multiple: true,
-      //autocomplete: true,
-      icon: 'fa fa-times',
-      value: value
-    });
-  };
+  app.createTagsSelectOptions();
+  app.tagsSelectEdit = {};
+  app.tagsSelectBatch = {};
 
   // File
   /*var uploadFile = document.getElementById('uploadFile');
@@ -233,9 +293,9 @@ $(function() {
   if (app.args.has('type')) {
     query = query.where('type', '==', app.args.get('type'));
   }
-  if (app.args.has('presence')) {
-    query = query.where('presence', '==', app.args.get('presence'));
-  }
+  //if (app.args.has('presence')) {
+  //  query = query.where('presence', '==', app.args.get('presence'));
+  //}
   if (app.args.has('women')) {
     //query = query.where('women', 'array-contains-any', app.args.get('women').split(','));
     query = query.where('women', 'array-contains-any', app.args.get('women').split(',').map((e) => {
@@ -298,16 +358,18 @@ $(function() {
   }
 });
 
+$(document).on('hidden.bs.modal', '.modal', function () {
+  $('.modal:visible').length && $(document.body).addClass('modal-open');
+});
+
 //
 // Edit Dialog
 //
 $('#editDialog').on('show.bs.modal', function(event) {
   $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
-  $(this).find('#editDialogForm').removeClass('was-validated');
   $('#hnaWomen').text('');
   $('#hnaTags').text('');
-  var women = [];
-  var tags = [];
+  $(this).find('#editDialogForm').removeClass('was-validated');
   var id = $(event.relatedTarget).data('id');
   if (id) {
     var card = $(`#${id}`);
@@ -324,50 +386,51 @@ $('#editDialog').on('show.bs.modal', function(event) {
     $(this).find('.hna-timestamp').val(card.find('.hna-timestamp').text());
     $(this).find('.hna-title').val(card.find('.hna-title').text());
     $(this).find('input[name="type"]').filter(`[value=${card.find('.hna-type').text()}]`).prop('checked', true);
-    $(this).find('input[name="presence"]').filter(`[value=${card.find('.hna-presence').text()}]`).prop('checked', true);
-    women = card.find('.hna-woman').map((i, v) => $(v).text()).get();
-    tags = card.find('.hna-tag').map((i, v) => $(v).text()).get()
-  } else {
+    //$(this).find('input[name="presence"]').filter(`[value=${card.find('.hna-presence').text()}]`).prop('checked', true);
+    var women = new Set(card.find('.hna-woman').map((i, v) => $(v).text()).get());
+    var dbWomen = new Set(app.womenSelectOptions.map((e) => e.label));
+    var existWomen = Array.from(new Set([...women].filter(e => (dbWomen.has(e)))));
+    var tags = new Set(card.find('.hna-tag').map((i, v) => $(v).text()).get());
+    var dbTags = new Set(app.tagsSelectOptions.map((e) => e.label));
+    var existTags = Array.from(new Set([...tags].filter(e => (dbTags.has(e)))));
+    app.womenSelectEdit = app.createWomenSelect('#hnaWomen', existWomen);
+    app.tagsSelectEdit = app.createTagsSelect('#hnaTags', existTags);
+    } else {
     $(this).find('.modal-title').text('Add');
     $(this).find('.hna-id').val('');
     $(this).find('.hna-timestamp').val('');
-  }
-
-  app.db.women.orderBy('phoneticName').get().then(function(docs) {
-    app.womenSelectOptions = [];
-    docs.forEach(function(doc) {
-      app.womenSelectOptions.push({ label: doc.data().name, value: doc.id});
-    })
-  }).then(function() {
-    app.createWomenSelect(app.womenSelectOptions, women);
-  });
-
-  app.db.tags.get().then(function(docs) {
-    app.tagsSelectOptions = [];
-    docs.forEach(function(doc) {
-      app.tagsSelectOptions.push({ label: doc.id, value: doc.id});
-    })
-  }).then(function() {
-    app.createTagsSelect(app.tagsSelectOptions, tags);
-  });
+    app.womenSelectEdit = app.createWomenSelect('#hnaWomen');
+    app.tagsSelectEdit = app.createTagsSelect('#hnaTags');
+    }
 });
 
 //
 // Batch Dialog
 //
 $('#batchDialog').on('show.bs.modal', function(event) {
-  //$(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
+  $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
+  $('#hnaWomenBatch').text('');
+  $('#hnaTagsBatch').text('');
   console.log(app.args.get('k'));
   $(this).find('#accessToken').val(app.args.get('k'));
   $('#path').val('/#ladies');
+  
+  app.womenSelectBatch = app.createWomenSelect('#hnaWomenBatch');
+  app.tagsSelectBatch = app.createTagsSelect('#hnaTagsBatch');
+
   $('#getPictures').click();
 });
-/*
+
 //
 // Woman Dialog
 //
 $('#womanDialog').on('show.bs.modal', function(event) {
   $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
+  var source = $(event.relatedTarget).data('source');
+  var select = $(event.relatedTarget).data('select');
+  var women = $(source).find('.select-pure__selected-label').get().map((e) => $(e).text());
+  $('#selectedWomen').val(JSON.stringify(women));
+  $('#targetWomen').val(select);
 });
 
 //
@@ -375,8 +438,13 @@ $('#womanDialog').on('show.bs.modal', function(event) {
 //
 $('#tagDialog').on('show.bs.modal', function(event) {
   $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
+  var source = $(event.relatedTarget).data('source');
+  var select = $(event.relatedTarget).data('select');
+  var tags = $(source).find('.select-pure__selected-label').get().map((e) => $(e).text());
+  $('#selectedTags').val(JSON.stringify(tags));
+  $('#targetTags').val(select);
 });
-*/
+
 //
 // Save Picture
 //
@@ -388,20 +456,19 @@ $('#saveChanges').on('click', function(event) {
     var timestamp = new Date();
     var id = form.find('.hna-id').val();
     var createdAt = form.find('.hna-timestamp').val();
-    var women = app.womenSelect.value();
+    var women = app.womenSelectEdit.value();
     var fields = {
       urls: form.find('input[name="hnaUrl"]').serializeArray().map((e) => e.value).filter((e) => e.length > 0),
       title: form.find('.hna-title').val(),
       type: form.find('input[name="type"]:checked').val(),
-      presence: form.find('input[name="presence"]:checked').val(),
+      //presence: form.find('input[name="presence"]:checked').val(),
       women: women.map((w) => app.db.women.doc(w)),
-      tags: app.tagsSelect.value(),
+      tags: app.tagsSelectEdit.value(),
       updatedAt: timestamp
     };
     if (id) {
       app.db.pictures.doc(id).set(fields, { merge: true }).then(function() {
         $('#editDialog').modal('hide');
-        console.log(fields.updatedAt);
         $(`#${id}`).replaceWith(app.createCard(id, fields, createdAt));
         women.forEach((w) => {
           $(`#${id}`).find('.hna-women').append(app.createWomanBadge(w));
@@ -431,7 +498,6 @@ $('#saveChanges').on('click', function(event) {
         alert(error);
       });
     }
-    //$('html,body').animate({ scrollTop: $('セレクタ').offset().top} );
   } else {
     form.addClass('was-validated');
   }
@@ -464,17 +530,23 @@ $('#saveWoman').on('click', function(event) {
       createdAt: timestamp,
       updatedAt: timestamp
     };
-    app.db.women.doc(name).set(fields).then(function() {
-      app.womenSelectOptions.push({ label: name, value: name });
-      var women = app.womenSelect.value();
-      women.push(name);
-      $('#hnaWomen').text('');
-      app.createWomenSelect(app.womenSelectOptions, women);
-      $('#womanDialog').modal('hide');
+    app.db.women.doc(name).set(fields).then(() => {
+      app.createWomenSelectOptions(() => {
+        var target = $('#targetWomen').val();
+        var women = JSON.parse($('#selectedWomen').val());
+        women.push(name);
+        $('.hna-women').text('');
+        if (target == '#hnaWomen') {
+          app.womenSelectEdit = app.createWomenSelect(target, women);
+        } else {
+          app.womenSelectBatch = app.createWomenSelect(target, women);
+        }
+      });
     }).catch(function(error) {
       console.log(error);
       alert(error);
     });
+    $('#womanDialog').modal('hide');
   } else {
     form.addClass('was-validated');
   }
@@ -495,17 +567,23 @@ $('#saveTag').on('click', function(event) {
       createdAt: timestamp,
       updatedAt: timestamp
     };
-    app.db.tags.doc(id).set(fields).then(function() {
-      app.tagsSelectOptions.push({ label: id, value: id });
-      var tags = app.tagsSelect.value();
-      tags.push(id);
-      $('#hnaTags').text('');
-      app.createTagsSelect(app.tagsSelectOptions, tags);
-      $('#tagDialog').modal('hide');
+    app.db.tags.doc(id).set(fields).then(() => {
+      app.createTagsSelectOptions(() => {
+        var target = $('#targetTags').val();
+        var tags = JSON.parse($('#selectedTags').val());
+        tags.push(id);
+        $('.hna-tags').text('');
+        if (target == '#hnaTags') {
+          app.tagsSelectEdit = app.createTagsSelect(target, tags);
+        } else {
+          app.tagsSelectBatch = app.createTagsSelect(target, tags);
+        }
+      });
     }).catch(function(error) {
       console.log(error);
       alert(error);
     });
+    $('#tagsDialog').modal('hide');
   } else {
     form.addClass('was-validated');
   }
@@ -590,6 +668,11 @@ $('#getPictures').on('click', function(event) {
 //
 $('#goBatchSingle').on('click', function(event) {
   var checked = $('#batchDialog').find('input[name="pictureToAdd"]:checked').get();
+  var women = app.womenSelectBatch.value();
+  if (!women) women = [];
+  var tags = app.tagsSelectBatch.value();
+  if (!tags) tags = [];
+  else if (!tags.includes('new')) tags.push('new');
   if (checked.length > 0) {
     if (confirm('OK?')) {
       var urls = checked.map((e) => $(e).val());
@@ -598,23 +681,28 @@ $('#goBatchSingle').on('click', function(event) {
       console.log(urls);
       console.log(title);
       console.log(timestamp);
-      app.postPicture(urls, title, timestamp);
+      app.postPicture(urls, title, women, tags, timestamp);
+      $('#batchDialog').modal('hide');
     }
   }
-  $('#batchDialog').modal('hide');
 });
 
 $('#goBatchMulti').on('click', function(event) {
   var checked = $('#batchDialog').find('input[name="pictureToAdd"]:checked').get();
+  var women = app.womenSelectBatch.value();
+  if (!women) women = [];
+  var tags = app.tagsSelectBatch.value();
+  if (!tags) tags = [];
+  else if (!tags.includes('new')) tags.push('new');
   if (checked.length > 0) {
     if (confirm('OK?')) {
+      $('#batchDialog').modal('hide');
       checked.forEach((e) => {
         console.log($(e).val());
         console.log($(e).data('title'));
         console.log($(e).data('timestamp'));
-        app.postPicture([$(e).val()], $(e).data('title'), new Date($(e).data('timestamp')))
+        app.postPicture([$(e).val()], $(e).data('title'), women, tags, new Date($(e).data('timestamp')))
       });
     }
   }
-  $('#batchDialog').modal('hide');
 });
