@@ -19,16 +19,35 @@
       <div class="collapse" id="hnaMenu">
         <div class="bg-dark p-2">
           <h4 class="text-white">Fruits Basket</h4>
-          <div id="pictureCount"></div>
-          <ul class="nav navbar-nav text-muted">
-            <li class="nav-item">
-              <a class="nav-link" href=".">Recent</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="?type=video">Video Collection</a>
-            </li>
-          </ul>
-          </div>
+          <small id="pictureCount" class="text-muted"></small>
+          <nav class="navbar navbar-dark">
+            <ul class="navbar-nav w-100">
+              <li class="nav-item">
+                <a class="nav-link" href=".">History</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="?recent">Recent</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="?type=video">Video Collection</a>
+              </li>
+              <li class="nav-item">
+                <div class="input-group">
+                  <input id="womenSearch" class="form-control" placeholder="Women">
+                  <div class="input-group-append">
+                    <button type="button" class="form-control" onclick="location.href = '?women=' + document.getElementById('womenSearch').value;">&#128269;</button>
+                  </div>
+                </div>
+                <div class="input-group">
+                  <input id="tagsSearch" class="form-control" placeholder="Tags">
+                  <div class="input-group-append">
+                    <button type="button" class="form-control" onclick="location.href = '?tags=' + document.getElementById('tagsSearch').value;">&#128269;</button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </div>
     <main role="main">

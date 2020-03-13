@@ -289,25 +289,26 @@ $(function() {
   //  query = query.where('presence', '==', app.args.get('presence'));
   //}
   if (app.args.has('women')) {
-    //query = query.where('women', 'array-contains-any', app.args.get('women').split(','));
     query = query.where('women', 'array-contains-any', app.args.get('women').split(',').map((e) => {
       //console.log(e);
       return app.db.women.doc(e);
     }));
-    //console.log(app.args.get('women').split(','));
-    //console.log(app.args.get('women').split(',').map((e) => {
-    //  console.log(e);
-    //  return app.db.women.doc(e);
-    //}));
-  } else if (app.args.has('tags')) {
+  }
+  if (app.args.has('tags')) {
     query = query.where('tags', 'array-contains-any', app.args.get('tags').split(','));
   }
   query.get().then((ref) => {
     $('#pictureCount').text(ref.size);
     // Sort by create timestamp in descending order
+    console.log(app.args.get('o'));
     ref.docs.sort(function(a, b) {
-      if (a.data().createdAt < b.data().createdAt) return 1;
-      else return -1;
+      if (app.args.has('recent')) {
+        if (a.data().updatedAt < b.data().updatedAt) return 1;
+        else return -1;
+      } else {
+        if (a.data().createdAt < b.data().createdAt) return 1;
+        else return -1;
+      }
     }).forEach((doc) => {
       $('#pictures').append(app.createCard(doc.id, doc.data(), doc.data().createdAt.toDate()));
       if (doc.data().women) {
