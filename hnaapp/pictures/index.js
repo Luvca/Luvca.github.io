@@ -208,15 +208,7 @@ var app = app || {};
   app.showFolder = (name, title, timestamp) => {
     $('#pictureList').append(`
 <div class="card mb-2">
-  <button type="button" class="btn btn-outline-secondary w-100" onclick="app.reloadPicture('${name}');">${name}</button>
-  <!--
-  <div class="input-group">
-    <input id="path" class="form-control" value="${name}">
-    <div class="input-group-append">
-      <button type="button" class="btn btn-outline-secondary" onclick="app.reloadPicture('${name}');">↑</button>
-    </div>
-  </div>
-  -->
+  <button type="button" class="btn btn-outline-info btn-block" onclick="app.reloadPicture('${name}');">${name}</button>
 </div>
 `);
   };
