@@ -10,11 +10,11 @@ var app = app || {};
     <div class="carousel-inner">
       ${data.urls.map(app.createCarouselItem).join('')}
       <a class="carousel-control-prev" href="#hnaCarousel${id}" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="carousel-control-prev-icon"></span>
         <span class="sr-only">Previous</span>
       </a>
       <a class="carousel-control-next" href="#hnaCarousel${id}" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="carousel-control-next-icon"></span>
         <span class="sr-only">Next</span>
       </a>
     </div>
@@ -131,6 +131,31 @@ var app = app || {};
     });
   };
 
+  // Filter by type
+  app.typeSearch = () => {
+    $('#pictures').empty();
+    $('#womenSearch').val('');
+    $('#tagsSearch').val('');
+    app.lastVisible = null;
+    app.readPicture();
+  };
+
+  // Filter by women
+  app.womenSearch = () => {
+    $('#pictures').empty();
+    $('#tagsSearch').val('');
+    app.lastVisible = null;
+    app.readPicture();
+  };
+
+  // Filter by tags
+  app.tagsSearch = () => {
+    $('#pictures').empty();
+    $('#womenSearch').val('');
+    app.lastVisible = null;
+    app.readPicture();
+  };
+
   app.createUrls = (url) => `
   <div class="input-group">
     <input name="hnaUrl" class="form-control" value="${url}">
@@ -185,47 +210,36 @@ var app = app || {};
         alert(error);
       });
     };
-  }
+  };
 
   app.readPicture = () => {
     var query = app.db.pictures;
-    if (app.args.has('type')) {
-      query = query.where('type', '==', app.args.get('type'));
-    }
-    //if (app.args.has('presence')) {
-    //  query = query.where('presence', '==', app.args.get('presence'));
-    //}
-    if (app.args.has('women')) {
-      query = query.where('women', 'array-contains-any', app.args.get('women').split(',').map((e) => {
-        //console.log(e);
-        return app.db.women.doc(e);
-      }));
-    }
-    if (app.args.has('tags')) {
-      query = query.where('tags', 'array-contains-any', app.args.get('tags').split(','));
+    if ($('#typeSearch').val().length > 0) {
+      query = query.where('type', '==', $('#typeSearch').val());
+    } else if ($('#womenSearch').val().length > 0) {
+      console.log($('#womenSearch').val());
+      //query = query.where('women', 'array-contains-any', s('#womenSearch').val().split(',').map((e) => {
+      //  return app.db.women.doc(e);
+      //}));
+      query = query.where('women', 'array-contains-any', $('#womenSearch').val().split(','));
+    } else if ($('#tagsSearch').val().length > 0) {
+      console.log($('#tagsSearch').val());
+      query = query.where('tags', 'array-contains-any', $('#tagsSearch').val().split(','));
     }
   
-    if (app.args.has('recent')) {
-      query = query.orderBy('updatedAt', 'desc');
-    } else {
-      query = query.orderBy('createdAt', 'desc');
-    }
+    query = query.orderBy($('input[name="hnaOrderBy"]:checked').val(), 'desc');
 
     if (app.lastVisible) {
+      console.log('startAfter');
       query = query.startAfter(app.lastVisible);
     }
   
-    if (app.args.has('limit')) {
-      query = query.limit(parseInt(app.args.get('limit')));
-    } else {
-      query = query.limit(25);
-    }
+    query = query.limit(parseInt($('#hnaLimit').val()));
   
     query.get().then((ref) => {
       if (ref.size === 0) {
         $('#readNext').prop('disabled', true);
       }
-      $('#pictureCount').text(ref.size);
       // Get the last visible document
       app.lastVisible = ref.docs[ref.docs.length - 1];
       // Sort by create timestamp in descending order
@@ -301,6 +315,15 @@ var app = app || {};
 $(function() {
   // URL parameters
   app.args = new URLSearchParams(location.search);
+  if (app.args.has('type')) $('#typeSearch').val(app.args.get('type'));
+  if (app.args.has('women')) $('#womenSearch').val(app.args.get('women'));
+  if (app.args.has('tags')) $('#tagsSearch').val(app.args.get('tags'))
+  if (app.args.has('recent')) {
+    $('#hnaOrderByUpdatedAt').prop('checked', true);
+  } else {
+    $('#hnaOrderByCreatedAt').prop('checked', true);
+  }
+  if (app.args.has('limit')) $('#hnaLimit').val(app.args.get('limit'));
 
   // Firebase project configuration
   var firebaseConfig = {
@@ -495,14 +518,14 @@ $('#saveChanges').on('click', function(event) {
       app.db.pictures.doc(id).set(fields, { merge: true }).then(function() {
         $('#editDialog').modal('hide');
         $(`#${id}`).replaceWith(app.createCard(id, fields, createdAt));
-        women.forEach((w) => {
-          $(`#${id}`).find('.hna-women').append(app.createWomanBadge(w));
-        });
+        //women.forEach((w) => {
+        //  $(`#${id}`).find('.hna-women').append(app.createWomanBadge(w));
+        //});
       }).then(function() {
-        $('img.lazy').lazyload({
-          effect: 'fadeIn',
-          effectspeed: 1000
-        });
+        //$('img.lazy').lazyload({
+        //  effect: 'fadeIn',
+        //  effectspeed: 1000
+        //});
       }).catch(function(error) {
         alert(error);
       });
@@ -511,14 +534,14 @@ $('#saveChanges').on('click', function(event) {
       app.db.pictures.add(fields).then(function(doc) {
         $('#editDialog').modal('hide');
         $('#pictures').prepend(app.createCard(doc.id, fields, fields.createdAt));
-        women.forEach((w) => {
-          $(`#${doc.id}`).find('.hna-women').append(app.createWomanBadge(w));
-        });
+        //women.forEach((w) => {
+        //  $(`#${doc.id}`).find('.hna-women').append(app.createWomanBadge(w));
+        //});
       }).then(function() {
-        $('img.lazy').lazyload({
-          effect: 'fadeIn',
-          effectspeed: 1000
-        });
+        //$('img.lazy').lazyload({
+        //  effect: 'fadeIn',
+        //  effectspeed: 1000
+        //});
       }).catch(function(error) {
         alert(error);
       });

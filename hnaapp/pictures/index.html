@@ -19,30 +19,41 @@
       <div class="collapse" id="hnaMenu">
         <div class="bg-dark p-2">
           <h4 class="text-white">Fruits Basket</h4>
-          <small id="pictureCount" class="text-muted"></small>
           <nav class="navbar navbar-dark">
             <ul class="navbar-nav w-100">
               <li class="nav-item">
-                <a class="nav-link" href=".">History</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="?recent">Recent</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="?type=video">Video Collection</a>
+                <div class="input-group">
+                  <input id="typeSearch" class="form-control" placeholder="(Type)">
+                  <div class="input-group-append">
+                    <button type="button" class="form-control" onclick="app.typeSearch();">&#128269;</button>
+                  </div>
+                </div>
               </li>
               <li class="nav-item">
                 <div class="input-group">
-                  <input id="womenSearch" class="form-control" placeholder="Women">
+                  <input id="womenSearch" class="form-control" placeholder="(Women)">
                   <div class="input-group-append">
-                    <button type="button" class="form-control" onclick="location.href = '?women=' + document.getElementById('womenSearch').value;">&#128269;</button>
+                    <button type="button" class="form-control" onclick="app.womenSearch();">&#128269;</button>
                   </div>
                 </div>
                 <div class="input-group">
-                  <input id="tagsSearch" class="form-control" placeholder="Tags">
+                  <input id="tagsSearch" class="form-control" placeholder="(Tags)">
                   <div class="input-group-append">
-                    <button type="button" class="form-control" onclick="location.href = '?tags=' + document.getElementById('tagsSearch').value;">&#128269;</button>
+                    <button type="button" class="form-control" onclick="app.tagsSearch();">&#128269;</button>
                   </div>
+                </div>
+              </li>
+              <li class="nav-item">
+                <input id="hnaLimit" class="custom-range" type="range" min="0" max="100" step="5" value="25">
+              </li>
+              <li class="nav-item">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="hnaOrderBy" id="hnaOrderByCreatedAt" value="createdAt" checked>
+                  <label class="form-check-label text-muted" for="hnaOrderByCreatedAt">Created at</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="hnaOrderBy" id="hnaOrderByUpdatedAt" value="updatedAt">
+                  <label class="form-check-label text-muted" for="hnaOrderByUpdatedAt">Updated at</label>
                 </div>
               </li>
             </ul>
