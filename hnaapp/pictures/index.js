@@ -187,6 +187,78 @@ var app = app || {};
     };
   }
 
+  app.readPicture = () => {
+    var query = app.db.pictures;
+    if (app.args.has('type')) {
+      query = query.where('type', '==', app.args.get('type'));
+    }
+    //if (app.args.has('presence')) {
+    //  query = query.where('presence', '==', app.args.get('presence'));
+    //}
+    if (app.args.has('women')) {
+      query = query.where('women', 'array-contains-any', app.args.get('women').split(',').map((e) => {
+        //console.log(e);
+        return app.db.women.doc(e);
+      }));
+    }
+    if (app.args.has('tags')) {
+      query = query.where('tags', 'array-contains-any', app.args.get('tags').split(','));
+    }
+  
+    if (app.args.has('recent')) {
+      query = query.orderBy('updatedAt', 'desc');
+    } else {
+      query = query.orderBy('createdAt', 'desc');
+    }
+
+    if (app.lastVisible) {
+      query = query.startAfter(app.lastVisible);
+    }
+  
+    if (app.args.has('limit')) {
+      query = query.limit(parseInt(app.args.get('limit')));
+    } else {
+      query = query.limit(25);
+    }
+  
+    query.get().then((ref) => {
+      if (ref.size === 0) {
+        $('#readNext').prop('disabled', true);
+      }
+      $('#pictureCount').text(ref.size);
+      // Get the last visible document
+      app.lastVisible = ref.docs[ref.docs.length - 1];
+      // Sort by create timestamp in descending order
+      ref.docs/*.sort(function(a, b) {
+        if (app.args.has('recent')) {
+          if (a.data().updatedAt < b.data().updatedAt) return 1;
+          else return -1;
+        } else {
+          if (a.data().createdAt < b.data().createdAt) return 1;
+          else return -1;
+        }
+      })*/.forEach((doc) => {
+        $('#pictures').append(app.createCard(doc.id, doc.data(), doc.data().createdAt.toDate()));
+        /*
+        if (doc.data().women) {
+          var women = $(`#${doc.id}`).find('.hna-women');
+          doc.data().women.forEach((ref) => {
+            ref.get().then((w) => {
+              women.append(app.createWomanBadge(w.id));
+            });
+          });
+        }
+        */
+      /*}).then(() => {
+      $('img.lazy').lazyload({
+        effect: 'fadeIn',
+        effectspeed: 1000*/
+      });
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+
   app.loadPicture = (id, name, timestamp, callback) => {
     $('#pictureList').append(`
 <div id="${id.substring(3)}" class="card mb-2"></div>
@@ -265,6 +337,9 @@ $(function() {
   app.tagsSelectEdit = {};
   app.tagsSelectBatch = {};
 
+  app.lastVisible;
+  app.readPicture();
+
   // File
   /*var uploadFile = document.getElementById('uploadFile');
   uploadFile.addEventListener('change', function (e) {
@@ -280,67 +355,7 @@ $(function() {
     fr.readAsDataURL(file);
   });*/
 
-  // Pictures
-  var query = app.db.pictures;
-  if (app.args.has('type')) {
-    query = query.where('type', '==', app.args.get('type'));
-  }
-  //if (app.args.has('presence')) {
-  //  query = query.where('presence', '==', app.args.get('presence'));
-  //}
-  if (app.args.has('women')) {
-    query = query.where('women', 'array-contains-any', app.args.get('women').split(',').map((e) => {
-      //console.log(e);
-      return app.db.women.doc(e);
-    }));
-  }
-  if (app.args.has('tags')) {
-    query = query.where('tags', 'array-contains-any', app.args.get('tags').split(','));
-  }
-
-  if (app.args.has('recent')) {
-    query = query.orderBy('updatedAt', 'desc');
-  } else {
-    query = query.orderBy('createdAt', 'desc');
-  }
-
-  if (app.args.has('limit')) {
-    query = query.limit(parseInt(app.args.get('limit')));
-  } else {
-    query = query.limit(25);
-  }
-
-  query.get().then((ref) => {
-    $('#pictureCount').text(ref.size);
-    // Sort by create timestamp in descending order
-    ref.docs/*.sort(function(a, b) {
-      if (app.args.has('recent')) {
-        if (a.data().updatedAt < b.data().updatedAt) return 1;
-        else return -1;
-      } else {
-        if (a.data().createdAt < b.data().createdAt) return 1;
-        else return -1;
-      }
-    })*/.forEach((doc) => {
-      $('#pictures').append(app.createCard(doc.id, doc.data(), doc.data().createdAt.toDate()));
-      /*
-      if (doc.data().women) {
-        var women = $(`#${doc.id}`).find('.hna-women');
-        doc.data().women.forEach((ref) => {
-          ref.get().then((w) => {
-            women.append(app.createWomanBadge(w.id));
-          });
-        });
-      }
-      */
-    })
-  }).then(() => {
-    $('img.lazy').lazyload({
-      effect: 'fadeIn',
-      effectspeed: 1000
-    });
-  });
-
+  /*
   if (app.args.has("add")) {
     //$('#editDialog').modal('show');
     var timestamp = firebase.firestore.FieldValue.serverTimestamp();
@@ -363,6 +378,7 @@ $(function() {
       alert(error);
     });
   }
+  */
 });
 
 $(document).on('hidden.bs.modal', '.modal', function () {
