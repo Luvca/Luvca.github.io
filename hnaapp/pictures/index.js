@@ -143,6 +143,7 @@ var app = app || {};
   // Filter by women
   app.womenSearch = () => {
     $('#pictures').empty();
+    $('#typeSearch').val('');
     $('#tagsSearch').val('');
     app.lastVisible = null;
     app.readPicture();
@@ -151,6 +152,7 @@ var app = app || {};
   // Filter by tags
   app.tagsSearch = () => {
     $('#pictures').empty();
+    $('#typeSearch').val('');
     $('#womenSearch').val('');
     app.lastVisible = null;
     app.readPicture();
