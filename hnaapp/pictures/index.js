@@ -157,7 +157,6 @@ var app = app || {};
       createdAt: createdAt,
       updatedAt: timestamp
     };
-    console.log(fields);
     app.db.pictures.add(fields).then(function(doc) {
       //$('#batchDialog').modal('hide');
       $('#pictures').prepend(app.createCard(doc.id, fields, fields.createdAt));
@@ -232,7 +231,7 @@ $(function() {
 
   // Firebase project configuration
   var firebaseConfig = {
-    projectId: "hna-data"
+    projectId: "fruit-basket-data"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
@@ -683,9 +682,6 @@ $('#goBatchSingle').on('click', function(event) {
       var urls = checked.map((e) => $(e).val());
       var title = $('#batchDialog').find('#batchTitle').val();
       var timestamp = new Date(Math.min.apply(null, checked.map((e) => new Date($(e).data('timestamp')))));
-      console.log(urls);
-      console.log(title);
-      console.log(timestamp);
       app.postPicture(urls, title, women, tags, timestamp);
       $('#batchDialog').modal('hide');
     }
@@ -703,9 +699,6 @@ $('#goBatchMulti').on('click', function(event) {
     if (confirm('OK?')) {
       $('#batchDialog').modal('hide');
       checked.forEach((e) => {
-        console.log($(e).val());
-        console.log($(e).data('title'));
-        console.log($(e).data('timestamp'));
         app.postPicture([$(e).val()], $(e).data('title'), women, tags, new Date($(e).data('timestamp')))
       });
     }
