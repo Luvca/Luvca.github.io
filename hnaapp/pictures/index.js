@@ -297,11 +297,17 @@ $(function() {
   if (app.args.has('tags')) {
     query = query.where('tags', 'array-contains-any', app.args.get('tags').split(','));
   }
+
+  if (app.args.has('recent')) {
+    query = query.orderBy('updatedAt', 'desc');
+  } else {
+    query = query.orderBy('createdAt', 'desc');
+  }
+
   query.get().then((ref) => {
     $('#pictureCount').text(ref.size);
     // Sort by create timestamp in descending order
-    console.log(app.args.get('o'));
-    ref.docs.sort(function(a, b) {
+    ref.docs/*.sort(function(a, b) {
       if (app.args.has('recent')) {
         if (a.data().updatedAt < b.data().updatedAt) return 1;
         else return -1;
@@ -309,7 +315,7 @@ $(function() {
         if (a.data().createdAt < b.data().createdAt) return 1;
         else return -1;
       }
-    }).forEach((doc) => {
+    })*/.forEach((doc) => {
       $('#pictures').append(app.createCard(doc.id, doc.data(), doc.data().createdAt.toDate()));
       if (doc.data().women) {
         var women = $(`#${doc.id}`).find('.hna-women');
