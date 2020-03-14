@@ -22,6 +22,7 @@ var app = app || {};
   <div class="card-body pt-2">
     <p class="card-text hna-title">${data.title}</p>
     <span class="hna-women"></span>
+    ${data.women.map(app.createWomanBadge).join('')}
     ${data.tags.map(app.createTagBadge).join('')}
     <div class="d-flex justify-content-between align-items-center mt-2">
       <button type="button" class="btn btn-sm btn-outline-secondary pt-0 mr-1" data-id="${id}">View</button>
@@ -322,6 +323,7 @@ $(function() {
       }
     })*/.forEach((doc) => {
       $('#pictures').append(app.createCard(doc.id, doc.data(), doc.data().createdAt.toDate()));
+      /*
       if (doc.data().women) {
         var women = $(`#${doc.id}`).find('.hna-women');
         doc.data().women.forEach((ref) => {
@@ -330,6 +332,7 @@ $(function() {
           });
         });
       }
+      */
     })
   }).then(() => {
     $('img.lazy').lazyload({
@@ -397,15 +400,16 @@ $('#editDialog').on('show.bs.modal', function(event) {
     var tags = new Set(card.find('.hna-tag').map((i, v) => $(v).text()).get());
     var dbTags = new Set(app.tagsSelectOptions.map((e) => e.label));
     var existTags = Array.from(new Set([...tags].filter(e => (dbTags.has(e)))));
+    console.log(existWomen);
     app.womenSelectEdit = app.createWomenSelect('#hnaWomen', existWomen);
     app.tagsSelectEdit = app.createTagsSelect('#hnaTags', existTags);
-    } else {
+  } else {
     $(this).find('.modal-title').text('Add');
     $(this).find('.hna-id').val('');
     $(this).find('.hna-timestamp').val('');
     app.womenSelectEdit = app.createWomenSelect('#hnaWomen');
     app.tagsSelectEdit = app.createTagsSelect('#hnaTags');
-    }
+  }
 });
 
 //
@@ -432,7 +436,9 @@ $('#womanDialog').on('show.bs.modal', function(event) {
   $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
   var source = $(event.relatedTarget).data('source');
   var select = $(event.relatedTarget).data('select');
-  var women = $(source).find('.select-pure__selected-label').get().map((e) => $(e).text());
+  console.log(source);
+  var women = $(source).find('#hnaWomen .select-pure__selected-label').get().map((e) => $(e).text());
+  console.log(women);
   $('#selectedWomen').val(JSON.stringify(women));
   $('#targetWomen').val(select);
 });
@@ -444,7 +450,7 @@ $('#tagDialog').on('show.bs.modal', function(event) {
   $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
   var source = $(event.relatedTarget).data('source');
   var select = $(event.relatedTarget).data('select');
-  var tags = $(source).find('.select-pure__selected-label').get().map((e) => $(e).text());
+  var tags = $(source).find('#hnaTags .select-pure__selected-label').get().map((e) => $(e).text());
   $('#selectedTags').val(JSON.stringify(tags));
   $('#targetTags').val(select);
 });
@@ -466,7 +472,8 @@ $('#saveChanges').on('click', function(event) {
       title: form.find('.hna-title').val(),
       type: form.find('input[name="type"]:checked').val(),
       //presence: form.find('input[name="presence"]:checked').val(),
-      women: women.map((w) => app.db.women.doc(w)),
+      //women: women.map((w) => app.db.women.doc(w)),
+      women: app.womenSelectEdit.value(),
       tags: app.tagsSelectEdit.value(),
       updatedAt: timestamp
     };
@@ -541,6 +548,7 @@ $('#saveWoman').on('click', function(event) {
         women.push(name);
         $('.hna-women').text('');
         if (target == '#hnaWomen') {
+          console.log(women);
           app.womenSelectEdit = app.createWomenSelect(target, women);
         } else {
           app.womenSelectBatch = app.createWomenSelect(target, women);
