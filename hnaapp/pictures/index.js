@@ -436,9 +436,7 @@ $('#womanDialog').on('show.bs.modal', function(event) {
   $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
   var source = $(event.relatedTarget).data('source');
   var select = $(event.relatedTarget).data('select');
-  console.log(source);
   var women = $(source).find('#hnaWomen .select-pure__selected-label').get().map((e) => $(e).text());
-  console.log(women);
   $('#selectedWomen').val(JSON.stringify(women));
   $('#targetWomen').val(select);
 });
@@ -548,7 +546,6 @@ $('#saveWoman').on('click', function(event) {
         women.push(name);
         $('.hna-women').text('');
         if (target == '#hnaWomen') {
-          console.log(women);
           app.womenSelectEdit = app.createWomenSelect(target, women);
         } else {
           app.womenSelectBatch = app.createWomenSelect(target, women);
