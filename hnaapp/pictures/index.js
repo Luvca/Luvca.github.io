@@ -304,6 +304,12 @@ $(function() {
     query = query.orderBy('createdAt', 'desc');
   }
 
+  if (app.args.has('limit')) {
+    query = query.limit(parseInt(app.args.get('limit')));
+  } else {
+    query = query.limit(25);
+  }
+
   query.get().then((ref) => {
     $('#pictureCount').text(ref.size);
     // Sort by create timestamp in descending order
