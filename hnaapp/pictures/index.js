@@ -329,9 +329,12 @@ $(function() {
   if (app.args.has('limit')) $('#hnaLimit').val(app.args.get('limit'));
 
   // Firebase project configuration
-  var firebaseConfig = {
-    projectId: "fruit-basket-data"
-  };
+  var firebaseConfig = {};
+  if (app.args.has('db')) {
+    firebaseConfig.projectId = app.args.get('db');
+  } else {
+    firebaseConfig.projectId = 'fruit-basket-data';
+  }
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
