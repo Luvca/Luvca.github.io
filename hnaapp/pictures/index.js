@@ -73,10 +73,10 @@ var app = app || {};
 `;
 
   // Type radio
-  app.createTypeRadio = (type) => `
+  app.createTypeRadio = (type, suffix) => `
 <div class="form-check form-check-inline">
-  <input class="form-check-input" type="radio" name="type" id="type${type}" value="${type}" required>
-  <label class="form-check-label" for="type${type}">${type}</label>
+  <input class="form-check-input" type="radio" name="type" id="type${type}${suffix}" value="${type}" required>
+  <label class="form-check-label" for="type${type}${suffix}">${type}</label>
 </div>
 `;
 
@@ -173,12 +173,14 @@ var app = app || {};
     $(e).parent().parent().remove();
   };
 
-  app.postPicture = (urls, title, women, tags, createdAt) => {
+  app.postPicture = (urls, title, type, women, tags, createdAt) => {
     var timestamp = new Date();
     var fields = {
       urls: urls.map((e) => e.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '')),
       title: title,
-      women: women.map((w) => app.db.women.doc(w)),
+      type: type,
+      //women: women.map((w) => app.db.women.doc(w)),
+      women: women,
       tags: tags,
       createdAt: createdAt,
       updatedAt: timestamp
@@ -195,6 +197,7 @@ var app = app || {};
       //  effectspeed: 1000
       //});
     }).catch(function(error) {
+      console.log(error);
       alert(error);
     });
   };
@@ -333,7 +336,7 @@ $(function() {
   firebase.initializeApp(firebaseConfig);
 
   app.db = firebase.firestore();
-  app.db.pictures = app.db.collection('pictures');
+  app.db.pictures = app.db.collection('posts');
   app.db.types = app.db.collection('types');
   app.db.women = app.db.collection('women');
   app.db.tags = app.db.collection('tags');
@@ -344,7 +347,8 @@ $(function() {
       if (a.id < b.id) return 1;
       else return -1;
     }).forEach((e) => {
-      $('#hnaTypes').append(app.createTypeRadio(e.id));
+      $('#hnaTypes').append(app.createTypeRadio(e.id, ''));
+      $('#hnaTypesBatch').append(app.createTypeRadio(e.id, 'Batch'));
     })
   });
 
@@ -458,7 +462,6 @@ $('#batchDialog').on('show.bs.modal', function(event) {
   $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
   $('#hnaWomenBatch').text('');
   $('#hnaTagsBatch').text('');
-  console.log(app.args.get('k'));
   $(this).find('#accessToken').val(app.args.get('k'));
   $('#path').val('/#ladies');
   
@@ -720,13 +723,14 @@ $('#goBatchSingle').on('click', function(event) {
   if (!women) women = [];
   var tags = app.tagsSelectBatch.value();
   if (!tags) tags = [];
-  else if (!tags.includes('new')) tags.push('new');
+  if (!tags.includes('new')) tags.push('new');
   if (checked.length > 0) {
     if (confirm('OK?')) {
       var urls = checked.map((e) => $(e).val());
       var title = $('#batchDialog').find('#batchTitle').val();
+      var type = $('#batchDialog').find('input[name="type"]:checked').val();
       var timestamp = new Date(Math.min.apply(null, checked.map((e) => new Date($(e).data('timestamp')))));
-      app.postPicture(urls, title, women, tags, timestamp);
+      app.postPicture(urls, title, type, women, tags, timestamp);
       $('#batchDialog').modal('hide');
     }
   }
@@ -734,16 +738,17 @@ $('#goBatchSingle').on('click', function(event) {
 
 $('#goBatchMulti').on('click', function(event) {
   var checked = $('#batchDialog').find('input[name="pictureToAdd"]:checked').get();
+  var type = $('#batchDialog').find('input[name="type"]:checked').val();
   var women = app.womenSelectBatch.value();
   if (!women) women = [];
   var tags = app.tagsSelectBatch.value();
   if (!tags) tags = [];
-  else if (!tags.includes('new')) tags.push('new');
+  if (!tags.includes('new')) tags.push('new');
   if (checked.length > 0) {
     if (confirm('OK?')) {
       $('#batchDialog').modal('hide');
       checked.forEach((e) => {
-        app.postPicture([$(e).val()], $(e).data('title'), women, tags, new Date($(e).data('timestamp')))
+        app.postPicture([$(e).val()], $(e).data('title'), type, women, tags, new Date($(e).data('timestamp')))
       });
     }
   }
