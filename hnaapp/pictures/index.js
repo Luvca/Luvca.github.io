@@ -132,7 +132,7 @@ var app = app || {};
   };
 
   // Filter by type
-  app.typeSearch = () => {
+  app.Search = () => {
     $('#pictures').empty();
     $('#womenSearch').val('');
     $('#tagsSearch').val('');
@@ -415,6 +415,31 @@ $(function() {
 
 $(document).on('hidden.bs.modal', '.modal', function () {
   $('.modal:visible').length && $(document.body).addClass('modal-open');
+});
+
+$('#hnaSearchType').on('click', function(event) {
+  console.log('type');
+  $('#typeSearch').prop('disabled', false);
+  $('#womenSearch').val('');
+  $('#womenSearch').prop('disabled', true);
+  $('#tagsSearch').val('');
+  $('#tagsSearch').prop('disabled', true);
+});
+
+$('#hnaSearchWomen').on('click', function(event) {
+  $('#womenSearch').prop('disabled', false);
+  $('#typeSearch').val('');
+  $('#typeSearch').prop('disabled', true);
+  $('#tagsSearch').val('');
+  $('#tagsSearch').prop('disabled', true);
+});
+
+$('#hnaSearchTags').on('click', function(event) {
+  $('#tagsSearch').prop('disabled', false);
+  $('#typeSearch').val('');
+  $('#typeSearch').prop('disabled', true);
+  $('#womenSearch').val('');
+  $('#womenSearch').prop('disabled', true);
 });
 
 //
