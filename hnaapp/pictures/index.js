@@ -131,29 +131,8 @@ var app = app || {};
     });
   };
 
-  // Filter by type
   app.search = () => {
-    //$('#pictures').empty();
-    //$('#womenSearch').val('');
-    //$('#tagsSearch').val('');
-    app.lastVisible = null;
-    app.readPicture();
-  };
-
-  // Filter by women
-  app.womenSearch = () => {
     $('#pictures').empty();
-    $('#typeSearch').val('');
-    $('#tagsSearch').val('');
-    app.lastVisible = null;
-    app.readPicture();
-  };
-
-  // Filter by tags
-  app.tagsSearch = () => {
-    $('#pictures').empty();
-    $('#typeSearch').val('');
-    $('#womenSearch').val('');
     app.lastVisible = null;
     app.readPicture();
   };
@@ -220,16 +199,17 @@ var app = app || {};
   app.readPicture = () => {
     var query = app.db.pictures;
     var filter = $('input[name="hnaSearch"]:checked').val();
-    if (filter === 'type') {
+    console.log(filter);
+    if (filter === 'type' && $('#typeSearch').val().length > 0) {
       query = query.where('type', '==', $('#typeSearch').val());
-    } else if (filter === 'women') {
+    } else if (filter === 'women' && $('#womenSearch').val().length > 0) {
       //console.log($('#womenSearch').val());
       //query = query.where('women', 'array-contains-any', s('#womenSearch').val().split(',').map((e) => {
       //  return app.db.women.doc(e);
       //}));
       query = query.where('women', 'array-contains-any', $('#womenSearch').val().split(','));
-    } else if (filter === 'tags') {
-      //console.log($('#tagsSearch').val());
+    } else if (filter === 'tags' && $('#tagsSearch').val().length > 0) {
+      console.log($('#tagsSearch').val());
       query = query.where('tags', 'array-contains-any', $('#tagsSearch').val().split(','));
     }
   
@@ -418,29 +398,36 @@ $(document).on('hidden.bs.modal', '.modal', function () {
   $('.modal:visible').length && $(document.body).addClass('modal-open');
 });
 
+/*
 $('#hnaSearchType').on('click', function(event) {
-  console.log('type');
   $('#typeSearch').prop('disabled', false);
-  $('#womenSearch').val('');
   $('#womenSearch').prop('disabled', true);
-  $('#tagsSearch').val('');
   $('#tagsSearch').prop('disabled', true);
 });
 
 $('#hnaSearchWomen').on('click', function(event) {
   $('#womenSearch').prop('disabled', false);
-  $('#typeSearch').val('');
   $('#typeSearch').prop('disabled', true);
-  $('#tagsSearch').val('');
   $('#tagsSearch').prop('disabled', true);
 });
 
 $('#hnaSearchTags').on('click', function(event) {
   $('#tagsSearch').prop('disabled', false);
-  $('#typeSearch').val('');
   $('#typeSearch').prop('disabled', true);
-  $('#womenSearch').val('');
   $('#womenSearch').prop('disabled', true);
+});
+*/
+
+$('#typeSearch').on('click', function(event) {
+  $('#hnaSearchType').prop('checked', true);
+});
+
+$('#womenSearch').on('click', function(event) {
+  $('#hnaSearchWomen').prop('checked', true);
+});
+
+$('#tagsSearch').on('click', function(event) {
+  $('#hnaSearchTags').prop('checked', true);
 });
 
 //
