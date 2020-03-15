@@ -199,7 +199,6 @@ var app = app || {};
   app.readPicture = () => {
     var query = app.db.pictures;
     var filter = $('input[name="hnaSearch"]:checked').val();
-    console.log(filter);
     if (filter === 'type' && $('#typeSearch').val().length > 0) {
       query = query.where('type', '==', $('#typeSearch').val());
     } else if (filter === 'women' && $('#womenSearch').val().length > 0) {
@@ -209,7 +208,6 @@ var app = app || {};
       //}));
       query = query.where('women', 'array-contains-any', $('#womenSearch').val().split(','));
     } else if (filter === 'tags' && $('#tagsSearch').val().length > 0) {
-      console.log($('#tagsSearch').val());
       query = query.where('tags', 'array-contains-any', $('#tagsSearch').val().split(','));
     }
   
@@ -461,7 +459,6 @@ $('#editDialog').on('show.bs.modal', function(event) {
     var tags = new Set(card.find('.hna-tag').map((i, v) => $(v).text()).get());
     var dbTags = new Set(app.tagsSelectOptions.map((e) => e.label));
     var existTags = Array.from(new Set([...tags].filter(e => (dbTags.has(e)))));
-    console.log(existWomen);
     app.womenSelectEdit = app.createWomenSelect('#hnaWomen', existWomen);
     app.tagsSelectEdit = app.createTagsSelect('#hnaTags', existTags);
   } else {
