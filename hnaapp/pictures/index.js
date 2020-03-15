@@ -199,20 +199,24 @@ var app = app || {};
   app.readPicture = () => {
     var query = app.db.pictures;
     var filter = $('input[name="hnaSearch"]:checked').val();
-    if (filter === 'type' && $('#typeSearch').val().length > 0) {
-      query = query.where('type', '==', $('#typeSearch').val());
-    } else if (filter === 'women' && $('#womenSearch').val().length > 0) {
-      //console.log($('#womenSearch').val());
-      //query = query.where('women', 'array-contains-any', s('#womenSearch').val().split(',').map((e) => {
-      //  return app.db.women.doc(e);
-      //}));
-      query = query.where('women', 'array-contains-any', $('#womenSearch').val().split(','));
-    } else if (filter === 'tags' && $('#tagsSearch').val().length > 0) {
-      query = query.where('tags', 'array-contains-any', $('#tagsSearch').val().split(','));
-    }
+    if (filter === 'title' && $('#titleSearch').val().length > 0) {
+      query = query.orderBy('title').startAt($('#titleSearch').val()).endAt($('#titleSearch').val() + '\uf8ff');
+    } else  {
+      if (filter === 'type' && $('#typeSearch').val().length > 0) {
+        query = query.where('type', '==', $('#typeSearch').val());
+      } else if (filter === 'women' && $('#womenSearch').val().length > 0) {
+        //console.log($('#womenSearch').val());
+        //query = query.where('women', 'array-contains-any', s('#womenSearch').val().split(',').map((e) => {
+        //  return app.db.women.doc(e);
+        //}));
+        query = query.where('women', 'array-contains-any', $('#womenSearch').val().split(','));
+      } else if (filter === 'tags' && $('#tagsSearch').val().length > 0) {
+        query = query.where('tags', 'array-contains-any', $('#tagsSearch').val().split(','));
+      }
   
-    query = query.orderBy($('input[name="hnaOrderBy"]:checked').val(), 'desc');
-
+      query = query.orderBy($('input[name="hnaOrderBy"]:checked').val(), 'desc');
+    }
+    
     if (app.lastVisible) {
       console.log('startAfter');
       query = query.startAfter(app.lastVisible);
