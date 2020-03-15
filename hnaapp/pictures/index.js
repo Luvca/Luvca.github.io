@@ -216,7 +216,7 @@ var app = app || {};
   
       query = query.orderBy($('input[name="hnaOrderBy"]:checked').val(), 'desc');
     }
-    
+
     if (app.lastVisible) {
       console.log('startAfter');
       query = query.startAfter(app.lastVisible);
@@ -419,6 +419,10 @@ $('#hnaSearchTags').on('click', function(event) {
   $('#womenSearch').prop('disabled', true);
 });
 */
+
+$('#titleSearch').on('click', function(event) {
+  $('#hnaSearchTitle').prop('checked', true);
+});
 
 $('#typeSearch').on('click', function(event) {
   $('#hnaSearchType').prop('checked', true);
