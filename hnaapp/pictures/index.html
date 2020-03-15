@@ -23,20 +23,20 @@
             <ul class="navbar-nav w-100">
               <li class="nav-item">
                 <div class="form-check-inline w-100">
-                  <input class="form-check-input" type="radio" name="hnaSearch" id="hnaSearchTitle" value="title" checked>
-                  <input id="titleSearch" class="form-control" placeholder="(Title)">
+                  <input class="form-check-input search-title" type="radio" name="hnaSearch" id="hnaSearchTitle" value="title" checked>
+                  <input id="titleSearch" class="form-control search-title" placeholder="(Title)">
                 </div>
                 <div class="form-check-inline w-100">
-                  <input class="form-check-input" type="radio" name="hnaSearch" id="hnaSearchType" value="type">
-                  <input id="typeSearch" class="form-control" placeholder="(Type)">
+                  <input class="form-check-input search-type" type="radio" name="hnaSearch" id="hnaSearchType" value="type">
+                  <input id="typeSearch" class="form-control search-type" placeholder="(Type)">
                 </div>
                 <div class="form-check-inline w-100">
-                  <input class="form-check-input" type="radio" name="hnaSearch" id="hnaSearchWomen" value="women">
-                  <input id="womenSearch" class="form-control" placeholder="(Women)">
+                  <input class="form-check-input search-women" type="radio" name="hnaSearch" id="hnaSearchWomen" value="women">
+                  <input id="womenSearch" class="form-control search-women" placeholder="(Women)">
                 </div>
                 <div class="form-check-inline w-100">
-                  <input class="form-check-input" type="radio" name="hnaSearch" id="hnaSearchTags" value="tags">
-                  <input id="tagsSearch" class="form-control" placeholder="(Tags)">
+                  <input class="form-check-input search-tags" type="radio" name="hnaSearch" id="hnaSearchTags" value="tags">
+                  <input id="tagsSearch" class="form-control search-tags" placeholder="(Tags)">
                 </div>
               </li>
               <li class="nav-item">
@@ -44,11 +44,11 @@
               </li>
               <li class="nav-item">
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="hnaOrderBy" id="hnaOrderByCreatedAt" value="createdAt" checked>
+                  <input class="form-check-input hna-order-by" type="radio" name="hnaOrderBy" id="hnaOrderByCreatedAt" value="createdAt" checked disabled>
                   <label class="form-check-label text-muted" for="hnaOrderByCreatedAt">Created at</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="hnaOrderBy" id="hnaOrderByUpdatedAt" value="updatedAt">
+                  <input class="form-check-input hna-order-by" type="radio" name="hnaOrderBy" id="hnaOrderByUpdatedAt" value="updatedAt" disabled>
                   <label class="form-check-label text-muted" for="hnaOrderByUpdatedAt">Updated at</label>
                 </div>
                 <div class="form-check-inline float-right mr-0">

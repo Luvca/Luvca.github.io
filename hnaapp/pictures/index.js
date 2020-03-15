@@ -420,20 +420,24 @@ $('#hnaSearchTags').on('click', function(event) {
 });
 */
 
-$('#titleSearch').on('click', function(event) {
+$('.search-title').on('click', function(event) {
   $('#hnaSearchTitle').prop('checked', true);
+  $('.hna-order-by').prop('disabled', true);
 });
 
-$('#typeSearch').on('click', function(event) {
+$('.search-type').on('click', function(event) {
   $('#hnaSearchType').prop('checked', true);
+  $('.hna-order-by').prop('disabled', false);
 });
 
-$('#womenSearch').on('click', function(event) {
+$('.search-women').on('click', function(event) {
   $('#hnaSearchWomen').prop('checked', true);
+  $('.hna-order-by').prop('disabled', false);
 });
 
-$('#tagsSearch').on('click', function(event) {
+$('.search-tags').on('click', function(event) {
   $('#hnaSearchTags').prop('checked', true);
+  $('.hna-order-by').prop('disabled', false);
 });
 
 //
