@@ -132,10 +132,10 @@ var app = app || {};
   };
 
   // Filter by type
-  app.Search = () => {
-    $('#pictures').empty();
-    $('#womenSearch').val('');
-    $('#tagsSearch').val('');
+  app.search = () => {
+    //$('#pictures').empty();
+    //$('#womenSearch').val('');
+    //$('#tagsSearch').val('');
     app.lastVisible = null;
     app.readPicture();
   };
@@ -219,16 +219,17 @@ var app = app || {};
 
   app.readPicture = () => {
     var query = app.db.pictures;
-    if ($('#typeSearch').val().length > 0) {
+    var filter = $('input[name="hnaSearch"]:checked').val();
+    if (filter === 'type') {
       query = query.where('type', '==', $('#typeSearch').val());
-    } else if ($('#womenSearch').val().length > 0) {
-      console.log($('#womenSearch').val());
+    } else if (filter === 'women') {
+      //console.log($('#womenSearch').val());
       //query = query.where('women', 'array-contains-any', s('#womenSearch').val().split(',').map((e) => {
       //  return app.db.women.doc(e);
       //}));
       query = query.where('women', 'array-contains-any', $('#womenSearch').val().split(','));
-    } else if ($('#tagsSearch').val().length > 0) {
-      console.log($('#tagsSearch').val());
+    } else if (filter === 'tags') {
+      //console.log($('#tagsSearch').val());
       query = query.where('tags', 'array-contains-any', $('#tagsSearch').val().split(','));
     }
   
