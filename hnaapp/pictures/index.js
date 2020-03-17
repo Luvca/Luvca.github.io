@@ -69,7 +69,7 @@ var app = app || {};
 `).join('');
   };
 
-  // Author badges
+  // Author badge
   app.createAuthorBadge = (author) => {
     if (!author) return '';
     return `
@@ -138,12 +138,9 @@ var app = app || {};
   };
 
   app.createAuthorsSelect = (id, value) => {
-    console.log(id);
-    console.log(value);
-    console.log(app.authorsSelectOptions);
     return new SelectPure(id, {
       options: app.authorsSelectOptions,
-      multiple: true,
+      //multiple: true,
       //autocomplete: true,
       icon: 'fa fa-times',
       value: value
@@ -525,17 +522,13 @@ $('#editDialog').on('show.bs.modal', function(event) {
     var women = new Set(card.find('.hna-woman').map((i, v) => $(v).text()).get());
     var dbWomen = new Set(app.womenSelectOptions.map((e) => e.label));
     var existWomen = Array.from(new Set([...women].filter(e => (dbWomen.has(e)))));
-    var authors = new Set(card.find('.hna-author-badge').map((i, v) => $(v).text()).get());
-    var dbAuthors = new Set(app.authorsSelectOptions.map((e) => e.label));
-    var existAuthors = Array.from(new Set([...authors].filter(e => (dbAuthors.has(e)))));
-    console.log(authors);
-    console.log(dbAuthors);
-    console.log(existAuthors);
+    var authors = card.find('.hna-author-badge').get().text();
+    if (!app.authorsSelectOptions.includes(author)) author = null;
     var tags = new Set(card.find('.hna-tag').map((i, v) => $(v).text()).get());
     var dbTags = new Set(app.tagsSelectOptions.map((e) => e.label));
     var existTags = Array.from(new Set([...tags].filter(e => (dbTags.has(e)))));
     app.womenSelectEdit = app.createWomenSelect('#hnaWomen', existWomen);
-    app.authorsSelectEdit = app.createAuthorsSelect('#hnaAuthor', existAuthors);
+    app.authorsSelectEdit = app.createAuthorsSelect('#hnaAuthor', author);
     app.tagsSelectEdit = app.createTagsSelect('#hnaTags', existTags);
   } else {
     $(this).find('.modal-title').text('Add');
