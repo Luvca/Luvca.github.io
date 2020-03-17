@@ -22,7 +22,7 @@ var app = app || {};
   <div class="card-body pt-2">
     <p class="card-text hna-title">${data.title}</p>
     <span class="hna-women"></span>
-    ${data.women.map(app.createWomanBadge).join('')}
+    ${app.createWomanBadges(data.women)}
     ${data.tags.map(app.createTagBadge).join('')}
     <div class="d-flex justify-content-between align-items-center mt-2">
       <button type="button" class="btn btn-sm btn-outline-secondary pt-0 mr-1" data-id="${id}">View</button>
@@ -58,12 +58,15 @@ var app = app || {};
   `;
   };
 
-  // Women badge
-  app.createWomanBadge = (woman) => `
+  // Women badges
+  app.createWomanBadges = (women) => {
+    if (!women) return '';
+    return women.map((w) => `
 <a href="?women=${woman}">
-  <span class="badge badge-danger hna-woman">${woman}</span>
+  <span class="badge badge-danger hna-woman">${w}</span>
 </a>
-`;
+`).join('');
+  };
 
   // Tag badge
   app.createTagBadge = (tag) => `
