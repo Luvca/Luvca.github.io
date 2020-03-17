@@ -463,7 +463,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
     });
     $(this).find('.hna-timestamp').val(card.find('.hna-timestamp').text());
     $(this).find('.hna-title').val(card.find('.hna-title').text());
-    $('#googleTitle').prop('href', `https://www.google.co.jp/search?q=${card.find('.hna-title').text()}`);
+    $('#googleTitle').prop('href', `https://www.google.co.jp/search?q=${card.find('.hna-title').text()}+${card.find('.hna-type').text()}+アダルト`);
     $(this).find('input[name="type"]').filter(`[value=${card.find('.hna-type').text()}]`).prop('checked', true);
     //$(this).find('input[name="presence"]').filter(`[value=${card.find('.hna-presence').text()}]`).prop('checked', true);
     var women = new Set(card.find('.hna-woman').map((i, v) => $(v).text()).get());
