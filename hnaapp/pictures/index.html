@@ -106,9 +106,9 @@
                 <label for="pictureTitle" class="col-form-label">Title</label>
                 <div class="input-group">
                   <input id="pictureTitle" class="form-control hna-title">
-                </div>
-                <div class="input-group-append">
-                  <a id="googleTitle" target="_blank"><i class="fa fa-google"></i></a>
+                  <div class="input-group-append">
+                    <a id="googleTitle" class="mt-2 ml-2" target="_blank"><i class="fa fa-google"></i></a>
+                  </div>
                 </div>
               </div>
               <!-- Type -->
@@ -141,6 +141,14 @@
                   <button type="button" class="btn-add add-woman" data-toggle="modal" data-target="#womanDialog" data-source="#editDialog" data-select="#hnaWomen">&#x2295;</button>
                 </div>
                 <span id="hnaWomen" class="h-25 hna-women"></span>
+              </div>
+              <!-- Author -->
+              <div class="form-group">
+                <div class="form-inline">
+                  <label for="hnaAuthor" class="col-form-label">Author</label>
+                  <button type="button" class="btn-add add-author" data-toggle="modal" data-target="#authorDialog" data-source="#editDialog" data-select="#hnaAuthor">&#x2295;</button>
+                </div>
+                <span id="hnaAuthor" class="h-25 hna-author-badge"></span>
               </div>
               <!-- Tag -->
               <div class="form-group">
@@ -195,6 +203,14 @@
                     <button type="button" class="btn-add add-woman" data-toggle="modal" data-target="#womanDialog" data-source="#batchDialog" data-select="#hnaWomenBatch">&#x2295;</button>
                   </div>
                   <span id="hnaWomenBatch" class="h-25 hna-women"></span>
+                </div>
+                <!-- Author -->
+                <div class="form-group">
+                  <div class="form-inline">
+                    <label for="hnaAuthor" class="col-form-label">Cast</label>
+                    <button type="button" class="btn-add add-author" data-toggle="modal" data-target="#authorDialog" data-source="#batchDialog" data-select="#hnaAuthorBatch">&#x2295;</button>
+                  </div>
+                  <span id="hnaAuthorBatch" class="h-25 hna-author-badge"></span>
                 </div>
                 <!-- Tags -->
                 <div class="form-group">
@@ -256,6 +272,39 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button id="saveWoman" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status"></span>Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author Dialog -->
+    <div class="modal fade" id="authorDialog" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="authorForm" class="needs-validation" novalidate>
+              <div class="form-group">
+                <label for="authorName" class="col-form-label">Name</label>
+                <input id="authorName" class="form-control author-name" required>
+                <div class="invalid-feedback">Name is required.</div>
+              </div>
+              <div class="form-group">
+                <label for="authorPhoneticName" class="col-form-label">Phonetic Name</label>
+                <input id="authorPhoneticName" class="form-control author-phonetic-name" required>
+              </div>
+              <input id="selectedAuthor" type="hidden">
+              <input id="targetAuthor" type="hidden">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button id="saveAuthor" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status"></span>Save</button>
           </div>
         </div>
       </div>

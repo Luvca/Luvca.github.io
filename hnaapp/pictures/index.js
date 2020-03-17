@@ -23,7 +23,8 @@ var app = app || {};
     <p class="card-text hna-title">${data.title}</p>
     <span class="hna-women"></span>
     ${app.createWomanBadges(data.women)}
-    ${data.tags.map(app.createTagBadge).join('')}
+    ${app.createAuthorBadge(data.author)}
+    ${app.createTagBadges(data.tags)}
     <div class="d-flex justify-content-between align-items-center mt-2">
       <button type="button" class="btn btn-sm btn-outline-secondary pt-0 mr-1" data-id="${id}">View</button>
       <button type="button" class="btn btn-sm btn-outline-secondary pt-0 mr-auto" data-toggle="modal" data-target="#editDialog" data-id="${id}">Edit</button>
@@ -62,18 +63,31 @@ var app = app || {};
   app.createWomanBadges = (women) => {
     if (!women) return '';
     return women.map((w) => `
-<a href="?women=${woman}">
+<a href="?women=${w}">
   <span class="badge badge-danger hna-woman">${w}</span>
 </a>
 `).join('');
   };
 
-  // Tag badge
-  app.createTagBadge = (tag) => `
-<a href="?tags=${tag}">
-  <span class="badge badge-danger hna-tag">${tag}</span>
+  // Author badges
+  app.createAuthorBadge = (author) => {
+    if (!author) return '';
+    return `
+<a href="?women=${author}">
+  <span class="badge badge-danger hna-author-badge">${author}</span>
 </a>
 `;
+  };
+
+  // Tag badges
+  app.createTagBadges = (tags) => {
+    if (!tags) return '';
+    return tags.map((t) => `
+<a href="?tags=${t}">
+  <span class="badge badge-danger hna-tag">${t}</span>
+</a>
+`).join('');
+  };
 
   // Type radio
   app.createTypeRadio = (type, suffix) => `
@@ -101,6 +115,34 @@ var app = app || {};
   app.createWomenSelect = (id, value) => {
     return new SelectPure(id, {
       options: app.womenSelectOptions,
+      multiple: true,
+      //autocomplete: true,
+      icon: 'fa fa-times',
+      value: value
+    });
+  };
+
+  // Authors select
+  app.createAuthorsSelectOptions = (callback) => {
+    app.authorsSelectOptions = [];
+    app.db.authors.orderBy('phoneticName').get().then((ref) => {
+      ref.forEach(function(e) {
+        app.authorsSelectOptions.push({ label: e.data().name, value: e.id});
+        if (app.authorsSelectOptions.length === ref.size) {
+          if (callback) {
+            callback();
+          }
+        }
+      })
+    })
+  };
+
+  app.createAuthorsSelect = (id, value) => {
+    console.log(id);
+    console.log(value);
+    console.log(app.authorsSelectOptions);
+    return new SelectPure(id, {
+      options: app.authorsSelectOptions,
       multiple: true,
       //autocomplete: true,
       icon: 'fa fa-times',
@@ -157,18 +199,21 @@ var app = app || {};
     $(e).parent().parent().remove();
   };
 
-  app.postPicture = (urls, title, type, women, tags, createdAt) => {
+  app.postPicture = (urls, title, type, women, author, tags, createdAt) => {
     var timestamp = new Date();
     var fields = {
       urls: urls.map((e) => e.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '')),
       title: title,
       type: type,
       //women: women.map((w) => app.db.women.doc(w)),
-      women: women,
-      tags: tags,
+      //women: women,
+      //tags: tags,
       createdAt: createdAt,
       updatedAt: timestamp
     };
+    if (women) fields.women = women;
+    if (author) fields.author = author;
+    if (tags) fields.tags = tags;
     app.db.pictures.add(fields).then(function(doc) {
       //$('#batchDialog').modal('hide');
       $('#pictures').prepend(app.createCard(doc.id, fields, fields.createdAt));
@@ -330,6 +375,7 @@ $(function() {
   app.db.pictures = app.db.collection('posts');
   app.db.types = app.db.collection('types');
   app.db.women = app.db.collection('women');
+  app.db.authors = app.db.collection('authors');
   app.db.tags = app.db.collection('tags');
 
   // Types radio
@@ -348,6 +394,12 @@ $(function() {
   app.createWomenSelectOptions();
   app.womenSelectEdit = {};
   app.womenSelectBatch = {};
+
+  // Authors select
+  app.authorsSelectOptions = [];
+  app.createAuthorsSelectOptions();
+  app.authorsSelectEdit = {};
+  app.authorsSelectBatch = {};
 
   // Tags select
   app.tagsSelectOptions = [];
@@ -449,6 +501,7 @@ $('.search-tags').on('click', function(event) {
 $('#editDialog').on('show.bs.modal', function(event) {
   $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
   $('#hnaWomen').text('');
+  $('#hnaAuthor').text('');
   $('#hnaTags').text('');
   $(this).find('#editDialogForm').removeClass('was-validated');
   var id = $(event.relatedTarget).data('id');
@@ -472,16 +525,24 @@ $('#editDialog').on('show.bs.modal', function(event) {
     var women = new Set(card.find('.hna-woman').map((i, v) => $(v).text()).get());
     var dbWomen = new Set(app.womenSelectOptions.map((e) => e.label));
     var existWomen = Array.from(new Set([...women].filter(e => (dbWomen.has(e)))));
+    var authors = new Set(card.find('.hna-author-badge').map((i, v) => $(v).text()).get());
+    var dbAuthors = new Set(app.authorsSelectOptions.map((e) => e.label));
+    var existAuthors = Array.from(new Set([...authors].filter(e => (dbAuthors.has(e)))));
+    console.log(authors);
+    console.log(dbAuthors);
+    console.log(existAuthors);
     var tags = new Set(card.find('.hna-tag').map((i, v) => $(v).text()).get());
     var dbTags = new Set(app.tagsSelectOptions.map((e) => e.label));
     var existTags = Array.from(new Set([...tags].filter(e => (dbTags.has(e)))));
     app.womenSelectEdit = app.createWomenSelect('#hnaWomen', existWomen);
+    app.authorsSelectEdit = app.createAuthorsSelect('#hnaAuthor', existAuthors);
     app.tagsSelectEdit = app.createTagsSelect('#hnaTags', existTags);
   } else {
     $(this).find('.modal-title').text('Add');
     $(this).find('.hna-id').val('');
     $(this).find('.hna-timestamp').val('');
     app.womenSelectEdit = app.createWomenSelect('#hnaWomen');
+    app.authorsSelectEdit = app.createAuthorsSelect('#hnaAuthor');
     app.tagsSelectEdit = app.createTagsSelect('#hnaTags');
   }
 });
@@ -492,11 +553,13 @@ $('#editDialog').on('show.bs.modal', function(event) {
 $('#batchDialog').on('show.bs.modal', function(event) {
   $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
   $('#hnaWomenBatch').text('');
+  $('#hnaAuthorBatch').text('');
   $('#hnaTagsBatch').text('');
   $(this).find('#accessToken').val(app.args.get('k'));
   $('#path').val('/#ladies');
   
   app.womenSelectBatch = app.createWomenSelect('#hnaWomenBatch');
+  app.authorsSelectBatch = app.createAuthorsSelect('#hnaAuthorBatch');
   app.tagsSelectBatch = app.createTagsSelect('#hnaTagsBatch');
 
   $('#getPictures').click();
@@ -507,6 +570,8 @@ $('#batchDialog').on('show.bs.modal', function(event) {
 //
 $('#womanDialog').on('show.bs.modal', function(event) {
   $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
+  var form = $('#womanForm');
+  form.removeClass('was-validated');
   var source = $(event.relatedTarget).data('source');
   var select = $(event.relatedTarget).data('select');
   var women = $(source).find('#hnaWomen .select-pure__selected-label').get().map((e) => $(e).text());
@@ -515,10 +580,26 @@ $('#womanDialog').on('show.bs.modal', function(event) {
 });
 
 //
+// Author Dialog
+//
+$('#authorDialog').on('show.bs.modal', function(event) {
+  $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
+  var form = $('#authorForm');
+  form.removeClass('was-validated');
+  var source = $(event.relatedTarget).data('source');
+  var select = $(event.relatedTarget).data('select');
+  var authors = $(source).find('#hnaAuthor .select-pure__selected-label').get().map((e) => $(e).text());
+  $('#selectedAuthor').val(JSON.stringify(authors));
+  $('#targetAuthor').val(select);
+});
+
+//
 // Tag Dialog
 //
 $('#tagDialog').on('show.bs.modal', function(event) {
   $(this).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
+  var form = $('#tagForm');
+  form.removeClass('was-validated');
   var source = $(event.relatedTarget).data('source');
   var select = $(event.relatedTarget).data('select');
   var tags = $(source).find('#hnaTags .select-pure__selected-label').get().map((e) => $(e).text());
@@ -538,16 +619,21 @@ $('#saveChanges').on('click', function(event) {
     var id = form.find('.hna-id').val();
     var createdAt = form.find('.hna-timestamp').val();
     var women = app.womenSelectEdit.value();
+    var authors = app.authorsSelectEdit.value();
+    var tags = app.tagsSelectEdit.value();
     var fields = {
       urls: form.find('input[name="hnaUrl"]').serializeArray().map((e) => e.value).filter((e) => e.length > 0),
       title: form.find('.hna-title').val(),
       type: form.find('input[name="type"]:checked').val(),
       //presence: form.find('input[name="presence"]:checked').val(),
       //women: women.map((w) => app.db.women.doc(w)),
-      women: app.womenSelectEdit.value(),
-      tags: app.tagsSelectEdit.value(),
+      //women: app.womenSelectEdit.value(),
+      ///tags: app.tagsSelectEdit.value(),
       updatedAt: timestamp
     };
+    if (women.length > 0) fields.women = women;
+    if (authors.length > 0) fields.author = authors;
+    if (tags.length > 0) fields.tags = tags;
     if (id) {
       app.db.pictures.doc(id).set(fields, { merge: true }).then(function() {
         $('#editDialog').modal('hide');
@@ -561,6 +647,7 @@ $('#saveChanges').on('click', function(event) {
         //  effectspeed: 1000
         //});
       }).catch(function(error) {
+        console.log(error);
         alert(error);
       });
     } else {
@@ -577,6 +664,7 @@ $('#saveChanges').on('click', function(event) {
         //  effectspeed: 1000
         //});
       }).catch(function(error) {
+        console.log(error);
         alert(error);
       });
     }
@@ -635,6 +723,46 @@ $('#saveWoman').on('click', function(event) {
 });
 
 //
+// Save author
+//
+$('#saveAuthor').on('click', function(event) {
+  var form = $('#authorForm');
+  if (form.get(0).checkValidity() === true) {
+    //form.find('.spinner-border').show();
+    var name = form.find('.author-name').val();
+    var phoneticName = form.find('.author-phonetic-name').val();
+    var timestamp = new Date();
+    var fields = {
+      name: name,
+      phoneticName: phoneticName,
+      //createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      //updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      createdAt: timestamp,
+      updatedAt: timestamp
+    };
+    app.db.authors.doc(name).set(fields).then(() => {
+      app.createAuthorsSelectOptions(() => {
+        var target = $('#targetAuthor').val();
+        var authors = JSON.parse($('#selectedAuthor').val());
+        authors.push(name);
+        $('.hna-author').text('');
+        if (target == '#hnaAuthor') {
+          app.authorsSelectEdit = app.createAuthorsSelect(target, authors);
+        } else {
+          app.authorsSelectBatch = app.createAuthorsSelect(target, authors);
+        }
+      });
+    }).catch(function(error) {
+      console.log(error);
+      alert(error);
+    });
+    $('#authorDialog').modal('hide');
+  } else {
+    form.addClass('was-validated');
+  }
+});
+
+//
 // Save tag
 //
 $('#saveTag').on('click', function(event) {
@@ -665,7 +793,7 @@ $('#saveTag').on('click', function(event) {
       console.log(error);
       alert(error);
     });
-    $('#tagsDialog').modal('hide');
+    $('#tagDialog').modal('hide');
   } else {
     form.addClass('was-validated');
   }
@@ -752,6 +880,7 @@ $('#goBatchSingle').on('click', function(event) {
   var checked = $('#batchDialog').find('input[name="pictureToAdd"]:checked').get();
   var women = app.womenSelectBatch.value();
   if (!women) women = [];
+  var authors = app.authorsSelectBatch.value();
   var tags = app.tagsSelectBatch.value();
   if (!tags) tags = [];
   if (!tags.includes('new')) tags.push('new');
@@ -761,7 +890,7 @@ $('#goBatchSingle').on('click', function(event) {
       var title = $('#batchDialog').find('#batchTitle').val();
       var type = $('#batchDialog').find('input[name="type"]:checked').val();
       var timestamp = new Date(Math.min.apply(null, checked.map((e) => new Date($(e).data('timestamp')))));
-      app.postPicture(urls, title, type, women, tags, timestamp);
+      app.postPicture(urls, title, type, women, authors, tags, timestamp);
       $('#batchDialog').modal('hide');
     }
   }
@@ -772,6 +901,7 @@ $('#goBatchMulti').on('click', function(event) {
   var type = $('#batchDialog').find('input[name="type"]:checked').val();
   var women = app.womenSelectBatch.value();
   if (!women) women = [];
+  var authors = app.authorsSelectBatch.value();
   var tags = app.tagsSelectBatch.value();
   if (!tags) tags = [];
   if (!tags.includes('new')) tags.push('new');
@@ -779,7 +909,7 @@ $('#goBatchMulti').on('click', function(event) {
     if (confirm('OK?')) {
       $('#batchDialog').modal('hide');
       checked.forEach((e) => {
-        app.postPicture([$(e).val()], $(e).data('title'), type, women, tags, new Date($(e).data('timestamp')))
+        app.postPicture([$(e).val()], $(e).data('title'), type, women, authors, tags, new Date($(e).data('timestamp')))
       });
     }
   }
