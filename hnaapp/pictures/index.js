@@ -23,7 +23,7 @@ var app = app || {};
     <p class="card-text hna-title">${data.title}</p>
     <span class="hna-women"></span>
     ${app.createWomanBadges(data.women)}
-    ${app.createAuthorBadge(data.author)}
+    ${app.createAuthorBadges(data.authors)}
     ${app.createTagBadges(data.tags)}
     <div class="d-flex justify-content-between align-items-center mt-2">
       <button type="button" class="btn btn-sm btn-outline-secondary pt-0 mr-1" data-id="${id}">View</button>
@@ -69,14 +69,14 @@ var app = app || {};
 `).join('');
   };
 
-  // Author badge
-  app.createAuthorBadge = (author) => {
+  // Author badges
+  app.createAuthorBadges = (authors) => {
     if (!author) return '';
-    return `
-<a href="?women=${author}">
-  <span class="badge badge-danger hna-author-badge">${author}</span>
+    return authors.map((a) => `
+<a href="?authors=${a}">
+  <span class="badge badge-danger hna-author-badge">${a}</span>
 </a>
-`;
+`).join('');
   };
 
   // Tag badges
@@ -196,7 +196,7 @@ var app = app || {};
     $(e).parent().parent().remove();
   };
 
-  app.postPicture = (urls, title, type, women, author, tags, createdAt) => {
+  app.postPicture = (urls, title, type, women, authors, tags, createdAt) => {
     var timestamp = new Date();
     var fields = {
       urls: urls.map((e) => e.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '')),
@@ -209,7 +209,7 @@ var app = app || {};
       updatedAt: timestamp
     };
     if (women) fields.women = women;
-    if (author) fields.author = author;
+    if (authors) fields.authors = authors;
     if (tags) fields.tags = tags;
     app.db.pictures.add(fields).then(function(doc) {
       //$('#batchDialog').modal('hide');
@@ -522,13 +522,14 @@ $('#editDialog').on('show.bs.modal', function(event) {
     var women = new Set(card.find('.hna-woman').map((i, v) => $(v).text()).get());
     var dbWomen = new Set(app.womenSelectOptions.map((e) => e.label));
     var existWomen = Array.from(new Set([...women].filter(e => (dbWomen.has(e)))));
-    var author = card.find('.hna-author-badge').text();
-    if (!app.authorsSelectOptions.includes(author)) author = null;
+    var authors = new Set(card.find('.hna-author-badge').map((i, v) => $(v).text()).get());
+    var dbAuthors = new Set(app.authorsSelectOptions.map((e) => e.label));
+    var existAuthors = Array.from(new Set([...authors].filter(e => (dbAuthors.has(e)))));
     var tags = new Set(card.find('.hna-tag').map((i, v) => $(v).text()).get());
     var dbTags = new Set(app.tagsSelectOptions.map((e) => e.label));
     var existTags = Array.from(new Set([...tags].filter(e => (dbTags.has(e)))));
     app.womenSelectEdit = app.createWomenSelect('#hnaWomen', existWomen);
-    app.authorsSelectEdit = app.createAuthorsSelect('#hnaAuthor', author);
+    app.authorsSelectEdit = app.createAuthorsSelect('#hnaAuthor', existAuthors);
     app.tagsSelectEdit = app.createTagsSelect('#hnaTags', existTags);
   } else {
     $(this).find('.modal-title').text('Add');
@@ -625,7 +626,7 @@ $('#saveChanges').on('click', function(event) {
       updatedAt: timestamp
     };
     if (women.length > 0) fields.women = women;
-    if (authors.length > 0) fields.author = authors;
+    if (authors.length > 0) fields.authors = authors;
     if (tags.length > 0) fields.tags = tags;
     if (id) {
       app.db.pictures.doc(id).set(fields, { merge: true }).then(function() {
@@ -874,6 +875,7 @@ $('#goBatchSingle').on('click', function(event) {
   var women = app.womenSelectBatch.value();
   if (!women) women = [];
   var authors = app.authorsSelectBatch.value();
+  if (!authors) authors = [];
   var tags = app.tagsSelectBatch.value();
   if (!tags) tags = [];
   if (!tags.includes('new')) tags.push('new');
@@ -895,6 +897,7 @@ $('#goBatchMulti').on('click', function(event) {
   var women = app.womenSelectBatch.value();
   if (!women) women = [];
   var authors = app.authorsSelectBatch.value();
+  if (!authors) authors = [];
   var tags = app.tagsSelectBatch.value();
   if (!tags) tags = [];
   if (!tags.includes('new')) tags.push('new');
