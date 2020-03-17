@@ -522,7 +522,7 @@ $('#editDialog').on('show.bs.modal', function(event) {
     var women = new Set(card.find('.hna-woman').map((i, v) => $(v).text()).get());
     var dbWomen = new Set(app.womenSelectOptions.map((e) => e.label));
     var existWomen = Array.from(new Set([...women].filter(e => (dbWomen.has(e)))));
-    var author = card.find('.hna-author-badge').get().text();
+    var author = card.find('.hna-author-badge').text();
     if (!app.authorsSelectOptions.includes(author)) author = null;
     var tags = new Set(card.find('.hna-tag').map((i, v) => $(v).text()).get());
     var dbTags = new Set(app.tagsSelectOptions.map((e) => e.label));
