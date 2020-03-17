@@ -71,7 +71,7 @@ var app = app || {};
 
   // Author badges
   app.createAuthorBadges = (authors) => {
-    if (!author) return '';
+    if (!authors) return '';
     return authors.map((a) => `
 <a href="?authors=${a}">
   <span class="badge badge-danger hna-author-badge">${a}</span>
@@ -140,7 +140,7 @@ var app = app || {};
   app.createAuthorsSelect = (id, value) => {
     return new SelectPure(id, {
       options: app.authorsSelectOptions,
-      //multiple: true,
+      multiple: true,
       //autocomplete: true,
       icon: 'fa fa-times',
       value: value
