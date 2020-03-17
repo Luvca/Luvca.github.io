@@ -516,13 +516,13 @@ $('#editDialog').on('show.bs.modal', function(event) {
     });
     $(this).find('.hna-timestamp').val(card.find('.hna-timestamp').text());
     $(this).find('.hna-title').val(card.find('.hna-title').text());
-    $('#googleTitle').prop('href', `https://www.google.co.jp/search?q=${card.find('.hna-title').text()}+${card.find('.hna-type').text()}+アダルト`);
+    $('#googleTitle').prop('href', `https://www.google.co.jp/search?q=${card.find('.hna-title').text()}+${card.find('.hna-type').text()}+adult`);
     $(this).find('input[name="type"]').filter(`[value=${card.find('.hna-type').text()}]`).prop('checked', true);
     //$(this).find('input[name="presence"]').filter(`[value=${card.find('.hna-presence').text()}]`).prop('checked', true);
     var women = new Set(card.find('.hna-woman').map((i, v) => $(v).text()).get());
     var dbWomen = new Set(app.womenSelectOptions.map((e) => e.label));
     var existWomen = Array.from(new Set([...women].filter(e => (dbWomen.has(e)))));
-    var authors = card.find('.hna-author-badge').get().text();
+    var author = card.find('.hna-author-badge').get().text();
     if (!app.authorsSelectOptions.includes(author)) author = null;
     var tags = new Set(card.find('.hna-tag').map((i, v) => $(v).text()).get());
     var dbTags = new Set(app.tagsSelectOptions.map((e) => e.label));
