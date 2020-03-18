@@ -38,7 +38,7 @@ var app = app || {};
         <span>&#x00D7;</span>
         <span>${data.urls.length}</span>
         <span class="hna-timestamp">${timestamp.toLocaleString('ja-JP').replace(/\//g, '-')}</span>
-        <div>${data.id}</div>
+        <div class="m-0">${id}</div>
       </small>
     </p>
   </div>
