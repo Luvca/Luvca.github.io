@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>Input</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link red="stylesheet" href="index.css">
+  </head>
+
+  <body>
+    <main role="main">
+      <div class="py-5 bg-light">
+        <div class="container">
+          <form id="searchForm">
+            <input id="hbTitle" class="form-control">
+            <button type="button" onclick="app.search();">Search</button>
+          </form>
+          <div id="searchResult" class="card-columns"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+    <script src="../firebase.js"></script>
+    <script src="fb-app.js"></script>
+    <script src="api.js"></script>
+    <script src="list-view-template.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
