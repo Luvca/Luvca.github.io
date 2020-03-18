@@ -38,6 +38,7 @@ var app = app || {};
         <span>&#x00D7;</span>
         <span>${data.urls.length}</span>
         <span class="hna-timestamp">${timestamp.toLocaleString('ja-JP').replace(/\//g, '-')}</span>
+        <div class="m-0 p-0">${id}</div>
       </small>
     </p>
   </div>
@@ -208,9 +209,9 @@ var app = app || {};
       createdAt: createdAt,
       updatedAt: timestamp
     };
-    if (women) fields.women = women;
-    if (authors) fields.authors = authors;
-    if (tags) fields.tags = tags;
+    if (women && women.length > 0) fields.women = women;
+    if (authors && authors.length > 0) fields.authors = authors;
+    if (tags && tags.length > 0) fields.tags = tags;
     app.db.pictures.add(fields).then(function(doc) {
       //$('#batchDialog').modal('hide');
       $('#pictures').prepend(app.createCard(doc.id, fields, fields.createdAt));
@@ -625,9 +626,9 @@ $('#saveChanges').on('click', function(event) {
       ///tags: app.tagsSelectEdit.value(),
       updatedAt: timestamp
     };
-    if (women.length > 0) fields.women = women;
-    if (authors.length > 0) fields.authors = authors;
-    if (tags.length > 0) fields.tags = tags;
+    if (women && women.length > 0) fields.women = women;
+    if (authors && authors.length > 0) fields.authors = authors;
+    if (tags && tags.length > 0) fields.tags = tags;
     if (id) {
       app.db.pictures.doc(id).set(fields, { merge: true }).then(function() {
         $('#editDialog').modal('hide');
