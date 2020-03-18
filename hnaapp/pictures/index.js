@@ -208,9 +208,9 @@ var app = app || {};
       createdAt: createdAt,
       updatedAt: timestamp
     };
-    if (women) fields.women = women;
-    if (authors) fields.authors = authors;
-    if (tags) fields.tags = tags;
+    if (women && women.length > 0) fields.women = women;
+    if (authors && authors.length > 0) fields.authors = authors;
+    if (tags && tags.length > 0) fields.tags = tags;
     app.db.pictures.add(fields).then(function(doc) {
       //$('#batchDialog').modal('hide');
       $('#pictures').prepend(app.createCard(doc.id, fields, fields.createdAt));
