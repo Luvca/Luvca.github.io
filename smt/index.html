@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="css/bootstrap/4.4.1/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/select-pure/select-pure.css">
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body>
+    <header class="pos-f-t">
+      <nav class="navbar navbar-dark bg-dark p-2">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fb-menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav>
+      <div id="fb-menu" class="collapse">
+        <div class="bg-dark p-2">
+          <form>
+            <div class="form-check-inline w-100">
+              <input class="form-check-input search-title" type="radio" name="hnaSearch" id="hnaSearchTitle" value="title">
+              <input id="titleSearch" class="form-control search-title" placeholder="(Title)">
+            </div>
+            <div class="form-check-inline w-100">
+              <input class="form-check-input search-type" type="radio" name="hnaSearch" id="hnaSearchType" value="type">
+              <input id="typeSearch" class="form-control search-type" placeholder="(Type)">
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input hna-order-by" type="radio" name="hnaOrderBy" id="hnaOrderByUpdatedAt" value="updatedAt" checked>
+              <label class="form-check-label text-muted" for="hnaOrderByUpdatedAt">Updated at</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input hna-order-by" type="radio" name="hnaOrderBy" id="hnaOrderByCreatedAt" value="createdAt">
+              <label class="form-check-label text-muted" for="hnaOrderByCreatedAt">Created at</label>
+            </div>
+            <div class="float-right mr-0">
+              <button id="search-btn" type="button" class="btn btn-sm btn-outline-secondary" onclick="app.search();">Search</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </header>
+    <main role="main">
+      <div id="info-msg-area" class="alert-info"></div>
+      <div id="error-msg-area" class="alert-danger"></div>
+      <div id="search-result"></div>
+    </main>
+
+    <div class="modal fade" id="editDialog" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="editModalTitle" class="modal-title"></h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <input class="fb-post-title" class="form-control">
+              <span id="fb-women" class="h-25"></span>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button id="saveChanges" type="button" class="btn btn-primary">Save</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/jquery/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap/4.4.1/bootstrap.min.js"></script>
+    <script type="text/javascript" src="smt.js"></script>
+    <script type="text/javascript" src="views.js"></script>
+    <script type="text/javascript" src="api.js"></script>
+    <script type="text/javascript" src="post.js"></script>
+    <script type="text/javascript" src="messages.js"></script>
+    <script type="text/javascript" src="view.js"></script>
+    <script src="js/select-pure/0.5.0/bundle.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+    <script>
+      var $womenSelect;
+    </script>
+</body>
+</html>

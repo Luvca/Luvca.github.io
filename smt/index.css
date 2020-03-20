@@ -1,0 +1,24 @@
+.btn-add {
+  background-color: white;
+  border: none;
+  padding: 2px 0 0 2px;
+}
+
+.hna-title {
+  margin-bottom: 0;
+}
+
+.hna-woman {
+  background-color: rgba(231, 84, 128, 1);
+  font-weight: normal;
+}
+
+.hna-author-badge {
+  background-color: rgba(0, 156, 209, 1);
+  font-weight: normal;
+}
+
+.hna-tag {
+  background-color: rgba(96, 96, 96, 1);
+  font-weight: normal;
+}
