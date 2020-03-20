@@ -11,24 +11,21 @@ var app = app || {};
   };
 
   $(function() {
-
     try {
-      view = smt.import('list-view-template').create({
+      view = smt.import('view').create({
         bindElement: {
           searchForm: $('#search-form'),
           errorMessagePanel: $('#error-msg-area'),
           infoMessagePanel: $('#info-msg-area'),
-          resultArea: $('#search-result')
+          resultArea: $('#search-result'),
+          editDialog: $('#editDialog')
         }
       });
-    } catch (e) {
+    } catch(e) {
       api.handleError(e);
     }
   });
 
-  /***************************************************
-   * public interface
-   ***************************************************/
   app.search = function() {
     if (store.executingSearch) return;
     store.executingSearch = true;
@@ -37,7 +34,7 @@ var app = app || {};
       var data = view.getSearchOption();
       view.reset();
       api.progressDisplay(true);
-      api.post('users/search', data).done(function (res) {
+      api.getPost(data).then(function(res) {
         if (res.errors) {
           view.showInputError(res.errors);
         } else {

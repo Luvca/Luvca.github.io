@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-smt.export('list-view-template', function(smt, undefined) {
+smt.export('view', function(smt, undefined) {
   var messages = smt.import('messages');
   var views = smt.import('views');
 
@@ -23,13 +23,17 @@ smt.export('list-view-template', function(smt, undefined) {
   }
 
   return {
-    create: function (init) {
+    create: function(init) {
       var bindElement = init.bindElement || {};
       var $searchForm = bindElement.searchForm;
       var $errorMessagePanel = bindElement.errorMessagePanel;
       var $infoMessagePanel = bindElement.infoMessagePanel;
       var $resultArea = bindElement.resultArea;
-      var post = smt.import('paging').create();
+      var post = smt.import('paging').create({
+        bindElement: {
+          editDialog: bindElement.editDialog
+        }
+      });
 
       return {
         getSearchOption: function () {
