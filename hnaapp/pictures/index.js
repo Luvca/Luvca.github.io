@@ -6,7 +6,7 @@ var app = app || {};
   // Card
   app.createCard = (id, data, timestamp) => `
 <div id="${id}" class="card box-shadow mb-2">
-  <div id="hnaCarousel${id}" class="carousel slide" data-ride="carousel">
+  <div id="hnaCarousel${id}" class="carousel slide" data-interval="false" data-ride="false">
     <div class="carousel-inner">
       ${data.urls.map(app.createCarouselItem).join('')}
       <a class="carousel-control-prev" href="#hnaCarousel${id}" role="button" data-slide="prev">
