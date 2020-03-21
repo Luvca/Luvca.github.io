@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 smt.export('paging', function (smt, undefined) {
   var tags = smt.import('tags').create();
@@ -47,6 +47,10 @@ smt.export('paging', function (smt, undefined) {
 
       return {
         createCard: function(post) {
+          var tagBadges = post.data().tags ? tags.map((t) => `
+        <a href="?tags=${t}">
+          <span class="badge badge-danger hna-tag">${t}</span>
+        </a>`).join('') : '';
           return `
             <div id="${post.id}" class="card box-shadow mb-2 fb-post">
               <div class="card-body pt-2">
