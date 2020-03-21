@@ -12,18 +12,11 @@ smt.export('api', function(smt, undefined) {
       return smt.db.collection('tags').limit(3).get();
     },
 
-    getHtml: function(url) {
-      return $.ajax(url, {
-        type: 'GET'
-      }).fail((xhr, status, thrown) => {
-      });
-    },
-
-    progressDisplay: function (isProgress) {
+    progressDisplay: function(isProgress) {
     },
 
     handleError: function (e) {
-      console.error(e.message);
+      console.error(e);
     },
 
     serverErrorHandling: function (xhr) {

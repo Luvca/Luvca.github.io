@@ -34,19 +34,16 @@ var app = app || {};
       var data = view.getSearchOption();
       view.reset();
       api.progressDisplay(true);
-      api.getPost(data).then(function(res) {
+      api.getPost(data).then((res) => {
         if (res.errors) {
           view.showInputError(res.errors);
         } else {
           store.lastSearchConditions = data;
           view.updateSearchResult(res);
         }
-      })/*.fail(function (xhr, status, thrown) {
-        api.serverErrorHandling(xhr);
-      }).always(function () {
-        store.executingSearch = false;
-        api.progressDisplay(false);
-      })*/;
+      }).catch((error) => {
+        api.serverErrorHandling(error);
+      });
     } catch (e) {
       store.executingSearch = false;
       api.progressDisplay(false);
