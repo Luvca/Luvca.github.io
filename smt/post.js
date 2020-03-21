@@ -38,12 +38,17 @@ smt.export('paging', function (smt, undefined) {
 
       return {
         createCard: function(post) {
+          var womanBadges = post.data().women ? post.data().women.map((w) => `
+            <span class="badge badge-danger hna-woman">${w}</span>`).join('') : '';
+
           var tagBadges = post.data().tags ? post.data().tags.map((t) => `
             <span class="badge badge-danger hna-tag">${t}</span>`).join('') : '';
+
           return `
             <div id="${post.id}" class="card box-shadow mb-2 fb-post">
               <div class="card-body pt-2">
                 <h6 class="card-title ${itemClass.postTitle}">${post.data().title}</h6>
+                ${womanBadges}
                 ${tagBadges}
                 <div class="d-flex justify-content-between align-items-center mt-2">
                   <button type="button" class="btn btn-sm btn-outline-secondary pt-0" data-toggle="modal" data-target="#${$editDialog.attr('id')}" data-id="${post.id}">Edit</button>
