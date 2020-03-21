@@ -47,10 +47,8 @@ smt.export('paging', function (smt, undefined) {
 
       return {
         createCard: function(post) {
-          var tagBadges = post.data().tags ? tags.map((t) => `
-        <a href="?tags=${t}">
-          <span class="badge badge-danger hna-tag">${t}</span>
-        </a>`).join('') : '';
+          var tagBadges = post.data().tags ? post.data().tags.map((t) => `
+            <span class="badge badge-danger hna-tag">${t}</span>`).join('') : '';
           return `
             <div id="${post.id}" class="card box-shadow mb-2 fb-post">
               <div class="card-body pt-2">
