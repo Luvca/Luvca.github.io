@@ -16,15 +16,6 @@ smt.export('paging', function (smt, undefined) {
       //value: ['Jane']
     });
   }
-
-    // Tag badges
-    function createTagBadges(tags) {
-      if (!tags) return '';
-      return tags.map((t) => `
-        <a href="?tags=${t}">
-          <span class="badge badge-danger hna-tag">${t}</span>
-        </a>`).join('');
-    }
   
   return {
     create: function(init) {
