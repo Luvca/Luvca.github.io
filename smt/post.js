@@ -53,7 +53,7 @@ smt.export('paging', function (smt, undefined) {
             <div id="${post.id}" class="card box-shadow mb-2 fb-post">
               <div class="card-body pt-2">
                 <h6 class="card-title ${itemClass.postTitle}">${post.data().title}</h6>
-                ${createTagBadges(post.data().tags)}
+                ${tagBadges}
                 <div class="d-flex justify-content-between align-items-center mt-2">
                   <button type="button" class="btn btn-sm btn-outline-secondary pt-0" data-toggle="modal" data-target="#${$editDialog.attr('id')}" data-id="${post.id}">Edit</button>
                 </div>
