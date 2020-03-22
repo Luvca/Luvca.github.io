@@ -41,6 +41,9 @@ smt.export('post', function (smt, undefined) {
   function savePost(event) {
     //var mode = event.relatedTarget.getAttribute('data-mode');
     console.log(event);
+    $(this).closest('.modal').on('hide.bs.modal', function(event) {
+      alert('Saved.');
+    });
   }
   
   return {
@@ -49,7 +52,7 @@ smt.export('post', function (smt, undefined) {
       var itemClass = init.itemClass || {};
       var $editDialog = bindElement.editDialog;
       $editDialog.on('show.bs.modal', itemClass, setupDialog);
-      $editDialog.on('hide.bs.modal', itemClass, savePost);
+      $('#fb-save-post').on('click', itemClass, savePost);
 
       return {
         createCard: function(post) {
