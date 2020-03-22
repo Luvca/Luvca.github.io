@@ -5,11 +5,25 @@ smt.export('api', function(smt, undefined) {
 
   return {
     getPost: function(option) {
-      return smt.db.collection('posts').orderBy('updatedAt', 'desc').limit(5).get();
+      return smt.db.collection('posts').orderBy('updatedAt', 'desc').limit(25).get();
+    },
+
+    getWomen: function() {
+      return smt.db.collection('women').orderBy('phoneticName').get();
+    },
+
+    getAuthors: function() {
+      return smt.db.collection('authors').orderBy('phoneticName').get();
     },
 
     getTags: function() {
-      return smt.db.collection('tags').limit(3).get();
+      return smt.db.collection('tags').get();
+    },
+
+    intersect: function(a, b) {
+      var setA = new Set(a);
+      var setB = new Set(b);
+      return Array.from(new Set([...setA].filter(e => (setB.has(e)))));
     },
 
     progressDisplay: function(isProgress) {

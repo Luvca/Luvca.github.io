@@ -25,14 +25,14 @@ smt.export('view', function(smt, undefined) {
   return {
     create: function(init) {
       var bindElement = init.bindElement || {};
+      var itemClass = init.itemClass || {};
       var $searchForm = bindElement.searchForm;
       var $errorMessagePanel = bindElement.errorMessagePanel;
       var $infoMessagePanel = bindElement.infoMessagePanel;
       var $resultArea = bindElement.resultArea;
-      var post = smt.import('paging').create({
-        bindElement: {
-          editDialog: bindElement.editDialog
-        }
+      var post = smt.import('post').create({
+        bindElement: bindElement,
+        itemClass: itemClass
       });
 
       return {

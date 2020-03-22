@@ -19,6 +19,12 @@ var app = app || {};
           infoMessagePanel: $('#info-msg-area'),
           resultArea: $('#search-result'),
           editDialog: $('#editDialog')
+        },
+        itemClass: {
+          title: 'fb-post-title',
+          women: 'fb-post-women',
+          authors: 'fb-post-authors',
+          tags: 'fb-post-tags'
         }
       });
     } catch(e) {
@@ -35,13 +41,9 @@ var app = app || {};
       view.reset();
       api.progressDisplay(true);
       api.getPost(data).then((res) => {
-        if (res.errors) {
-          view.showInputError(res.errors);
-        } else {
-          store.lastSearchConditions = data;
-          view.updateSearchResult(res);
-        }
-      }).catch((error) => {
+        store.lastSearchConditions = data;
+        view.updateSearchResult(res);
+    }).catch((error) => {
         api.serverErrorHandling(error);
       });
     } catch (e) {
