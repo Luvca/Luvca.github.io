@@ -40,7 +40,7 @@ smt.export('post', function (smt, undefined) {
 
   function savePost(event) {
     //var mode = event.relatedTarget.getAttribute('data-mode');
-    console.log(event);
+    alert(event);
     $(this).closest('.modal').on('hide.bs.modal', function(event) {
       alert('Saved.');
     });
