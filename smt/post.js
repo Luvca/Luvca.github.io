@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 smt.export('post', function (smt, undefined) {
   var api = smt.import('api');
@@ -14,6 +14,7 @@ smt.export('post', function (smt, undefined) {
     $(`#${itemClass.women}`).text('');
     $(`#${itemClass.authors}`).text('');
     $(`#${itemClass.tags}`).text('');
+    $(dialog).find(`.${itemClass.id}`).val(postId);
     $(dialog).find(`.${itemClass.title}`).val(post.find(`.${itemClass.title}`).text());
     var postWomen = post.find(`.${itemClass.women}`).map((i, v) => $(v).text()).get();
     $womenSelect = new SelectPure(`#${itemClass.women}`, {
@@ -39,11 +40,19 @@ smt.export('post', function (smt, undefined) {
   }
 
   function savePost(event) {
-    //var mode = event.relatedTarget.getAttribute('data-mode');
-    console.lig(event);
-    //$(this).closest('.modal').on('hide.bs.modal', function(event) {
+    var dialog = $(this).closest('.modal');
+    var itemClass = event.data;
+    var id = dialog.find(`.${itemClass.id}`).val();
+    var fields = {
+      title: dialog.find(`.${itemClass.title}`).val(),
+      updatedAt: new Date()
+    };
+    api.savePost(id, fields).then(() => {
+      dialog.modal('hide');
       alert('Saved.');
-    //});
+    }).catch((error) => {
+      console.log(error);
+    });
   }
   
   return {
@@ -51,8 +60,8 @@ smt.export('post', function (smt, undefined) {
       var bindElement = init.bindElement || {};
       var itemClass = init.itemClass || {};
       var $editDialog = bindElement.editDialog;
-      $editDialog.on('show.bs.modal', itemClass, setupDialog);
-      $('#fb-save-post').on('click', itemClass, savePost);
+      //$editDialog.on('show.bs.modal', itemClass, setupDialog);
+      //$('#fb-save-post').on('click', itemClass, savePost);
 
       return {
         createCard: function(post) {
@@ -65,6 +74,8 @@ smt.export('post', function (smt, undefined) {
           var tagBadges = post.data().tags ? post.data().tags.map((t) => `
             <span class="badge ${itemClass.tags}">${t}</span>`).join('') : '';
 
+          var urlCount = post.data().urls ? post.data().urls.length : 0;
+          var createdAt = post.data().createdAt ? post.data().createdAt.toDate().toLocaleString('ja-JP').replace(/\//g, '-') : '';
           return `
             <div id="${post.id}" class="card box-shadow mb-2 fb-post">
               <div class="card-body pt-2">
@@ -73,16 +84,16 @@ smt.export('post', function (smt, undefined) {
                 ${authorBadges}
                 ${tagBadges}
                 <div class="d-flex justify-content-between align-items-center mt-2">
-                  <button type="button" class="btn btn-sm btn-outline-secondary pt-0" data-toggle="modal" data-target="#${$editDialog.attr('id')}">Edit</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary pt-0 fb-edit-post-button" data-target="#${$editDialog.attr('id')}">Edit</button>
                 </div>
               </div>
               <div class="card-footer text-muted small fb-card-footer">
                 <div>
                   <span>${post.data().type}</span>
                   <span>&#x00D7;</span>
-                  <span>${post.data().urls.length}</span>
+                  <span>${urlCount}</span>
                 </div>
-                <div>created: ${post.data().createdAt.toDate().toLocaleString('ja-JP').replace(/\//g, '-')}</div>
+                <div>created: ${createdAt}</div>
                 <div>${post.id}</div>
               </div>
             </div>`;

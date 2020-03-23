@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -52,7 +52,7 @@
                   <label class="form-check-label text-muted" for="hnaOrderByUpdatedAt">Updated at</label>
                 </div>
                 <div class="form-check-inline float-right mr-0">
-                  <button type="button" class="btn btn-sm btn-outline-secondary" onclick="app.search();">Search</button>
+                  <button id="fb-search-posts-button" type="button" class="btn btn-sm btn-outline-secondary">Search</button>
                 </div>
               </li>
             </ul>
@@ -77,6 +77,7 @@
           </div>
           <div class="modal-body">
             <form id="editForm" class="needs-validation" novalidate>
+              <input type="hidden" class="fb-post-id">
               <div class="form-group">
                 <label class="col-form-label">Title</label>
                 <input class="form-control fb-post-title">
@@ -92,7 +93,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-danger mr-auto">Delete</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button id="fb-save-post" type="button" class="btn btn-primary">Save</button>
+            <button id="fb-save-post-button" type="button" class="btn btn-primary">Save</button>
           </div>
         </div>
       </div>

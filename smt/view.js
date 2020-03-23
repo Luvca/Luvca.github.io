@@ -1,8 +1,12 @@
 ﻿'use strict';
 
 smt.export('view', function(smt, undefined) {
+  var api = smt.import('api');
   var messages = smt.import('messages');
   var views = smt.import('views');
+  var women = smt.import('women').create();
+  var authors = smt.import('authors').create();
+  var tags = smt.import('tags').create();
 
   function partialSerialize($form) {
 
@@ -85,7 +89,7 @@ smt.export('view', function(smt, undefined) {
           $errorMessagePanel.html('<ul>' + html + '</ul>');
         },
 
-        updateSearchResult: function (result) {
+        showPosts: function(result) {
           if (result.length === 0) {
             $infoMessagePanel.append(messages.getMessage('not-result'));
           } else {
@@ -94,6 +98,55 @@ smt.export('view', function(smt, undefined) {
             });
             $('html,body').animate({ scrollTop: $resultArea.offset().top })
           }
+        },
+
+        editPost: function(event) {
+          var card = $(event.target.closest('.card'));
+          var dialog = $('#editDialog');
+          dialog.find(`.${itemClass.id}`).val(card.attr('id'));
+          dialog.find(`.${itemClass.title}`).val(card.find(`.${itemClass.title}`).text());
+          $(`#${itemClass.women}`).text('');
+          var postWomen = card.find(`.${itemClass.women}`).map((i, v) => $(v).text()).get();
+          $womenSelect = new SelectPure(`#${itemClass.women}`, {
+            options: women.getAll(),
+            multiple: true,
+            icon: 'fa fa-times',
+            value: api.intersect(postWomen, women.getAll().map((e) => e.label))
+          });
+          $(`#${itemClass.authors}`).text('');
+          var postAuthors = card.find(`.${itemClass.authors}`).map((i, v) => $(v).text()).get();
+          $authorsSelect = new SelectPure(`#${itemClass.authors}`, {
+            options: authors.getAll(),
+            multiple: true,
+            icon: 'fa fa-times',
+            value: api.intersect(postAuthors, authors.getAll().map((e) => e.label))
+          });
+          $(`#${itemClass.tags}`).text('');
+          var postTags = card.find(`.${itemClass.tags}`).map((i, v) => $(v).text()).get();
+          $tagsSelect = new SelectPure(`#${itemClass.tags}`, {
+            options: tags.getAll(),
+            multiple: true,
+            icon: 'fa fa-times',
+            value: api.intersect(postTags, tags.getAll().map((e) => e.label))
+          });
+          dialog.modal('show');
+        },
+
+        getPost: function(event) {
+          var dialog = $(event.target.closest('.modal'));
+          return {
+            id: dialog.find(`.${itemClass.id}`).val(),
+            fields: {
+              title: dialog.find(`.${itemClass.title}`).val(),
+              updatedAt: new Date()
+            }
+          };
+        },
+
+        updatePost: function(data) {
+          var card = $(`#${data.id}`);
+          card.find(`.${itemClass.title}`).text(data.fields.title);
+          $('#editDialog').modal('hide');
         }
       };
     }

@@ -6,7 +6,7 @@ var smt = smt || {};
   var container = {};
 
   firebase.initializeApp({
-    projectId: 'fruit-basket-data'
+    projectId: 'sasatests'
   });
   smt.db = firebase.firestore();
 

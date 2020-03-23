@@ -21,35 +21,70 @@ var app = app || {};
           editDialog: $('#editDialog')
         },
         itemClass: {
+          id: 'fb-post-id',
           title: 'fb-post-title',
           women: 'fb-post-women',
           authors: 'fb-post-authors',
           tags: 'fb-post-tags'
         }
       });
+
+      $(document).on('click', '#fb-search-posts-button', app.searchPosts);
+      $(document).on('click', '.fb-edit-post-button', app.editPost);
+      $(document).on('click', '#fb-save-post-button', app.savePost);
     } catch(e) {
       api.handleError(e);
     }
   });
 
-  app.search = function() {
+  app.searchPosts = function() {
     if (store.executingSearch) return;
     store.executingSearch = true;
 
     try {
-      var data = view.getSearchOption();
+      var option = view.getSearchOption();
       view.reset();
       api.progressDisplay(true);
-      api.getPost(data).then((res) => {
-        store.lastSearchConditions = data;
-        view.updateSearchResult(res);
-    }).catch((error) => {
+      api.getPosts(option).then((res) => {
+        store.lastSearchConditions = option;
+        view.showPosts(res);
+      }).catch((error) => {
+        console.log(error);
         api.serverErrorHandling(error);
       });
-    } catch (e) {
+    } catch(e) {
+      api.handleError(e);
+    } finally {
       store.executingSearch = false;
       api.progressDisplay(false);
+    }
+  };
+
+  app.editPost = function(event) {
+    try {
+      view.editPost(event);
+    } catch(e) {
       api.handleError(e);
+    } finally {
+    }
+  };
+
+  app.savePost = function(event) {
+    if (store.executingSearch) return;
+    store.executingSearch = true;
+
+    try {
+      var post = view.getPost(event);
+      api.savePost(post.id, post.fields).then(() => {
+        view.updatePost(post);
+      }).catch((error) => {
+        console.log(error);
+        api.serverErrorHandling(error);
+      });
+    } catch(e) {
+      api.handleError(e);
+    } finally {
+      store.executingSearch = false;
     }
   };
 }(app));

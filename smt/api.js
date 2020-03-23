@@ -4,8 +4,12 @@ smt.export('api', function(smt, undefined) {
   var messages = smt.import('messages');
 
   return {
-    getPost: function(option) {
+    getPosts: function(option) {
       return smt.db.collection('posts').orderBy('updatedAt', 'desc').limit(25).get();
+    },
+
+    savePost: function(id, fields) {
+      return smt.db.collection('posts').doc(id).set(fields);
     },
 
     getWomen: function() {
