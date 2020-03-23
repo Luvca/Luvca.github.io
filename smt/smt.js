@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 var smt = smt || {};
 
@@ -6,7 +6,7 @@ var smt = smt || {};
   var container = {};
 
   firebase.initializeApp({
-    projectId: 'sasatests'
+    projectId: 'fruit-basket-data'
   });
   smt.db = firebase.firestore();
 
