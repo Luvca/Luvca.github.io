@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
@@ -7,6 +7,7 @@ smt.export('view', function(smt, undefined) {
   var women = smt.import('women').create();
   var authors = smt.import('authors').create();
   var tags = smt.import('tags').create();
+  var domParser = new DOMParser();
 
   function partialSerialize($form) {
 
@@ -38,6 +39,7 @@ smt.export('view', function(smt, undefined) {
         bindElement: bindElement,
         itemClass: itemClass
       });
+      var cardTemplate = $('#fb-card-template').html();
 
       return {
         getSearchOption: function () {
@@ -94,7 +96,10 @@ smt.export('view', function(smt, undefined) {
             $infoMessagePanel.append(messages.getMessage('not-result'));
           } else {
             result.forEach((ref) => {
-              $resultArea.append(post.createCard(ref));
+              var card = domParser.parseFromString(cardTemplate);
+              $(card).attr('id', ref.id);
+              $(card).find('.fb-post-title').text(ref.data().title);
+              $resultArea.append(card);
             });
             $('html,body').animate({ scrollTop: $resultArea.offset().top })
           }
