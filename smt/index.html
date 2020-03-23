@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -78,6 +78,17 @@
           <div class="modal-body">
             <form id="editForm" class="needs-validation" novalidate>
               <input type="hidden" class="fb-post-id">
+              <div class="form-group">
+                <div class="form-inline">
+                  <label for="pictureUrls" class="col-form-label">URL</label>
+                  <button type="button" class="btn-add" onclick="app.addUrl();">&#x2295;</button>
+                </div>
+                <div class="input-group">
+                  <input id="hnaUrl0" name="hnaUrl" class="form-control" required>
+                  <div class="invalid-feedback">URL is required.</div>
+                </div>
+                <div id="pictureUrls"></div>
+              </div>
               <div class="form-group">
                 <label class="col-form-label">Title</label>
                 <input class="form-control fb-post-title">
