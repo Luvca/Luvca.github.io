@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 var app = app || {};
 
@@ -49,8 +49,7 @@ var app = app || {};
         store.lastSearchConditions = option;
         view.showPosts(res);
       }).catch((error) => {
-        console.log(error);
-        api.serverErrorHandling(error);
+        api.handleError(error);
       });
     } catch(e) {
       api.handleError(e);
