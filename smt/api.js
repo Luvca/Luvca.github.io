@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 smt.export('api', function(smt, undefined) {
   var messages = smt.import('messages');
@@ -35,6 +35,7 @@ smt.export('api', function(smt, undefined) {
 
     handleError: function (e) {
       console.error(e);
+      alert(e);
     },
 
     serverErrorHandling: function (xhr) {
