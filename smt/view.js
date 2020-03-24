@@ -97,8 +97,8 @@ smt.export('view', function(smt, undefined) {
           } else {
             result.forEach((ref) => {
               var card = $.parseHTML(cardTemplate);
-              card.attr('id', ref.id);
-              card.find('.fb-post-title').text(ref.data().title);
+              $(card).attr('id', ref.id);
+              $(card).find('.fb-post-title').text(ref.data().title);
               $resultArea.append(card);
             });
             $('html,body').animate({ scrollTop: $resultArea.offset().top })
