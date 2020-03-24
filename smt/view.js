@@ -102,11 +102,11 @@ smt.export('view', function(smt, undefined) {
               if (ref.data().women) {
                 var womenArea = $(card).find('.fb-post-women-area');
                 var womanTemplate = $(card).find('.fb-post-woman').html();
-                ref.data().women.forEach((w) => {
+                for (var i = 0; i < ref.data().women.length; i++) {
                   var womanBadge = $.parseHTML(womanTemplate);
-                  $(womanBadge).text(w);
+                  $(womanBadge).text(ref.data().women[i]);
                   $(womenArea).append(womanBadge);
-                });
+                }
               }
               $resultArea.append(card);
             });
