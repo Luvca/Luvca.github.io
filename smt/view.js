@@ -100,7 +100,7 @@ smt.export('view', function(smt, undefined) {
               $(card).attr('id', ref.id);
               $(card).find('.fb-post-title').text(ref.data().title);
               $(card).find('.fb-post-type').text(ref.data().type);
-              //$(card).find('.fb-post-url-count').text(ref.data().urls.length);
+              $(card).find('.fb-post-url-count').text(ref.data().urls.length);
               //$(card).find('.fb-post-created-at').text(ref.data().createdAt.toDate().toLocaleString('ja-JP').replace(/\//g, '-');
               //$(card).find('.fb-post-id').text(ref.id);
               if (ref.data().women) {
