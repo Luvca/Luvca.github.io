@@ -96,7 +96,7 @@ smt.export('view', function(smt, undefined) {
             $infoMessagePanel.append(messages.getMessage('not-result'));
           } else {
             result.forEach((ref) => {
-              var card = domParser.parseFromString(cardTemplate, 'text/html');
+              var card = domParser.parseFromString(cardTemplate, 'text/xml');
               $(card).attr('id', ref.id);
               $(card).find('.fb-post-title').text(ref.data().title);
               $resultArea.append(card);
