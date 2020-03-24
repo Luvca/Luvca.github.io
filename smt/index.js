@@ -23,9 +23,9 @@ var app = app || {};
         itemClass: {
           id: 'fb-post-id',
           title: 'fb-post-title',
-          women: 'fb-post-women',
-          authors: 'fb-post-authors',
-          tags: 'fb-post-tags'
+          women: 'fb-post-woman',
+          authors: 'fb-post-author',
+          tags: 'fb-post-tag'
         }
       });
 
