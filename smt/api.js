@@ -35,7 +35,7 @@ smt.export('api', function(smt, undefined) {
 
     handleError: function (e) {
       console.error(e);
-      alert(e);
+      alert(e + ' ' + e.stack);
     },
 
     serverErrorHandling: function (xhr) {
