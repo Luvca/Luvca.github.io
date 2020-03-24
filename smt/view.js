@@ -99,6 +99,15 @@ smt.export('view', function(smt, undefined) {
               var card = $.parseHTML(cardTemplate);
               $(card).attr('id', ref.id);
               $(card).find('.fb-post-title').text(ref.data().title);
+              if (ref.data().women) {
+                var womenArea = $(card).find('.fb-post-women-area');
+                var womanTemplate = $(card).find('.fb-post-woman').html();
+                ref.data().women.forEach((w) => {
+                  var womanBadge = $.parseHTML(womanTemplate);
+                  $(womanBadge).text(w);
+                  $(womenArea).append(womanBadge);
+                });
+              }
               $resultArea.append(card);
             });
             $('html,body').animate({ scrollTop: $resultArea.offset().top })
