@@ -108,6 +108,15 @@ smt.export('view', function(smt, undefined) {
                   $(womenArea).append(womanBadge);
                 });
               }
+              if (ref.data().authors) {
+                var authorsArea = $(card).find('.fb-post-authors-area');
+                var authorTemplate = $(card).find('.fb-post-author').prop('outerHTML');
+                ref.data().authors.forEach((a) => {
+                  var authorBadge = $.parseHTML(authorTemplate);
+                  $(authorBadge).text(a);
+                  $(authorsArea).append(authorBadge);
+                });
+              }
               $resultArea.append(card);
             });
             $('html,body').animate({ scrollTop: $resultArea.offset().top })
