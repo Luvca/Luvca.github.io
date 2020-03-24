@@ -14,13 +14,13 @@
   font-weight: normal;
 }
 
-.fb-post-authors {
+.fb-post-author {
   color: rgba(255, 255, 255, 1);
   background-color: rgba(0, 156, 209, 1);
   font-weight: normal;
 }
 
-.fb-post-tags {
+.fb-post-tag {
   color: rgba(255, 255, 255, 1);
   background-color: rgba(96, 96, 96, 1);
   font-weight: normal;
