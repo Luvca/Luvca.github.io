@@ -39,7 +39,7 @@ smt.export('view', function(smt, undefined) {
         bindElement: bindElement,
         itemClass: itemClass
       });
-      var cardTemplate = $('#fb-card-template').html();
+      var cardTemplate = $('#fb-card-template').prop('outerHTML');
 
       return {
         getSearchOption: function () {
