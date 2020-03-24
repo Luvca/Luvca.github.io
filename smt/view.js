@@ -100,7 +100,7 @@ smt.export('view', function(smt, undefined) {
               $(card).attr('id', ref.id);
               $(card).find('.fb-post-title').text(ref.data().title);
               if (ref.data().women) {
-                var womenArea = $(card).find('.fb-post-women-area');
+                var womenArea = $(card).find('.fb-post-women');
                 var womanTemplate = $(card).find('.fb-post-woman').prop('outerHTML');
                 ref.data().women.forEach((w) => {
                   var womanBadge = $.parseHTML(womanTemplate);
@@ -109,7 +109,7 @@ smt.export('view', function(smt, undefined) {
                 });
               }
               if (ref.data().authors) {
-                var authorsArea = $(card).find('.fb-post-authors-area');
+                var authorsArea = $(card).find('.fb-post-authors');
                 var authorTemplate = $(card).find('.fb-post-author').prop('outerHTML');
                 ref.data().authors.forEach((a) => {
                   var authorBadge = $.parseHTML(authorTemplate);
