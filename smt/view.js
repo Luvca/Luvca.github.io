@@ -96,9 +96,9 @@ smt.export('view', function(smt, undefined) {
             $infoMessagePanel.append(messages.getMessage('not-result'));
           } else {
             result.forEach((ref) => {
-              var card = domParser.parseFromString(cardTemplate, 'text/xml');
-              $(card).attr('id', ref.id);
-              $(card).find('.fb-post-title').text(ref.data().title);
+              var card = $.parseHTML(cardTemplate);
+              card.attr('id', ref.id);
+              card.find('.fb-post-title').text(ref.data().title);
               $resultArea.append(card);
             });
             $('html,body').animate({ scrollTop: $resultArea.offset().top })
