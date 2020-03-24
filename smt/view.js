@@ -141,25 +141,25 @@ smt.export('view', function(smt, undefined) {
           var dialog = $('#editDialog');
           dialog.find(`.${itemClass.id}`).val(card.attr('id'));
           dialog.find(`.${itemClass.title}`).val(card.find(`.${itemClass.title}`).text());
-          $(`#${itemClass.women}`).text('');
-          var postWomen = card.find(`.${itemClass.women}`).map((i, v) => $(v).text()).get();
-          $womenSelect = new SelectPure(`#${itemClass.women}`, {
+          $('#fb-post-women').text('');
+          var postWomen = card.find('.fb-post-woman').map((v) => $(v).text()).get();
+          $womenSelect = new SelectPure('#fb-post-women', {
             options: women.getAll(),
             multiple: true,
             icon: 'fa fa-times',
             value: api.intersect(postWomen, women.getAll().map((e) => e.label))
           });
-          $(`#${itemClass.authors}`).text('');
-          var postAuthors = card.find(`.${itemClass.authors}`).map((i, v) => $(v).text()).get();
-          $authorsSelect = new SelectPure(`#${itemClass.authors}`, {
+          $('#fb-post-authors').text('');
+          var postAuthors = card.find('.fb-post-author').map((v) => $(v).text()).get();
+          $authorsSelect = new SelectPure('#fb-post-authors', {
             options: authors.getAll(),
             multiple: true,
             icon: 'fa fa-times',
             value: api.intersect(postAuthors, authors.getAll().map((e) => e.label))
           });
-          $(`#${itemClass.tags}`).text('');
-          var postTags = card.find(`.${itemClass.tags}`).map((i, v) => $(v).text()).get();
-          $tagsSelect = new SelectPure(`#${itemClass.tags}`, {
+          $('#fb-post-tags').text('');
+          var postTags = card.find('.fb-post-tag').map((v) => $(v).text()).get();
+          $tagsSelect = new SelectPure('#fb-post-tags', {
             options: tags.getAll(),
             multiple: true,
             icon: 'fa fa-times',
