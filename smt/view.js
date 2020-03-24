@@ -117,6 +117,15 @@ smt.export('view', function(smt, undefined) {
                   $(authorsArea).append(authorBadge);
                 });
               }
+              if (ref.data().tags) {
+                var tagsArea = $(card).find('.fb-post-tags');
+                var tagTemplate = $(card).find('.fb-post-tag').prop('outerHTML');
+                ref.data().tags.forEach((t) => {
+                  var tagBadge = $.parseHTML(tagTemplate);
+                  $(tagBadge).text(t);
+                  $(tagsArea).append(tagBadge);
+                });
+              }
               $resultArea.append(card);
             });
             $('html,body').animate({ scrollTop: $resultArea.offset().top })
