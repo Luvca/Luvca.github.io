@@ -144,6 +144,7 @@ smt.export('view', function(smt, undefined) {
           dialog.find(`.${itemClass.title}`).val(card.find(`.${itemClass.title}`).text());
           $('#fb-post-women').text('');
           var postWomen = card.find('.fb-post-woman').map((v) => $(v).text()).get();
+          alert(postWomen);
           $womenSelect = new SelectPure('#fb-post-women', {
             options: women.getAll(),
             multiple: true,
