@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
@@ -143,8 +143,7 @@ smt.export('view', function(smt, undefined) {
           dialog.find(`.${itemClass.id}`).val(card.attr('id'));
           dialog.find(`.${itemClass.title}`).val(card.find(`.${itemClass.title}`).text());
           $('#fb-post-women').text('');
-          var postWomen = card.find('.fb-post-woman').map((v) => $(v).text()).get();
-          alert(postWomen);
+          var postWomen = card.find('.fb-post-woman').get().map((v) => $(v).text());
           $womenSelect = new SelectPure('#fb-post-women', {
             options: women.getAll(),
             multiple: true,
@@ -152,7 +151,7 @@ smt.export('view', function(smt, undefined) {
             value: api.intersect(postWomen, women.getAll().map((e) => e.label))
           });
           $('#fb-post-authors').text('');
-          var postAuthors = card.find('.fb-post-author').map((v) => $(v).text()).get();
+          var postAuthors = card.find('.fb-post-author').get().map((v) => $(v).text());
           $authorsSelect = new SelectPure('#fb-post-authors', {
             options: authors.getAll(),
             multiple: true,
@@ -160,7 +159,7 @@ smt.export('view', function(smt, undefined) {
             value: api.intersect(postAuthors, authors.getAll().map((e) => e.label))
           });
           $('#fb-post-tags').text('');
-          var postTags = card.find('.fb-post-tag').map((v) => $(v).text()).get();
+          var postTags = card.find('.fb-post-tag').get().map((v) => $(v).text());
           $tagsSelect = new SelectPure('#fb-post-tags', {
             options: tags.getAll(),
             multiple: true,
