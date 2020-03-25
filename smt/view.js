@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
@@ -101,7 +101,7 @@ smt.export('view', function(smt, undefined) {
               $(card).attr('id', ref.id);
               var carouselId = `fb-post-carousel-${ref.id}`;
               $(card).find('.fb-post-carousel').attr('id', carouselId);
-              $(card).find('.fb-post-carousel-control').attr('href', carouselId);
+              $(card).find('.fb-post-carousel-control').attr('href', `#${carouselId}`);
               var carouselItems = $(card).find('.fb-post-carousel-items');
               var carouselItemTemplate = $(card).find('.fb-post-carousel-item').prop('outerHTML');
               carouselItems.empty();
