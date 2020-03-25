@@ -46,13 +46,6 @@ smt.export('view', function(smt, undefined) {
       var urlTemplate = $(postUrls).html();
       var typeHolder = editDialog.find('.fb-post-types');
       var typeTemplate = $(typeHolder).html();
-      typeHolder.empty();
-      types.getAll().forEach((t) => {
-        var typeItem = $.parseHTML(typeTemplate);
-        $(typeItem).find('input[name="fb-post-type"]').attr('value', t);
-        $(typeItem).find('.fb-post-type').text(t);
-        typeHolder.append(typeItem);
-      });
 
       return {
         getSearchOption: function () {
@@ -176,6 +169,13 @@ smt.export('view', function(smt, undefined) {
             $(postUrls).append(postUrl);
           });
           editDialog.find('#fb-post-title').val(card.find(`.${itemClass.title}`).text());
+          typeHolder.empty();
+          types.getAll().forEach((t) => {
+            var typeItem = $.parseHTML(typeTemplate);
+            $(typeItem).find('input[name="fb-post-type"]').attr('value', t);
+            $(typeItem).find('.fb-post-type').text(t);
+            typeHolder.append(typeItem);
+          });
           $('#fb-post-women').text('');
           var postWomen = card.find('.fb-post-woman').get().map((v) => $(v).text());
           $womenSelect = new SelectPure('#fb-post-women', {
