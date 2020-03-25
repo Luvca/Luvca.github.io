@@ -8,6 +8,10 @@
   margin-bottom: 0;
 }
 
+.fb-post-url {
+  opacity: 0.1;
+}
+
 .fb-post-woman {
   color: rgba(255, 255, 255, 1);
   background-color: rgba(231, 84, 128, 1);
