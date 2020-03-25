@@ -154,7 +154,14 @@ smt.export('view', function(smt, undefined) {
           var card = $(event.target.closest('.card'));
           var dialog = $('#editDialog');
           dialog.find(`.${itemClass.id}`).val(card.attr('id'));
-          var urlTemplate = card.find('#fb-post-urls').html();
+          var postUrls = dialog.find('#fb-post-urls');
+          var urlTemplate = $(postUrls).html();
+          $(postUrls).empty();
+          card.find('.fb-post-image').get().map((i) => $(i).attr('src')).forEach((u) => {
+            var postUrl = $.parseHTML(urlTemplate);
+            $(postUrl).find('.fb-post-url').val(u);
+            $(postUrls).append(postUrl);
+          });
           dialog.find(`.${itemClass.title}`).val(card.find(`.${itemClass.title}`).text());
           $('#fb-post-women').text('');
           var postWomen = card.find('.fb-post-woman').get().map((v) => $(v).text());
