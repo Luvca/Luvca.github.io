@@ -107,7 +107,7 @@ smt.export('view', function(smt, undefined) {
               carouselItems.empty();
               carouselItems.append(ref.data().urls.map((u, i) => {
                 var carouselItem = $.parseHTML(carouselItemTemplate);
-                $(carouselItem).find('.fb-post-url').attr('src', u);
+                $(carouselItem).find('.fb-post-image').attr('src', u);
                 if (i === 0)
                   $(carouselItem).addClass('active');
                 return $(carouselItem).prop('outerHTML');
