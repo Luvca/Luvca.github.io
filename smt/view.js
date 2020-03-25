@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
@@ -105,13 +105,13 @@ smt.export('view', function(smt, undefined) {
               var carouselItems = $(card).find('.fb-post-carousel-items');
               var carouselItemTemplate = $(card).find('.fb-post-carousel-item').prop('outerHTML');
               carouselItems.empty();
-              carouselItems.append(ref.data().urls.map((i, u) => {
+              carouselItems.append(ref.data().urls.map((u, i) => {
                 var carouselItem = $.parseHTML(carouselItemTemplate);
-                carouselItem.find('.fb-post-url').attr('src', u);
+                $(carouselItem).find('.fb-post-url').attr('src', u);
                 if (i === 0)
-                  carouselItem.addClass('active');
-                return carouselItem;
-              }).join(''););
+                  $(carouselItem).addClass('active');
+                return $(carouselItem).prop('outerHTML');
+              }).join(''));
               $(card).find('.fb-post-title').text(ref.data().title);
               $(card).find('.fb-post-type').text(ref.data().type);
               $(card).find('.fb-post-url-count').text(ref.data().urls.length);
