@@ -12,6 +12,10 @@ smt.export('api', function(smt, undefined) {
       return smt.db.collection('posts').doc(id).set(fields);
     },
 
+    getTypes: function() {
+      return smt.db.collection('types').get();
+    },
+
     getWomen: function() {
       return smt.db.collection('women').orderBy('phoneticName').get();
     },

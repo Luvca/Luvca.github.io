@@ -4,6 +4,7 @@ smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
   var messages = smt.import('messages');
   var views = smt.import('views');
+  var types = smt.import('types').create();
   var women = smt.import('women').create();
   var authors = smt.import('authors').create();
   var tags = smt.import('tags').create();

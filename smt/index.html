@@ -69,7 +69,7 @@
             <div class="carousel-inner">
               <div class="fb-post-carousel-items">
                 <div class="carousel-item fb-post-carousel-item">
-                  <img class="d-block w-100 fb-post-image">
+                  <imx class="d-block w-100 fb-post-image">
                 </div>
               </div>
               <a class="carousel-control-prev fb-post-carousel-control" role="button" data-slide="prev">
@@ -138,6 +138,12 @@
                 <label class="col-form-label">Title</label>
                 <input id="fb-post-title" class="form-control">
               </div>
+              <div class="form-group form-post-types">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="fb-post-type" value="${type}" required>
+                  <label class="form-check-label fb-post-type"></label>
+                </div>
+              </div>
               <span id="fb-post-women" class="h-25"></span>
               <script>var $womenSelect;</script>
               <span id="fb-post-authors" class="h-25"></span>
@@ -164,6 +170,7 @@
     <script type="text/javascript" src="views.js"></script>
     <script type="text/javascript" src="api.js"></script>
     <script type="text/javascript" src="post.js"></script>
+    <script type="text/javascript" src="types.js"></script>
     <script type="text/javascript" src="women.js"></script>
     <script type="text/javascript" src="authors.js"></script>
     <script type="text/javascript" src="tags.js"></script>
