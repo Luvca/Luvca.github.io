@@ -46,7 +46,7 @@ smt.export('view', function(smt, undefined) {
       var urlTemplate = $(postUrls).html();
       var typeHolder = editDialog.find('.fb-post-types');
       var typeTemplate = $(typeHolder).html();
-      $(typeHolder).empty();
+      typeHolder.empty();
       types.getAll().forEach((t) => {
         var typeItem = $.parseHTML(typeTemplate);
         $(typeItem).find('input[name="fb-post-type"]').attr('value', t);
