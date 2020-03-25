@@ -154,6 +154,7 @@ smt.export('view', function(smt, undefined) {
           var card = $(event.target.closest('.card'));
           var dialog = $('#editDialog');
           dialog.find(`.${itemClass.id}`).val(card.attr('id'));
+          var urlTemplate = card.find('#fb-post-urls').html();
           dialog.find(`.${itemClass.title}`).val(card.find(`.${itemClass.title}`).text());
           $('#fb-post-women').text('');
           var postWomen = card.find('.fb-post-woman').get().map((v) => $(v).text());
