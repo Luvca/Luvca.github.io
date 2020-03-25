@@ -44,6 +44,13 @@ smt.export('view', function(smt, undefined) {
       var editDialog = $('#editDialog');
       var postUrls = editDialog.find('#fb-post-urls');
       var urlTemplate = $(postUrls).html();
+      var typeHolder = $(editDialog).find('.fb-post-types');
+      var typeTemplate = $(typeHolder).html();
+      $(typeHolder).empty();
+      types.getAll().forEach((t) => {
+        var typeItem = $.parseHTML(typeTemplate);
+        $(typeHolder).append(typeItem);
+      });
 
       return {
         getSearchOption: function () {
