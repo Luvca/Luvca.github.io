@@ -40,6 +40,9 @@ smt.export('view', function(smt, undefined) {
         itemClass: itemClass
       });
       var cardTemplate = $('#fb-card-template').prop('outerHTML');
+      var editDialog = $('#editDialog');
+      var postUrls = editDialog.find('#fb-post-urls');
+      var urlTemplate = $(postUrls).html();
 
       return {
         getSearchOption: function () {
@@ -152,17 +155,17 @@ smt.export('view', function(smt, undefined) {
 
         editPost: function(event) {
           var card = $(event.target.closest('.card'));
-          var dialog = $('#editDialog');
-          dialog.find(`.${itemClass.id}`).val(card.attr('id'));
-          var postUrls = dialog.find('#fb-post-urls');
-          var urlTemplate = $(postUrls).html();
+          //var dialog = $('#editDialog');
+          editDialog.find('#fb-post-id').val(card.attr('id'));
+          //var postUrls = dialog.find('#fb-post-urls');
+          //var urlTemplate = $(postUrls).html();
           $(postUrls).empty();
           card.find('.fb-post-image').get().map((i) => $(i).attr('src')).forEach((u) => {
             var postUrl = $.parseHTML(urlTemplate);
             $(postUrl).find('.fb-post-url').val(u);
             $(postUrls).append(postUrl);
           });
-          dialog.find(`.${itemClass.title}`).val(card.find(`.${itemClass.title}`).text());
+          editDialog.find('#fb-post-title').val(card.find(`.${itemClass.title}`).text());
           $('#fb-post-women').text('');
           var postWomen = card.find('.fb-post-woman').get().map((v) => $(v).text());
           $womenSelect = new SelectPure('#fb-post-women', {
@@ -187,7 +190,7 @@ smt.export('view', function(smt, undefined) {
             icon: 'fa fa-times',
             value: api.intersect(postTags, tags.getAll().map((e) => e.label))
           });
-          dialog.modal('show');
+          editDialog.modal('show');
         },
 
         getPost: function(event) {
