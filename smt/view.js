@@ -51,7 +51,7 @@ smt.export('view', function(smt, undefined) {
         var typeItem = $.parseHTML(typeTemplate);
         $(typeItem).find('input[name="fb-post-type"]').attr('value', t);
         $(typeItem).find('.fb-post-type').text(t);
-        $(typeHolder).append(typeItem);
+        typeHolder.append(typeItem);
       });
 
       return {
