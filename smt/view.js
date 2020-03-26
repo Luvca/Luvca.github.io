@@ -50,7 +50,7 @@ smt.export('view', function(smt, undefined) {
     console.log(cardpost.fields.createdAt);
     if (cardpost.fields.createdAt) {
       try {
-        $(card).find('.fb-post-created-at').text(cardpost.fields.createdAt.toDate().toLocaleString('ja-JP').replace(/\//g, '-'));
+        $(card).find('.fb-post-created-at').text(cardpost.fields.createdAt.toLocaleString('ja-JP').replace(/\//g, '-'));
       } catch {}
       //$(card).find('.fb-post-created-at').text(Date.parse(cardpost.fields.createdAt).toLocaleString('ja-JP').replace(/\//g, '-'));
       //$(card).find('.fb-post-created-at').text(Date.parse(cardpost.fields.createdAt));
@@ -160,7 +160,9 @@ smt.export('view', function(smt, undefined) {
             $infoMessagePanel.append(messages.getMessage('not-result'));
           } else {
             result.forEach((ref) => {
-              createCard({id: ref.id, fields: ref.data()}, cardTemplate, function(card) {
+              var fields = ref.data();
+              fields.createdAt = fields.createdAt.toDate();
+              createCard({id: ref.id, fields: fields}, cardTemplate, function(card) {
                 $resultArea.append(card);
               })
             });
@@ -236,7 +238,7 @@ smt.export('view', function(smt, undefined) {
               women: $womenSelect.value(),
               ahthors: $authorsSelect.value(),
               tags: $tagsSelect.value(),
-              createdAt: dialog.find('#fb-post-created-at').val(),
+              createdAt: Date.parse(dialog.find('#fb-post-created-at').val()),
               updatedAt: new Date()
             }
           };
