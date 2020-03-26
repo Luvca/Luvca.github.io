@@ -171,18 +171,18 @@ smt.export('view', function(smt, undefined) {
           postUrls.empty();
           cardPost.urls.forEach((u) => {
             var postUrl = $.parseHTML(urlTemplate);
-            postUrl.find('.fb-post-url').val(u);
+            $(postUrl).find('.fb-post-url').val(u);
             postUrls.append(postUrl);
           });
           editDialog.find('#fb-post-title').val(cardPost.title);
           typeHolder.empty();
           types.getAll().forEach((t) => {
             var typeItem = $.parseHTML(typeTemplate);
-            var radio = typeItem.find('input[name="fb-post-type"]');
+            var radio = $(typeItem).find('input[name="fb-post-type"]');
             radio.attr('value', t);
             if (t === cardPost.type)
               radio.prop('checked', true);
-            typeItem.find('.fb-post-type').text(t);
+            $(typeItem).find('.fb-post-type').text(t);
             typeHolder.append(typeItem);
           });
           $('#fb-post-women').text('');
