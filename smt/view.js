@@ -161,7 +161,8 @@ smt.export('view', function(smt, undefined) {
           } else {
             result.forEach((ref) => {
               var fields = ref.data();
-              fields.createdAt = ref.data().createdAt.toDate();
+              if (ref.data().createdAt)
+                fields.createdAt = ref.data().createdAt.toDate();
               createCard({id: ref.id, fields: fields}, cardTemplate, function(card) {
                 $resultArea.append(card);
               })
