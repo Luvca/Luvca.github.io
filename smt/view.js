@@ -158,47 +158,53 @@ smt.export('view', function(smt, undefined) {
 
         editPost: function(event) {
           var card = $(event.target.closest('.card'));
-          //var dialog = $('#editDialog');
-          editDialog.find('#fb-post-id').val(card.attr('id'));
-          //var postUrls = dialog.find('#fb-post-urls');
-          //var urlTemplate = $(postUrls).html();
-          $(postUrls).empty();
-          card.find('.fb-post-image').get().map((i) => $(i).attr('src')).forEach((u) => {
+          var cardPost = {
+            id: card.attr('id'),
+            urls: card.find('.fb-post-image').get().map((i) => $(i).attr('src')),
+            title: card.find('.fb-post-title').text(),
+            type: card.find('.fb-post-type').text(),
+            women: card.find('.fb-post-woman').get().map((w) => $(w).text()),
+            authors: card.find('.fb-post-author').get().map((a) => $(a).text()),
+            tags: card.find('.fb-post-tag').get().map((t) => $(t).text())
+          };
+          editDialog.find('#fb-post-id').val(cardPost.id);
+          postUrls.empty();
+          cardPost.urls.forEach((u) => {
             var postUrl = $.parseHTML(urlTemplate);
-            $(postUrl).find('.fb-post-url').val(u);
-            $(postUrls).append(postUrl);
+            postUrl.find('.fb-post-url').val(u);
+            postUrls.append(postUrl);
           });
-          editDialog.find('#fb-post-title').val(card.find(`.${itemClass.title}`).text());
+          editDialog.find('#fb-post-title').val(cardPost.title);
           typeHolder.empty();
           types.getAll().forEach((t) => {
             var typeItem = $.parseHTML(typeTemplate);
-            $(typeItem).find('input[name="fb-post-type"]').attr('value', t);
-            $(typeItem).find('.fb-post-type').text(t);
+            var radio = typeItem.find('input[name="fb-post-type"]');
+            radio.attr('value', t);
+            if (t === cardPost.type)
+              radio.prop('checked', true);
+            typeItem.find('.fb-post-type').text(t);
             typeHolder.append(typeItem);
           });
           $('#fb-post-women').text('');
-          var postWomen = card.find('.fb-post-woman').get().map((v) => $(v).text());
           $womenSelect = new SelectPure('#fb-post-women', {
             options: women.getAll(),
             multiple: true,
             icon: 'fa fa-times',
-            value: api.intersect(postWomen, women.getAll().map((e) => e.label))
+            value: api.intersect(cardPost.women, women.getAll().map((e) => e.label))
           });
           $('#fb-post-authors').text('');
-          var postAuthors = card.find('.fb-post-author').get().map((v) => $(v).text());
           $authorsSelect = new SelectPure('#fb-post-authors', {
             options: authors.getAll(),
             multiple: true,
             icon: 'fa fa-times',
-            value: api.intersect(postAuthors, authors.getAll().map((e) => e.label))
+            value: api.intersect(cardPost.authors, authors.getAll().map((e) => e.label))
           });
           $('#fb-post-tags').text('');
-          var postTags = card.find('.fb-post-tag').get().map((v) => $(v).text());
           $tagsSelect = new SelectPure('#fb-post-tags', {
             options: tags.getAll(),
             multiple: true,
             icon: 'fa fa-times',
-            value: api.intersect(postTags, tags.getAll().map((e) => e.label))
+            value: api.intersect(cardPost.tags, tags.getAll().map((e) => e.label))
           });
           editDialog.modal('show');
         },
