@@ -5,30 +5,11 @@ var app = app || {};
 (function(app) {
   var api = smt.import('api');
   var view;
-  var store = {
-    lastSearchConditions: null,
-    executingSearch: false
-  };
+  var inProgress = false;
 
   $(function() {
     try {
-      view = smt.import('view').create({
-        bindElement: {
-          searchForm: $('#search-form'),
-          errorMessagePanel: $('#error-msg-area'),
-          infoMessagePanel: $('#info-msg-area'),
-          resultArea: $('#search-result'),
-          editDialog: $('#editDialog')
-        },
-        itemClass: {
-          id: 'fb-post-id',
-          title: 'fb-post-title',
-          women: 'fb-post-woman',
-          authors: 'fb-post-author',
-          tags: 'fb-post-tag'
-        }
-      });
-
+      view = smt.import('view').create();
       $(document).on('click', '#fb-search-posts-button', app.searchPosts);
       $(document).on('click', '.fb-edit-post-button', app.editPost);
       $(document).on('click', '#fb-save-post-button', app.savePost);
@@ -38,15 +19,14 @@ var app = app || {};
   });
 
   app.searchPosts = function() {
-    if (store.executingSearch) return;
-    store.executingSearch = true;
+    if (inProgress) return;
+    inProgress = true;
 
     try {
       var option = view.getSearchOption();
       view.reset();
-      api.progressDisplay(true);
+      api.showProgress(true);
       api.getPosts(option).then((res) => {
-        store.lastSearchConditions = option;
         view.showPosts(res);
       }).catch((error) => {
         api.handleError(error);
@@ -54,8 +34,8 @@ var app = app || {};
     } catch(e) {
       api.handleError(e);
     } finally {
-      store.executingSearch = false;
-      api.progressDisplay(false);
+      inProgress = false;
+      api.showProgress(false);
     }
   };
 
@@ -69,8 +49,8 @@ var app = app || {};
   };
 
   app.savePost = function(event) {
-    if (store.executingSearch) return;
-    store.executingSearch = true;
+    if (inProgress) return;
+    inProgress = true;
 
     try {
       var post = view.getPost(event);
@@ -78,12 +58,12 @@ var app = app || {};
         view.updatePost(post);
       }).catch((error) => {
         console.log(error);
-        api.serverErrorHandling(error);
+        api.handleError(e);
       });
     } catch(e) {
       api.handleError(e);
     } finally {
-      store.executingSearch = false;
+      inProgress = false;
     }
   };
 }(app));

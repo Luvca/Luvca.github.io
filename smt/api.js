@@ -1,8 +1,6 @@
 'use strict';
 
 smt.export('api', function(smt, undefined) {
-  var messages = smt.import('messages');
-
   return {
     getPosts: function(option) {
       return smt.db.collection('posts').orderBy('updatedAt', 'desc').limit(25).get();
@@ -34,22 +32,12 @@ smt.export('api', function(smt, undefined) {
       return Array.from(new Set([...setA].filter(e => (setB.has(e)))));
     },
 
-    progressDisplay: function(isProgress) {
+    showProgress: function(inProgress) {
     },
 
-    handleError: function (e) {
+    handleError: function(e) {
       console.error(e);
       alert(e + ' ' + e.stack);
-    },
-
-    serverErrorHandling: function (xhr) {
-
-      const STATUS_INTERNAL_SERVER_ERROR = 500;
-
-      //サーバーエラー時はエラーページへ遷移
-      if (xhr.status == STATUS_INTERNAL_SERVER_ERROR) window.location = '/smt/error';
-      //それ以外の場合はブラウザのダイアログで以下のメッセージを表示する。
-      else alert('想定外のエラーが発生しました。\r\nブラウザを閉じて再度ログインしなおしてください。');
-    },
+    }
   };
 });
