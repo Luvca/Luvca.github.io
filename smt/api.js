@@ -8,8 +8,8 @@ smt.export('api', function(smt, undefined) {
       return smt.db.collection('posts').orderBy('updatedAt', 'desc').limit(25).get();
     },
 
-    savePost: function(id, fields) {
-      return smt.db.collection('posts').doc(id).set(fields);
+    savePost: function(post) {
+      return smt.db.collection('posts').doc(post.id).set(post.fields);
     },
 
     getTypes: function() {

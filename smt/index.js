@@ -74,7 +74,7 @@ var app = app || {};
 
     try {
       var post = view.getPost(event);
-      api.savePost(post.id, post.fields).then(() => {
+      api.savePost(post).then(() => {
         view.updatePost(post);
       }).catch((error) => {
         console.log(error);
