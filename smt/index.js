@@ -23,7 +23,7 @@ var app = app || {};
     inProgress = true;
 
     try {
-      var option = view.getSearchOption();
+      var option = {};
       view.reset();
       api.showProgress(true);
       api.getPosts(option).then((res) => {
