@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 var app = app || {};
 
@@ -10,23 +10,31 @@ var app = app || {};
   $(function() {
     try {
       view = smt.import('view').create();
-      $(document).on('click', '#fb-search-posts-button', app.searchPosts);
+      $('#fb-search-posts-button').on('click', true, app.searchPosts);
+      $('#fb-read-next-button').on('click', false, app.searchPosts);
       $(document).on('click', '.fb-edit-post-button', app.editPost);
-      $(document).on('click', '#fb-save-post-button', app.savePost);
+      $('#fb-save-post-button').on('click', app.savePost);
+      $(document).on('click', '.fb-search', app.selectSearchText);
     } catch(e) {
       api.handleError(e);
     }
   });
 
-  app.searchPosts = function() {
+  app.selectSearchText = function(event) {
+    view.selectSearchText(event);
+  };
+
+  app.searchPosts = function(event) {
     if (inProgress) return;
     inProgress = true;
 
     try {
-      var option = {};
-      view.reset();
+      if (event.data)
+        view.reset();
       api.showProgress(true);
-      api.getPosts(option).then((res) => {
+      var option = view.getSearchOption();
+      console.log(option);
+      api.searchPosts(option).then((res) => {
         view.showPosts(res);
       }).catch((error) => {
         api.handleError(error);
@@ -49,6 +57,7 @@ var app = app || {};
   };
 
   app.savePost = function(event) {
+    if (!confirm('OK ?')) return;
     if (inProgress) return;
     inProgress = true;
 

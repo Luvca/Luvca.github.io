@@ -30,6 +30,12 @@
   font-weight: normal;
 }
 
+.fb-post-album {
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(96, 96, 96, 1);
+  font-weight: normal;
+}
+
 .fb-card-footer {
   line-height: 1;
 }

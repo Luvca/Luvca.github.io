@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
@@ -6,6 +6,7 @@ smt.export('view', function(smt, undefined) {
   var women = smt.import('women').create();
   var authors = smt.import('authors').create();
   var tags = smt.import('tags').create();
+  var albums = smt.import('albums').create();
 
   function createCard(cardPost, template, callback) {
     var card = $.parseHTML(template);
@@ -29,13 +30,12 @@ smt.export('view', function(smt, undefined) {
     createBadge(card, cardPost.fields.women, '.fb-post-women', '.fb-post-woman');
     createBadge(card, cardPost.fields.authors, '.fb-post-authors', '.fb-post-author');
     createBadge(card, cardPost.fields.tags, '.fb-post-tags', '.fb-post-tag');
+    createBadge(card, cardPost.fields.albums, '.fb-post-albums', '.fb-post-album');
     $(card).find('.fb-post-url-count').text(cardPost.fields.urls.length);
     if (cardPost.fields.createdAt) {
       try {
         $(card).find('.fb-post-created-at').text(cardPost.fields.createdAt.toLocaleString('ja-JP').replace(/\//g, '-'));
       } catch {}
-      //$(card).find('.fb-post-created-at').text(Date.parse(cardPost.fields.createdAt).toLocaleString('ja-JP').replace(/\//g, '-'));
-      //$(card).find('.fb-post-created-at').text(Date.parse(cardPost.fields.createdAt));
     }
     $(card).find('.fb-post-id').text(cardPost.id);
     callback(card);
@@ -65,27 +65,50 @@ smt.export('view', function(smt, undefined) {
 
   return {
     create: function() {
+      var $searchLimit = $('#fb-search-limit');
       var $resultArea = $('#search-result');
       var $infoMessageArea = $('#info-msg-area');
       var $cardTemplate = $('#fb-card-template').prop('outerHTML');
+      var $readNextButton = $('#fb-read-next-button');
       var $editDialog = $('#editDialog');
       var $postUrls = $editDialog.find('#fb-post-urls');
       var urlTemplate = $($postUrls).html();
       var typeHolder = $editDialog.find('.fb-post-types');
       var typeTemplate = $(typeHolder).html();
+      var lastVisible;
 
       return {
-        reset: function () {
+        reset: function() {
           $resultArea.parent().scrollTop(0);
           $resultArea.empty();
           $infoMessageArea.empty();
+          lastVisible = undefined;
+        },
+
+        getSearchOption: function() {
+          return {
+            filter: $('input[name="fb-search"]:checked').val(),
+            text: $('input[name="fb-search"]:checked').closest('div').find('.fb-search').val(),
+            orderBy: $('input[name="fb-search-order-by"]:checked').val(),
+            limit: parseInt($searchLimit.val()),
+            lastVisible: lastVisible
+          };
+        },
+
+        selectSearchText: function(event) {
+          var div = $(event.target.closest('div'));
+          div.find('input[name="fb-search"]').prop('checked', true);
         },
 
         showPosts: function(result) {
-          if (result.length === 0) {
-            $infoMessageArea.append('No posts.');
+          if (result.docs.length === 0) {
+            $infoMessageArea.append('No more posts.');
+            $readNextButton.prop('disabled', true);
           } else {
-            result.forEach((ref) => {
+            lastVisible = result.docs[result.docs.length - 1];
+            var divider = $('<div>');
+            $resultArea.append(divider);
+            result.forEach((ref, i) => {
               var fields = ref.data();
               try {
                 fields.createdAt = fields.createdAt.toDate();
@@ -94,7 +117,8 @@ smt.export('view', function(smt, undefined) {
                 $resultArea.append(card);
               })
             });
-            $('html,body').animate({ scrollTop: $resultArea.offset().top })
+            $('html,body').animate({ scrollTop: divider.offset().top });
+            $readNextButton.prop('disabled', false);
           }
         },
 
@@ -109,6 +133,7 @@ smt.export('view', function(smt, undefined) {
               women: card.find('.fb-post-woman').get().map((w) => $(w).text()),
               authors: card.find('.fb-post-author').get().map((a) => $(a).text()),
               tags: card.find('.fb-post-tag').get().map((t) => $(t).text()),
+              albums: card.find('.fb-post-album').get().map((a) => $(a).text()),
               createdAt: card.find('.fb-post-created-at').text()
             }
           };
@@ -134,6 +159,7 @@ smt.export('view', function(smt, undefined) {
           $womenSelect = createSelectPure('#fb-post-women', women.getAll(), cardPost.fields.women);
           $authorsSelect = createSelectPure('#fb-post-authors', authors.getAll(), cardPost.fields.authors);
           $tagsSelect = createSelectPure('#fb-post-tags', tags.getAll(), cardPost.fields.tags);
+          $albumsSelect = createSelectPure('#fb-post-albums', albums.getAll(), cardPost.fields.albums);
           $editDialog.modal('show');
         },
 
@@ -148,7 +174,8 @@ smt.export('view', function(smt, undefined) {
               women: $womenSelect.value(),
               ahthors: $authorsSelect.value(),
               tags: $tagsSelect.value(),
-              createdAt: Date.parse(dialog.find('#fb-post-created-at').val()),
+              albums: $albumsSelect.value(),
+              createdAt: new Date(Date.parse(dialog.find('#fb-post-created-at').val())),
               updatedAt: new Date()
             }
           };
