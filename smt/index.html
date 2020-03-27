@@ -18,51 +18,78 @@
       </nav>
       <div class="collapse" id="fb-menu">
         <div class="bg-dark p-2">
-          <h5 class="text-white">Fruit Basket</h5>
-          <nav class="navbar navbar-dark p-1">
-            <ul class="navbar-nav w-100">
-              <li class="nav-item">
-                <div class="form-check-inline w-100">
-                  <input class="form-check-input" type="radio" name="fb-search" value="title">
-                  <input id="fb-search-title" class="form-control fb-search" placeholder="(Title)">
-                </div>
-                <div class="form-check-inline w-100">
-                  <input class="form-check-input" type="radio" name="fb-search" value="type">
-                  <input id="fb-search-type" class="form-control fb-search" placeholder="(Type)">
-                </div>
-                <div class="form-check-inline w-100">
-                  <input class="form-check-input" type="radio" name="fb-search" value="women">
-                  <input id="fb-search-women" class="form-control fb-search" placeholder="(Women)">
-                </div>
-                <div class="form-check-inline w-100">
-                  <input class="form-check-input" type="radio" name="fb-search" value="tags">
-                  <input id="fb-search-tags" class="form-control fb-search" placeholder="(Tags)">
-                </div>
-              </li>
-              <li class="nav-item">
-                <input id="fb-search-limit" class="custom-range" type="range" min="0" max="200" step="5" value="25">
-              </li>
-              <li class="nav-item">
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input hna-order-by" type="radio" name="fb-search-order-by" value="createdAt">
-                  <label class="form-check-label text-muted">Created at</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input hna-order-by" type="radio" name="fb-search-order-by" value="updatedAt" checked>
-                  <label class="form-check-label text-muted">Updated at</label>
-                </div>
-                <div class="form-check-inline float-right mr-0">
-                  <button id="fb-search-posts-button" type="button" class="btn btn-sm btn-outline-secondary">Search</button>
-                </div>
-              </li>
-            </ul>
-          </nav>
+          <div class="row">
+            <h5 class="text-white col-10">Fruit Basket</h5>
+            <i id="fb-show-settings-button" class="fa fa-cog text-muted col-2 text-right"></i>
+          </div>
+          <div class="float-none">
+            <nav class="navbar navbar-dark p-1">
+              <ul class="navbar-nav w-100">
+                <li class="nav-item">
+                  <div class="form-check-inline w-100">
+                    <input class="form-check-input" type="radio" name="fb-search" value="title">
+                    <input id="fb-search-title" class="form-control fb-search" placeholder="(Title)">
+                  </div>
+                  <div class="form-check-inline w-100">
+                    <input class="form-check-input" type="radio" name="fb-search" value="type">
+                    <select id="fb-search-type" class="form-control fb-search">
+                      <option value="">(Type)</option>
+                      <option value="photo">photo</option>
+                      <option value="illus">illus</option>
+                      <option value="video">video</option>
+                      <option value="GIF">GIF</option>
+                    </select>
+                  </div>
+                  <div class="form-check-inline w-100">
+                    <input class="form-check-input" type="radio" name="fb-search" value="type">
+                    <select id="fb-search-type" class="form-control fb-search">
+                      <option value="">(Album)</option>
+                      <option value="Video Collection">Video Collection</option>
+                    </select>
+                  </div>
+                  <div class="form-check-inline w-100">
+                    <input class="form-check-input" type="radio" name="fb-search" value="women">
+                    <input id="fb-search-women" class="form-control fb-search" placeholder="(Women)">
+                  </div>
+                  <div class="form-check-inline w-100">
+                    <input class="form-check-input" type="radio" name="fb-search" value="authors">
+                    <input id="fb-search-authors" class="form-control fb-search" placeholder="(Authors)">
+                  </div>
+                  <div class="form-check-inline w-100">
+                    <input class="form-check-input" type="radio" name="fb-search" value="tags">
+                    <input id="fb-search-tags" class="form-control fb-search" placeholder="(Tags)">
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <input id="fb-search-limit" class="custom-range" type="range" min="0" max="200" step="5" value="25">
+                </li>
+                <li class="nav-item">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input hna-order-by" type="radio" name="fb-search-order-by" value="createdAt">
+                    <label class="form-check-label text-muted">Created at</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input hna-order-by" type="radio" name="fb-search-order-by" value="updatedAt" checked>
+                    <label class="form-check-label text-muted">Updated at</label>
+                  </div>
+                  <div class="form-check-inline float-right mr-0">
+                    <button id="fb-search-posts-button" type="button" class="btn btn-sm btn-outline-secondary">Search</button>
+                  </div>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
     </header>
     <main role="main">
+      <div class="py-2 bg-light">
+        <button id="fb-create-posts-button" type="button" class="btn btn-sm btn-outline-secondary ml-2" value="">Create</button>
+      </div>
       <div id="info-msg-area" class="alert-info"></div>
       <div id="error-msg-area" class="alert-danger"></div>
+
+      <!-- Cards-->
       <div id="search-result">
         <div id="fb-card-template" class="card box-shadow mb-2 d-none fb-post">
           <div class="carousel slide fb-post-carousel" data-interval="false" data-ride="false">
@@ -116,6 +143,7 @@
       </div>
     </main>
 
+    <!-- Edit Dialog -->
     <div class="modal fade" id="editDialog" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
@@ -129,9 +157,10 @@
             <form id="editForm" class="needs-validation" novalidate>
               <input id="fb-post-id" type="hidden">
               <input id="fb-post-created-at" type="hidden">
+              <!-- URL -->
               <div class="form-inline">
-                <label class="col-form-label">URL</label>
-                <button type="button" id="fb-add-url-button" class="fb-plus-button">&#x2295;</button>
+                <label class="col-form-label fb-form-label">URL</label>
+                <button type="button" id="fb-add-url-button" class="fb-plus-button pt-2">&#x2295;</button>
               </div>
               <div id="fb-post-urls" class="form-group">
                 <div class="input-group">
@@ -141,30 +170,87 @@
                   </div>
                 </div>
               </div>
+              <!-- Title -->
               <div class="form-group">
-                <label class="col-form-label">Title</label>
+                <label class="col-form-label fb-form-label">Title</label>
                 <input id="fb-post-title" class="form-control">
               </div>
-              <div class="form-group fb-post-types">
+              <!-- Types -->
+              <div class="form-group fb-post-types mb-0">
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" name="fb-post-type" required>
                   <label class="form-check-label fb-post-type"></label>
                 </div>
               </div>
+              <!-- Albums -->
+              <div class="form-inline">
+                <label class="col-form-label fb-form-label">Albums</label>
+                <button type="button" id="fb-add-album-button" class="fb-plus-button pt-2">&#x2295;</button>
+              </div>
               <span id="fb-post-albums" class="h-25"></span>
               <script>var $albumsSelect;</script>
+              <!-- Women -->
+              <div class="form-inline">
+                <label class="col-form-label fb-form-label">Cast</label>
+                <button type="button" id="fb-add-woman-button" class="fb-plus-button pt-2">&#x2295;</button>
+              </div>
               <span id="fb-post-women" class="h-25"></span>
               <script>var $womenSelect;</script>
+              <!-- Authors -->
+              <div class="form-inline">
+                <label class="col-form-label fb-form-label">Authors</label>
+                <button type="button" id="fb-add-author-button" class="fb-plus-button pt-2">&#x2295;</button>
+              </div>
               <span id="fb-post-authors" class="h-25"></span>
               <script>var $authorsSelect;</script>
+              <!-- Tags -->
+              <div class="form-inline">
+                <label class="col-form-label fb-form-label">Tags</label>
+                <button type="button" id="fb-add-tag-button" class="fb-plus-button pt-2">&#x2295;</button>
+              </div>
               <span id="fb-post-tags" class="h-25"></span>
               <script>var $tagsSelect;</script>
+              <!-- Images -->
+              <div id="fb-dropbox-images" class="form-group">
+                <div class="card mb-2">
+                  <div class="form-check form-check-inline">
+                    <input name="fb-dropbox-image" type="checkbox" class="form-check-input">
+                    <label class="form-check-label fb-dropbox-image"></label>
+                  </div>
+                  <img class="card-img-bottom">
+                </div>
+              </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger mr-auto">Delete</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button id="fb-save-post-button" type="button" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Dialog -->
+    <div class="modal fade" id="fb-settings-dialog" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Settings</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation" novalidate>
+              <div class="form-group">
+                <label class="col-form-label">Code</label>
+                <input id="fb-dropbox-code" class="form-control">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button id="fb-save-settings-button" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -177,6 +263,7 @@
     <script src="js/select-pure/0.5.0/bundle.js"></script>
     <script type="text/javascript" src="smt.js"></script>
     <script type="text/javascript" src="api.js"></script>
+    <script type="text/javascript" src="dropbox.js"></script>
     <script type="text/javascript" src="types.js"></script>
     <script type="text/javascript" src="women.js"></script>
     <script type="text/javascript" src="authors.js"></script>

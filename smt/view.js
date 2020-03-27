@@ -2,6 +2,7 @@
 
 smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
+  var dropbox = smt.import('dropbox');
   var types = smt.import('types').create();
   var women = smt.import('women').create();
   var authors = smt.import('authors').create();
@@ -71,10 +72,14 @@ smt.export('view', function(smt, undefined) {
       var $cardTemplate = $('#fb-card-template').prop('outerHTML');
       var $readNextButton = $('#fb-read-next-button');
       var $editDialog = $('#editDialog');
+      var $settingsDialog = $('#fb-settings-dialog');
+      var $dropboxCode = $('#fb-dropbox-code');
+      var $dropboxImages = $('#fb-dropbox-images');
+      var dropboxImageTemplate = $dropboxImages.html();
       var $postUrls = $editDialog.find('#fb-post-urls');
-      var urlTemplate = $($postUrls).html();
+      var urlTemplate = $postUrls.html();
       var typeHolder = $editDialog.find('.fb-post-types');
-      var typeTemplate = $(typeHolder).html();
+      var typeTemplate = typeHolder.html();
       var lastVisible;
 
       return {
@@ -108,7 +113,7 @@ smt.export('view', function(smt, undefined) {
             lastVisible = result.docs[result.docs.length - 1];
             var divider = $('<div>');
             $resultArea.append(divider);
-            result.forEach((ref, i) => {
+            result.docs.forEach((ref, i) => {
               var fields = ref.data();
               try {
                 fields.createdAt = fields.createdAt.toDate();
@@ -122,9 +127,9 @@ smt.export('view', function(smt, undefined) {
           }
         },
 
-        editPost: function(event) {
+        pickPost: function(event) {
           var card = $(event.target.closest('.card'));
-          var cardPost = {
+          return {
             id: card.attr('id'),
             fields: {
               urls: card.find('.fb-post-image').get().map((i) => $(i).attr('src')),
@@ -137,6 +142,9 @@ smt.export('view', function(smt, undefined) {
               createdAt: card.find('.fb-post-created-at').text()
             }
           };
+        },
+
+        editPost: function(cardPost) {
           $editDialog.find('#fb-post-id').val(cardPost.id);
           $editDialog.find('#fb-post-created-at').val(cardPost.fields.createdAt);
           $postUrls.empty();
@@ -163,6 +171,45 @@ smt.export('view', function(smt, undefined) {
           $editDialog.modal('show');
         },
 
+        readDropbox: function(event) {
+          var folder = $(event.target).val();
+          $dropboxImages.empty();
+          dropbox.listFolder(folder).done((res) => {
+            res.entries.sort(function(a, b) {
+              if (a.client_modified < b.client_modified) return -1;
+              else return 1;
+            }).forEach((item, index, array) => {
+              if (item['.tag'] === 'file' && item.name.split('.').pop().match(/jpe?g|png|gif|bmp/i)) {
+                console.log(item.name);
+                var dropboxItem = $.parseHTML(dropboxImageTemplate);
+                $dropboxImages.append(dropboxItem);
+                dropbox.listShare(item.id).done((res) => {
+                  if (res.links.length === 0) {
+                    dropbox.createShare(item.id).done((res) => {
+                      var url = dropbox.directUrl(res.url);
+                      $(dropboxItem).find('input[name="fb-dropbox-image"]').attr('value', url);
+                      $(dropboxItem).find('.fb-dropbox-image').text(item.name);
+                      $(dropboxItem).find('img').attr('src', url);
+                    })
+                  } else {
+                    var url = dropbox.directUrl(res.links[0].url);
+                    $(dropboxItem).find('input[name="fb-dropbox-image"]').attr('value', url);
+                    $(dropboxItem).find('.fb-dropbox-image').text(item.name);
+                    $(dropboxItem).find('img').attr('src', url);
+                  }
+                })
+              } else if (item['.tag'] == 'folder') {
+                $dropboxImages.append(`
+                <div class="card mb-2">
+                  <button type="button" class="btn btn-outline-info btn-block fb-read-dropbox-button" value="${folder}/${item.name}">${item.name}</button>
+                </div>`)
+              }
+            })
+          }).fail((error) => {
+            console.log(error);
+          });
+        },
+
         getPost: function(event) {
           var dialog = $(event.target.closest('.modal'));
           return {
@@ -187,6 +234,16 @@ smt.export('view', function(smt, undefined) {
             current.replaceWith(card);
           });
           $editDialog.modal('hide');
+        },
+
+        showSettings: function() {
+          $settingsDialog.modal('show');
+        },
+
+        getSettings: function() {
+          return {
+            dropboxCode: $dropboxCode.val()
+          };
         }
       };
     }

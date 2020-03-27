@@ -12,9 +12,13 @@ var app = app || {};
       view = smt.import('view').create();
       $('#fb-search-posts-button').on('click', true, app.searchPosts);
       $('#fb-read-next-button').on('click', false, app.searchPosts);
-      $(document).on('click', '.fb-edit-post-button', app.editPost);
+      $('#fb-create-posts-button').on('click', false, app.createPosts);
+      $('#fb-show-settings-button').on('click', false, app.showSettings);
       $('#fb-save-post-button').on('click', app.savePost);
+      $('#fb-save-settings-button').on('click', app.saveSettings);
+      $(document).on('click', '.fb-edit-post-button', app.editPost);
       $(document).on('click', '.fb-search', app.selectSearchText);
+      $(document).on('click', '.fb-read-dropbox-button', app.readDropbox);
     } catch(e) {
       api.handleError(e);
     }
@@ -47,13 +51,32 @@ var app = app || {};
     }
   };
 
-  app.editPost = function(event) {
+  app.createPosts = function(event) {
     try {
-      view.editPost(event);
+      view.editPost({
+        fields: {
+          urls: []
+        }
+      });
+      app.readDropbox(event);
     } catch(e) {
       api.handleError(e);
     } finally {
     }
+  };
+
+  app.editPost = function(event) {
+    try {
+      var post = view.pickPost(event);
+      view.editPost(post);
+    } catch(e) {
+      api.handleError(e);
+    } finally {
+    }
+  };
+
+  app.readDropbox = function(event) {
+    view.readDropbox(event);
   };
 
   app.savePost = function(event) {
@@ -74,5 +97,14 @@ var app = app || {};
     } finally {
       inProgress = false;
     }
+  };
+
+  app.showSettings = function(event) {
+    view.showSettings();
+  };
+
+  app.saveSettings = function(event) {
+    var settings = view.getSettings();
+    smt.setSettings(settings);
   };
 }(app));

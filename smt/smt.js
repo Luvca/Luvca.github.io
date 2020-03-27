@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 var smt = smt || {};
 
@@ -9,6 +9,10 @@ var smt = smt || {};
     projectId: 'fruit-basket-data'
   });
   smt.db = firebase.firestore();
+  smt.settings = {};
+  smt.setSettings = function(settings) {
+    smt.settings = settings;
+  };
 
   smt.import = function (name) {
     var factory = container[name];
@@ -22,5 +26,4 @@ var smt = smt || {};
 
     container[name] = factory;
   };
-
 }(smt));
