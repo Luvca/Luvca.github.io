@@ -4,7 +4,7 @@ smt.export('api', function(smt, undefined) {
   return {
     searchPosts: function(option) {
       var query = smt.db.collection('posts');
-      if (option.text.length > 0) {
+      if (option.text && option.text.length > 0) {
         if (option.filter === 'title') {
           query = query.orderBy('title').startAt(option.text).endAt(option.text + '\uf8ff');
         } else  {
