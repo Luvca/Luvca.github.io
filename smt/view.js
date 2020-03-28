@@ -95,24 +95,25 @@ smt.export('view', function(smt, undefined) {
       var typeTemplate = typeHolder.html();
       var lastVisible;
 
-      $searchType.empty();
-      $searchType.append($('<option>').append('(Type)'));
-      types.getAll().forEach((t) => {
-        $($('<option>', {value: t}).append(t)).appendTo($searchType);
-      });
-
-      $searchAlbum.empty();
-      $searchAlbum.append($('<option>').append('(Album)'));
-      albums.getAll().forEach((a) => {
-        $($('<option>', {value: a}).append(a)).appendTo($searchAlbum);
-      });
-
       return {
         reset: function() {
           $resultArea.parent().scrollTop(0);
           $resultArea.empty();
           $infoMessageArea.empty();
           lastVisible = undefined;
+        },
+
+        setupSearch: function() {
+          $searchType.empty();
+          $searchType.append($('<option>').append('(Type)'));
+          types.getAll().forEach((t) => {
+            $($('<option>', {value: t}).append(t)).appendTo($searchType);
+          });
+          $searchAlbum.empty();
+          $searchAlbum.append($('<option>').append('(Album)'));
+          albums.getAll().forEach((a) => {
+            $($('<option>', {value: a}).append(a)).appendTo($searchAlbum);
+          });
         },
 
         getSearchOption: function() {
