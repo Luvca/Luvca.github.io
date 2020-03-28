@@ -26,7 +26,13 @@ smt.export('api', function(smt, undefined) {
     },
 
     savePost: function(post) {
-      return smt.db.collection('posts').doc(post.id).set(post.fields);
+      if (post.id)
+        return smt.db.collection('posts').doc(post.id).set(post.fields);
+      else {
+        post.fields.createdAt = new Date();
+        post.fields.updatedAt = new Date();
+        return smt.db.collection('posts').add(post.fields);
+      }
     },
 
     deletePost: function(post) {

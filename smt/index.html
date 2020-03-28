@@ -15,13 +15,11 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fb-menu">
           <span class="navbar-toggler-icon"></span>
         </button>
+        <i id="fb-show-settings-button" class="fa fa-cog text-muted text-right mr-2"></i>
       </nav>
       <div class="collapse" id="fb-menu">
         <div class="bg-dark p-2">
-          <div class="row mr-1">
-            <h5 class="text-white col-10">Fruit Basket</h5>
-            <i id="fb-show-settings-button" class="fa fa-cog text-muted col-2 text-right p-0"></i>
-          </div>
+          <h5 class="text-white">Fruit Basket</h5>
           <div class="float-none">
             <nav class="navbar navbar-dark p-1">
               <ul class="navbar-nav w-100">
@@ -150,16 +148,16 @@
             <form id="editForm" class="needs-validation" novalidate>
               <input id="fb-post-id" type="hidden">
               <input id="fb-post-created-at" type="hidden">
-              <!-- URL -->
+              <!-- Image -->
               <div class="form-group">
                 <div class="form-inline">
                   <label class="col-form-label fb-form-label">Images</label>
                   <button type="button" id="fb-add-images-button" class="fb-plus-button pt-2" value="">&#x2295;</button>
                 </div>
                 <div id="fb-post-urls" class="form-group">
-                  <div class="row m-1">
+                  <div class="row justify-content-between mb-1 ml-1">
                     <img class="col-7 border mr-2 p-0 fb-post-url">
-                    <div class="col-4">
+                    <div class="col-4 text-right">
                       <button type="button" class="form-control fb-up-url-button">Up</button>
                       <button type="button" class="form-control fb-down-url-button">Down</button>
                       <button type="button" class="form-control fb-remove-url-button">Delete</button>
@@ -193,7 +191,7 @@
               <script>var $albumsSelect;</script>
               <!-- Women -->
               <div class="form-inline">
-                <label class="col-form-label fb-form-label">Cast</label>
+                <label class="col-form-label fb-form-label">Women</label>
                 <button type="button" id="fb-add-woman-button" class="fb-plus-button pt-2">&#x2295;</button>
               </div>
               <span id="fb-post-women" class="h-25"></span>

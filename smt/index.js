@@ -110,11 +110,13 @@ var app = app || {};
     inProgress = true;
     try {
       var post = view.getPost(event);
-      api.savePost(post).then(() => {
-        view.updatePost(post);
-      }).catch((error) => {
-        console.log(error);
-        api.handleError(e);
+      view.validatePost(() => {
+        api.savePost(post).then(() => {
+          view.updatePost(post);
+        }).catch((error) => {
+          console.log(error);
+          api.handleError(e);
+        });
       });
     } catch(e) {
       api.handleError(e);

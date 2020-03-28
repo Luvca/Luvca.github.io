@@ -83,6 +83,7 @@ smt.export('view', function(smt, undefined) {
       var $cardTemplate = $('#fb-card-template').prop('outerHTML');
       var $readNextButton = $('#fb-read-next-button');
       var $editDialog = $('#editDialog');
+      var $editForm = $('#editForm');
       var $dropboxDialog = $('#fb-dropbox-dialog');
       var $settingsDialog = $('#fb-settings-dialog');
       var $dropboxCode = $('#fb-dropbox-code');
@@ -169,6 +170,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         editPost: function(card) {
+          $editForm.removeClass('was-validated');
           // Id
           $editDialog.find('#fb-post-id').val(card.id);
           // Created at
@@ -277,6 +279,16 @@ smt.export('view', function(smt, undefined) {
               updatedAt: new Date()
             }
           };
+        },
+
+        validatePost: function(callback) {
+          if ($editForm.get(0).checkValidity() === true) {
+            if (callback) {
+              callback();
+            }
+          } else {
+            $editForm.addClass('was-validated');
+          }
         },
 
         updatePost: function(data) {
