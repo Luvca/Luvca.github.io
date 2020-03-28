@@ -29,6 +29,10 @@ smt.export('api', function(smt, undefined) {
       return smt.db.collection('posts').doc(post.id).set(post.fields);
     },
 
+    deletePost: function(post) {
+      return smt.db.collection('posts').doc(post.id).delete();
+    },
+
     getTypes: function() {
       return smt.db.collection('types').get();
     },

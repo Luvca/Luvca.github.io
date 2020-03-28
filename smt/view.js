@@ -4,10 +4,10 @@ smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
   var dropbox = smt.import('dropbox');
   var types = smt.import('types').create();
+  var albums = smt.import('albums').create();
   var women = smt.import('women').create();
   var authors = smt.import('authors').create();
   var tags = smt.import('tags').create();
-  var albums = smt.import('albums').create();
 
   function createCard(cardPost, template, callback) {
     var card = $.parseHTML(template);
@@ -64,14 +64,26 @@ smt.export('view', function(smt, undefined) {
     });
   }
 
+  function createDropboxImage(container, template, name, url) {
+    var item = $.parseHTML(template);
+    var directUrl = dropbox.directUrl(url);
+    $(item).find('input[name="fb-dropbox-image"]').attr('value', directUrl);
+    $(item).find('.fb-dropbox-image').text(name.replace(/\.[^/.]+$/, ''));
+    $(item).find('img').attr('src', directUrl);
+    container.append(item);
+  }
+
   return {
     create: function() {
       var $searchLimit = $('#fb-search-limit');
+      var $searchType = $('#fb-search-type');
+      var $searchAlbum = $('#fb-search-album');
       var $resultArea = $('#search-result');
       var $infoMessageArea = $('#info-msg-area');
       var $cardTemplate = $('#fb-card-template').prop('outerHTML');
       var $readNextButton = $('#fb-read-next-button');
       var $editDialog = $('#editDialog');
+      var $dropboxDialog = $('#fb-dropbox-dialog');
       var $settingsDialog = $('#fb-settings-dialog');
       var $dropboxCode = $('#fb-dropbox-code');
       var $dropboxImages = $('#fb-dropbox-images');
@@ -81,6 +93,18 @@ smt.export('view', function(smt, undefined) {
       var typeHolder = $editDialog.find('.fb-post-types');
       var typeTemplate = typeHolder.html();
       var lastVisible;
+
+      $searchType.empty();
+      $searchType.append($('<option>').append('(Type)'));
+      types.getAll().forEach((t) => {
+        $($('<option>', {value: t}).append(t)).appendTo($searchType);
+      });
+
+      $searchAlbum.empty();
+      $searchAlbum.append($('<option>').append('(Album)'));
+      albums.getAll().forEach((a) => {
+        $($('<option>', {value: a}).append(a)).appendTo($searchAlbum);
+      });
 
       return {
         reset: function() {
@@ -108,7 +132,7 @@ smt.export('view', function(smt, undefined) {
         showPosts: function(result) {
           if (result.docs.length === 0) {
             $infoMessageArea.append('No more posts.');
-            $readNextButton.prop('disabled', true);
+            $readNextButton.addClass('d-none');
           } else {
             lastVisible = result.docs[result.docs.length - 1];
             var divider = $('<div>');
@@ -123,7 +147,7 @@ smt.export('view', function(smt, undefined) {
               })
             });
             $('html,body').animate({ scrollTop: divider.offset().top });
-            $readNextButton.prop('disabled', false);
+            $readNextButton.removeClass('d-none');
           }
         },
 
@@ -144,69 +168,96 @@ smt.export('view', function(smt, undefined) {
           };
         },
 
-        editPost: function(cardPost) {
-          $editDialog.find('#fb-post-id').val(cardPost.id);
-          $editDialog.find('#fb-post-created-at').val(cardPost.fields.createdAt);
+        editPost: function(card) {
+          // Id
+          $editDialog.find('#fb-post-id').val(card.id);
+          // Created at
+          $editDialog.find('#fb-post-created-at').val(card.fields.createdAt);
+          // Images
           $postUrls.empty();
-          cardPost.fields.urls.forEach((u) => {
+          card.fields.urls.forEach((u) => {
             var postUrl = $.parseHTML(urlTemplate);
-            $(postUrl).find('.fb-post-url').val(u);
+            $(postUrl).find('.fb-post-url').attr('src', u);
             $postUrls.append(postUrl);
           });
-          $editDialog.find('#fb-post-title').val(cardPost.fields.title);
+          // Title
+          $editDialog.find('#fb-post-title').val(card.fields.title);
+          // Type
           typeHolder.empty();
           types.getAll().forEach((t) => {
             var typeItem = $.parseHTML(typeTemplate);
             var radio = $(typeItem).find('input[name="fb-post-type"]');
             radio.attr('value', t);
-            if (t === cardPost.fields.type)
+            if (t === card.fields.type)
               radio.prop('checked', true);
             $(typeItem).find('.fb-post-type').text(t);
             typeHolder.append(typeItem);
           });
-          $womenSelect = createSelectPure('#fb-post-women', women.getAll(), cardPost.fields.women);
-          $authorsSelect = createSelectPure('#fb-post-authors', authors.getAll(), cardPost.fields.authors);
-          $tagsSelect = createSelectPure('#fb-post-tags', tags.getAll(), cardPost.fields.tags);
-          $albumsSelect = createSelectPure('#fb-post-albums', albums.getAll(), cardPost.fields.albums);
+          // Google
+          $('#fb-google-title').prop('href', `https://www.google.co.jp/search?q=${card.fields.title}+${card.fields.type}+adult`);
+          // Badges
+          $albumsSelect = createSelectPure('#fb-post-albums', albums.getAllSelectPure(), card.fields.albums);
+          $womenSelect = createSelectPure('#fb-post-women', women.getAll(), card.fields.women);
+          $authorsSelect = createSelectPure('#fb-post-authors', authors.getAll(), card.fields.authors);
+          $tagsSelect = createSelectPure('#fb-post-tags', tags.getAll(), card.fields.tags);
           $editDialog.modal('show');
+          // Delete button
+          if (!card.id) {
+            $('#fb-delete-post-button').addClass('d-none');
+          } else {
+            $('#fb-delete-post-button').removeClass('d-none');
+          }
+        },
+
+        toggleAllImagesSelect: function(event) {
+          $('input[name="fb-dropbox-image"]').prop('checked', event.target.checked);
+        },
+
+        selectDropboxImages: function() {
+          $dropboxDialog.find('input[name="fb-dropbox-image"]:checked').get().forEach((i) => {
+            var postUrl = $.parseHTML(urlTemplate);
+            var url = $(i).closest('.card').find('img').attr('src');
+            console.log(url);
+            $(postUrl).find('.fb-post-url').attr('src', url);
+            $postUrls.append(postUrl);
+          });
+          $dropboxDialog.modal('hide');
         },
 
         readDropbox: function(event) {
           var folder = $(event.target).val();
+          console.log(folder);
           $dropboxImages.empty();
           dropbox.listFolder(folder).done((res) => {
             res.entries.sort(function(a, b) {
               if (a.client_modified < b.client_modified) return -1;
               else return 1;
-            }).forEach((item, index, array) => {
+            }).forEach((item) => {
               if (item['.tag'] === 'file' && item.name.split('.').pop().match(/jpe?g|png|gif|bmp/i)) {
-                console.log(item.name);
-                var dropboxItem = $.parseHTML(dropboxImageTemplate);
-                $dropboxImages.append(dropboxItem);
                 dropbox.listShare(item.id).done((res) => {
                   if (res.links.length === 0) {
                     dropbox.createShare(item.id).done((res) => {
-                      var url = dropbox.directUrl(res.url);
-                      $(dropboxItem).find('input[name="fb-dropbox-image"]').attr('value', url);
-                      $(dropboxItem).find('.fb-dropbox-image').text(item.name);
-                      $(dropboxItem).find('img').attr('src', url);
-                    })
+                      createDropboxImage($dropboxImages, dropboxImageTemplate, item.name, res.url);
+                    }).fail((error) => {
+                      console.log(error);
+                    });
                   } else {
-                    var url = dropbox.directUrl(res.links[0].url);
-                    $(dropboxItem).find('input[name="fb-dropbox-image"]').attr('value', url);
-                    $(dropboxItem).find('.fb-dropbox-image').text(item.name);
-                    $(dropboxItem).find('img').attr('src', url);
+                    createDropboxImage($dropboxImages, dropboxImageTemplate, item.name, res.links[0].url);
                   }
-                })
+                }).fail((error) => {
+                  console.log(error);
+                });
               } else if (item['.tag'] == 'folder') {
                 $dropboxImages.append(`
                 <div class="card mb-2">
-                  <button type="button" class="btn btn-outline-info btn-block fb-read-dropbox-button" value="${folder}/${item.name}">${item.name}</button>
+                  <button type="button" class="btn btn-outline-info btn-block fb-select-dropbox-folder" value="${folder}/${item.name}">${item.name}</button>
                 </div>`)
               }
-            })
+            });
+            $dropboxDialog.modal('show');
           }).fail((error) => {
             console.log(error);
+            alert(error.responseText);
           });
         },
 
@@ -215,7 +266,7 @@ smt.export('view', function(smt, undefined) {
           return {
             id: dialog.find('#fb-post-id').val(),
             fields: {
-              urls: dialog.find('.fb-post-url').get().map((u) => $(u).val()),
+              urls: dialog.find('.fb-post-url').get().map((u) => $(u).attr('src')),
               title: dialog.find('#fb-post-title').val(),
               type: dialog.find('input[name="fb-post-type"]:checked').val(),
               women: $womenSelect.value(),
@@ -230,8 +281,19 @@ smt.export('view', function(smt, undefined) {
 
         updatePost: function(data) {
           createCard(data, $cardTemplate, function(card) {
-            var current = $(`#${data.id}`);
-            current.replaceWith(card);
+            if (data.id) {
+              var current = $(`#${data.id}`);
+              current.replaceWith(card);
+            }
+            else
+              $resultArea.prepend(card);
+          });
+          $editDialog.modal('hide');
+        },
+
+        deletePost: function(data) {
+          $(`#${data.id}`).fadeOut('normal', function() {
+            $(`#${data.id}`).remove();
           });
           $editDialog.modal('hide');
         },
@@ -241,6 +303,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         getSettings: function() {
+          console.log($('#fb-dropbox-code').val());
           return {
             dropboxCode: $dropboxCode.val()
           };

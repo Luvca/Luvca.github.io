@@ -10,7 +10,8 @@ smt.export('api', function(smt, undefined) {
             data: function() {
               return {
                 urls: [
-                  "../assets/img/bio-photo.png"
+                  "img/iisstart.png",
+                  "img/bio-photo-1.jpeg"
                 ],
                 title: 'ふが'
               };
@@ -26,7 +27,29 @@ smt.export('api', function(smt, undefined) {
     },
 
     savePost: function(post) {
-      return smt.db.collection('posts').doc(post.id).set(post.fields);
+      console.log(post);
+      return {
+        then: function(callback) {
+          if (callback) callback();
+          return {
+            catch: function() {
+            }
+          };
+        }
+      };
+    },
+
+    deletePost: function(post) {
+      console.log(post);
+      return {
+        then: function(callback) {
+          if (callback) callback();
+          return {
+            catch: function() {
+            }
+          };
+        }
+      };
     },
 
     getTypes: function() {
@@ -81,9 +104,9 @@ smt.export('api', function(smt, undefined) {
       return {
         then: function(callback) {
           callback([{
-            id: 'ハロー'
+            id: 'ある'
           }, {
-            id: 'ワールド'
+            id: 'ばむ'
           }]);
         }
       }

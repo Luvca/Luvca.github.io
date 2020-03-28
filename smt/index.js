@@ -10,15 +10,24 @@ var app = app || {};
   $(function() {
     try {
       view = smt.import('view').create();
+      // Main window
+      $(document).on('click', '.fb-search', app.selectSearchText);
       $('#fb-search-posts-button').on('click', true, app.searchPosts);
       $('#fb-read-next-button').on('click', false, app.searchPosts);
-      $('#fb-create-posts-button').on('click', false, app.createPosts);
+      $('#fb-add-post-button').on('click', false, app.addPost);
       $('#fb-show-settings-button').on('click', false, app.showSettings);
-      $('#fb-save-post-button').on('click', app.savePost);
-      $('#fb-save-settings-button').on('click', app.saveSettings);
+      // Card
       $(document).on('click', '.fb-edit-post-button', app.editPost);
-      $(document).on('click', '.fb-search', app.selectSearchText);
-      $(document).on('click', '.fb-read-dropbox-button', app.readDropbox);
+      // Edit Dialog
+      $('#fb-add-images-button').on('click', app.addImages);
+      $('#fb-toggle-all-images-select').on('click', app.toggleAllImagesSelect);
+      $('#fb-save-post-button').on('click', app.savePost);
+      $('#fb-delete-post-button').on('click', app.deletePost);
+      // Dropbox Dialog
+      $('#fb-select-images-button').on('click', app.selectDropboxImages);
+      $(document).on('click', '.fb-select-dropbox-folder', app.selectDropboxFolder);
+      // Settings Dialog
+      $('#fb-save-settings-button').on('click', app.saveSettings);
     } catch(e) {
       api.handleError(e);
     }
@@ -31,7 +40,6 @@ var app = app || {};
   app.searchPosts = function(event) {
     if (inProgress) return;
     inProgress = true;
-
     try {
       if (event.data)
         view.reset();
@@ -51,14 +59,14 @@ var app = app || {};
     }
   };
 
-  app.createPosts = function(event) {
+  app.addPost = function(event) {
     try {
       view.editPost({
         fields: {
-          urls: []
+          urls: [],
+          createdAt: new Date()
         }
       });
-      app.readDropbox(event);
     } catch(e) {
       api.handleError(e);
     } finally {
@@ -75,15 +83,31 @@ var app = app || {};
     }
   };
 
-  app.readDropbox = function(event) {
+  app.addImages = function(event) {
+    try {
+      view.readDropbox(event);
+    } catch(e) {
+      api.handleError(e);
+    } finally {
+    }
+  };
+
+  app.toggleAllImagesSelect = function(event) {
+    view.toggleAllImagesSelect(event);
+  };
+
+  app.selectDropboxFolder = function(event) {
     view.readDropbox(event);
+  };
+
+  app.selectDropboxImages = function(event) {
+    view.selectDropboxImages();
   };
 
   app.savePost = function(event) {
     if (!confirm('OK ?')) return;
     if (inProgress) return;
     inProgress = true;
-
     try {
       var post = view.getPost(event);
       api.savePost(post).then(() => {
@@ -99,12 +123,32 @@ var app = app || {};
     }
   };
 
+  app.deletePost = function(event) {
+    if (!confirm('OK ?')) return;
+    if (inProgress) return;
+    inProgress = true;
+    try {
+      var post = view.getPost(event);
+      api.deletePost(post).then(() => {
+        view.deletePost(post);
+      }).catch((error) => {
+        console.log(error);
+        alert(error);
+      });
+    } catch(e) {
+      api.handleError(e);
+    } finally {
+      inProgress = false;
+    }
+  };
+
   app.showSettings = function(event) {
     view.showSettings();
   };
 
   app.saveSettings = function(event) {
     var settings = view.getSettings();
+    console.log(settings);
     smt.setSettings(settings);
   };
 }(app));

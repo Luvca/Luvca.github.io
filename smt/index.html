@@ -18,9 +18,9 @@
       </nav>
       <div class="collapse" id="fb-menu">
         <div class="bg-dark p-2">
-          <div class="row">
+          <div class="row mr-1">
             <h5 class="text-white col-10">Fruit Basket</h5>
-            <i id="fb-show-settings-button" class="fa fa-cog text-muted col-2 text-right"></i>
+            <i id="fb-show-settings-button" class="fa fa-cog text-muted col-2 text-right p-0"></i>
           </div>
           <div class="float-none">
             <nav class="navbar navbar-dark p-1">
@@ -33,18 +33,11 @@
                   <div class="form-check-inline w-100">
                     <input class="form-check-input" type="radio" name="fb-search" value="type">
                     <select id="fb-search-type" class="form-control fb-search">
-                      <option value="">(Type)</option>
-                      <option value="photo">photo</option>
-                      <option value="illus">illus</option>
-                      <option value="video">video</option>
-                      <option value="GIF">GIF</option>
                     </select>
                   </div>
                   <div class="form-check-inline w-100">
                     <input class="form-check-input" type="radio" name="fb-search" value="type">
-                    <select id="fb-search-type" class="form-control fb-search">
-                      <option value="">(Album)</option>
-                      <option value="Video Collection">Video Collection</option>
+                    <select id="fb-search-album" class="form-control fb-search">
                     </select>
                   </div>
                   <div class="form-check-inline w-100">
@@ -84,7 +77,7 @@
     </header>
     <main role="main">
       <div class="py-2 bg-light">
-        <button id="fb-create-posts-button" type="button" class="btn btn-sm btn-outline-secondary ml-2" value="">Create</button>
+        <button id="fb-add-post-button" type="button" class="btn btn-sm btn-outline-secondary ml-2" value="">Add</button>
       </div>
       <div id="info-msg-area" class="alert-info"></div>
       <div id="error-msg-area" class="alert-danger"></div>
@@ -139,7 +132,7 @@
         </div>
       </div>
       <div class="py-2 bg-light">
-        <button id="fb-read-next-button" type="button" class="btn btn-sm btn-outline-secondary ml-2" disabled>Next</button>
+        <button id="fb-read-next-button" type="button" class="btn btn-sm btn-outline-secondary ml-2 d-none">Next</button>
       </div>
     </main>
 
@@ -148,7 +141,7 @@
       <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 id="editModalTitle" class="modal-title"></h5>
+            <h5 id="editModalTitle" class="modal-title">Edit</h5>
             <button type="button" class="close" data-dismiss="modal">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -158,22 +151,31 @@
               <input id="fb-post-id" type="hidden">
               <input id="fb-post-created-at" type="hidden">
               <!-- URL -->
-              <div class="form-inline">
-                <label class="col-form-label fb-form-label">URL</label>
-                <button type="button" id="fb-add-url-button" class="fb-plus-button pt-2">&#x2295;</button>
-              </div>
-              <div id="fb-post-urls" class="form-group">
-                <div class="input-group">
-                  <input class="form-control fb-post-url">
-                  <div class="input-group-append">
-                    <button type="button" class="form-control fb-remove-url-button">&times;</button>
+              <div class="form-group">
+                <div class="form-inline">
+                  <label class="col-form-label fb-form-label">Images</label>
+                  <button type="button" id="fb-add-images-button" class="fb-plus-button pt-2" value="">&#x2295;</button>
+                </div>
+                <div id="fb-post-urls" class="form-group">
+                  <div class="row m-1">
+                    <img class="col-7 border mr-2 p-0 fb-post-url">
+                    <div class="col-4">
+                      <button type="button" class="form-control fb-up-url-button">Up</button>
+                      <button type="button" class="form-control fb-down-url-button">Down</button>
+                      <button type="button" class="form-control fb-remove-url-button">Delete</button>
+                    </div>
                   </div>
                 </div>
               </div>
               <!-- Title -->
               <div class="form-group">
                 <label class="col-form-label fb-form-label">Title</label>
-                <input id="fb-post-title" class="form-control">
+                <div class="input-group">
+                  <input id="fb-post-title" class="form-control">
+                  <div class="input-group-append">
+                    <a id="fb-google-title" class="mt-2 ml-2" target="_blank"><i class="fa fa-google"></i></a>
+                  </div>
+                </div>
               </div>
               <!-- Types -->
               <div class="form-group fb-post-types mb-0">
@@ -210,8 +212,37 @@
               </div>
               <span id="fb-post-tags" class="h-25"></span>
               <script>var $tagsSelect;</script>
-              <!-- Images -->
-              <div id="fb-dropbox-images" class="form-group">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button id="fb-delete-post-button" type="button" class="btn btn-danger mr-auto">Delete</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button id="fb-save-post-button" type="button" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dropbox Dialog -->
+    <div class="modal fade" id="fb-dropbox-dialog" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Dropbox</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="fb-dropbox">
+              <div class="form-check form-check-inline">
+                <input id="fb-toggle-all-images-select" type="checkbox" class="form-check-input">
+                <label class="form-check-label">Select All</label>
+              </div>
+              <div class="card mb-2">
+                <button type="button" class="btn btn-outline-info btn-block fb-select-dropbox-folder" value="">/</button>
+              </div>
+              <div id="fb-dropbox-images">
                 <div class="card mb-2">
                   <div class="form-check form-check-inline">
                     <input name="fb-dropbox-image" type="checkbox" class="form-check-input">
@@ -220,12 +251,11 @@
                   <img class="card-img-bottom">
                 </div>
               </div>
-            </form>
+            </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger mr-auto">Delete</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button id="fb-save-post-button" type="button" class="btn btn-primary">Save</button>
+            <button id="fb-select-images-button" type="button" class="btn btn-primary">Select</button>
           </div>
         </div>
       </div>
@@ -262,7 +292,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
     <script src="js/select-pure/0.5.0/bundle.js"></script>
     <script type="text/javascript" src="smt.js"></script>
-    <script type="text/javascript" src="api.js"></script>
+    <script type="text/javascript" src="apitest.js"></script>
     <script type="text/javascript" src="dropbox.js"></script>
     <script type="text/javascript" src="types.js"></script>
     <script type="text/javascript" src="women.js"></script>

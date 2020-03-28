@@ -8,12 +8,16 @@ smt.export('albums', function (smt, undefined) {
     create: function() {
       api.getAlbums().then((ref) => {
         ref.forEach((doc) => {
-          albums.push({label: doc.id, value: doc.id });
+          albums.push(doc.id);
         });
       });
       return {
         getAll: function() {
           return albums;
+        },
+
+        getAllSelectPure: function() {
+          return albums.map((a) => {return {label: a, value: a}});
         }
       };
     }
