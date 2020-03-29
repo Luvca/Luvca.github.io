@@ -22,11 +22,11 @@ smt.export('view', function(smt, undefined) {
     carouselItems.append(cardPost.fields.urls.map((u, i) => {
       var carouselItem = $.parseHTML(carouselItemTemplate);
       var img = $(carouselItem).find('.fb-post-image');
-      img.attr('data-original', u);
-      $('img.lazy').lazyload({
-        effect: 'fadeIn',
-        effectspeed: 1000
-      });
+      img.attr('src', u);
+      //$('img.lazy').lazyload({
+      //  effect: 'fadeIn',
+      //  effectspeed: 1000
+      //});
       $(carouselItem).find('.fb-post-url').text(u);
       if (i === 0)
         $(carouselItem).addClass('active');
