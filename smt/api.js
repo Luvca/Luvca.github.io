@@ -6,15 +6,15 @@ smt.export('api', function(smt, undefined) {
       var query = smt.db.collection('posts');
       if (option.filter === 'title' && option.text.length > 0) {
         query = query.orderBy('title').startAt(option.text).endAt(option.text + '\uf8ff');
-      } else if (option.filter === 'type') {
+      } else if (option.filter === 'type' && option.text.length > 0) {
           query = query.where('type', '==', option.text).orderBy(option.orderBy, 'desc');
-      } else if (option.filter === 'album') {
-          query = query.where('albums', '==', option.text).orderBy(option.orderBy, 'desc');
-      } else if (option.filter === 'women') {
+      } else if (option.filter === 'album' && option.text.length > 0) {
+          query = query.where('albums', 'array-contains-any', [option.text]).orderBy(option.orderBy, 'desc');
+      } else if (option.filter === 'women' && option.women.length > 0) {
         query = query.where('women', 'array-contains-any', option.women).orderBy(option.orderBy, 'desc');
-      } else if (option.filter === 'authors') {
+      } else if (option.filter === 'authors' && option.authors.length > 0) {
         query = query.where('authors', 'array-contains-any', option.authors).orderBy(option.orderBy, 'desc');
-      } else if (option.filter === 'tags') {
+      } else if (option.filter === 'tags' && option.tags.length > 0) {
         query = query.where('tags', 'array-contains-any', option.tags).orderBy(option.orderBy, 'desc');
       } else {
         query = query.orderBy(option.orderBy, 'desc');

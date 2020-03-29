@@ -290,7 +290,7 @@ smt.export('view', function(smt, undefined) {
               title: dialog.find('#fb-post-title').val(),
               type: dialog.find('input[name="fb-post-type"]:checked').val(),
               women: $womenSelect.value(),
-              ahthors: $authorsSelect.value(),
+              authors: $authorsSelect.value(),
               tags: $tagsSelect.value(),
               albums: $albumsSelect.value(),
               createdAt: new Date(Date.parse(dialog.find('#fb-post-created-at').val())),
