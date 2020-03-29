@@ -322,6 +322,39 @@ smt.export('view', function(smt, undefined) {
           $editDialog.modal('hide');
         },
 
+        upUrl: function(event) {
+          var src = event.target.closest('table');
+          var srcImg = $(src).find('img');
+          var srcUrl = srcImg.attr('src');
+          var dst = src.previousSibling.previousSibling;
+          if (dst) {
+            dst = dst.previousSibling;
+            var dstImg = $(dst).find('img');
+            var dstUrl = dstImg.attr('src');
+            dstImg.attr('src', srcUrl);
+            srcImg.attr('src', dstUrl);
+          }
+        },
+
+        downUrl: function(event) {
+          var src = event.target.closest('table');
+          var srcImg = $(src).find('img');
+          var srcUrl = srcImg.attr('src');
+          var dst = src.nextSibling.nextSibling;
+          if (dst) {
+            dst = dst.nextSibling;
+            var dstImg = $(dst).find('img');
+            var dstUrl = dstImg.attr('src');
+            dstImg.attr('src', srcUrl);
+            srcImg.attr('src', dstUrl);
+          }
+        },
+
+        deleteUrl: function(event) {
+          var src = event.target.closest('table');
+          $(src).remove();
+        },
+
         showSettings: function() {
           console.log($settingsDialog);
           $settingsDialog.modal('show');

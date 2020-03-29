@@ -22,6 +22,9 @@ var app = app || {};
       $(document).on('click', '.fb-edit-post-button', app.editPost);
       // Edit Dialog
       $('#fb-add-images-button').on('click', app.addImages);
+      $(document).on('click', '.fb-up-url-button', app.upUrl);
+      $(document).on('click', '.fb-down-url-button', app.downUrl);
+      $(document).on('click', '.fb-delete-url-button', app.deleteUrl);
       $('#fb-toggle-all-images-select').on('click', app.toggleAllImagesSelect);
       $('#fb-save-post-button').on('click', app.savePost);
       $('#fb-delete-post-button').on('click', app.deletePost);
@@ -100,6 +103,18 @@ var app = app || {};
       api.handleError(e);
     } finally {
     }
+  };
+
+  app.upUrl = function(event) {
+    view.upUrl(event);
+  };
+
+  app.downUrl = function(event) {
+    view.downUrl(event);
+  };
+  
+  app.deleteUrl = function(event) {
+    view.deleteUrl(event);
   };
 
   app.toggleAllImagesSelect = function(event) {
