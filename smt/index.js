@@ -12,6 +12,7 @@ var app = app || {};
       view = smt.import('view').create();
       // Main window
       $('#fb-corner').on('click', true, app.setupSearch);
+      $(document).on('click', '.fb-close-dialog', app.closeDialog);
       $(document).on('click', '.fb-search', app.selectSearchText);
       $('#fb-search-posts-button').on('click', true, app.searchPosts);
       $('#fb-read-next-button').on('click', false, app.searchPosts);
@@ -36,6 +37,10 @@ var app = app || {};
 
   app.setupSearch = function() {
     view.setupSearch();
+  };
+
+  app.closeDialog = function(event) {
+    view.closeDialog(event);
   };
 
   app.selectSearchText = function(event) {

@@ -122,6 +122,11 @@ smt.export('view', function(smt, undefined) {
           });
         },
 
+        closeDialog: function(event) {
+          var dialog = $(event.target.closest('.modal'));
+          $(dialog).modal('hide');
+        },
+
         getSearchOption: function() {
           return {
             filter: $('input[name="fb-search"]:checked').val(),
@@ -318,6 +323,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         showSettings: function() {
+          console.log($settingsDialog);
           $settingsDialog.modal('show');
         },
 
