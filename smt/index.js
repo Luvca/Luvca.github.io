@@ -14,6 +14,7 @@ var app = app || {};
       $('#fb-corner').on('click', true, app.setupSearch);
       $(document).on('click', '.fb-close-dialog', app.closeDialog);
       $(document).on('click', '.fb-search', app.selectSearchText);
+      $(document).on('click', '.select-pure__select', app.selectSearchText);
       $('#fb-search-posts-button').on('click', true, app.searchPosts);
       $('#fb-read-next-button').on('click', false, app.searchPosts);
       $('#fb-add-post-button').on('click', false, app.addPost);

@@ -120,6 +120,9 @@ smt.export('view', function(smt, undefined) {
           albums.getAll().forEach((a) => {
             $($('<option>', {value: a}).append(a)).appendTo($searchAlbum);
           });
+          $womenSelectSearch = createSelectPure('#fb-post-women-search', women.getAll());
+          $authorsSelectSearch = createSelectPure('#fb-post-authors-search', authors.getAll());
+          $tagsSelectSearch = createSelectPure('#fb-post-tags-search', tags.getAll());
         },
 
         closeDialog: function(event) {
@@ -131,6 +134,9 @@ smt.export('view', function(smt, undefined) {
           return {
             filter: $('input[name="fb-search"]:checked').val(),
             text: $('input[name="fb-search"]:checked').closest('div').find('.fb-search').val(),
+            women: $womenSelectSearch.value(),
+            authors: $authorsSelectSearch.value(),
+            tags: $tagsSelectSearch.value(),
             orderBy: $('input[name="fb-search-order-by"]:checked').val(),
             limit: parseInt($searchLimit.val()),
             lastVisible: lastVisible
@@ -138,7 +144,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         selectSearchText: function(event) {
-          var div = $(event.target.closest('div'));
+          var div = $(event.target.closest('.form-check-inline'));
           div.find('input[name="fb-search"]').prop('checked', true);
         },
 

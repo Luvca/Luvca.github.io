@@ -4,19 +4,18 @@ smt.export('api', function(smt, undefined) {
   return {
     searchPosts: function(option) {
       var query = smt.db.collection('posts');
-      if (option.text && option.text.length > 0) {
-        if (option.filter === 'title') {
-          query = query.orderBy('title').startAt(option.text).endAt(option.text + '\uf8ff');
-        } else  {
-          if (option.filter === 'type') {
-            query = query.where('type', '==', option.text);
-          } else if (option.filter === 'women') {
-            query = query.where('women', 'array-contains-any', option.text.split(','));
-          } else if (option.filter === 'tags') {
-            query = query.where('tags', 'array-contains-any', option.text.split(','));
-          }
-          query = query.orderBy(option.orderBy, 'desc');
-        }
+      if (option.filter === 'title' && option.text.length > 0) {
+        query = query.orderBy('title').startAt(option.text).endAt(option.text + '\uf8ff');
+      } else if (option.filter === 'type') {
+          query = query.where('type', '==', option.text).orderBy(option.orderBy, 'desc');
+      } else if (option.filter === 'album') {
+          query = query.where('albums', '==', option.text).orderBy(option.orderBy, 'desc');
+      } else if (option.filter === 'women') {
+        query = query.where('women', 'array-contains-any', option.women).orderBy(option.orderBy, 'desc');
+      } else if (option.filter === 'authors') {
+        query = query.where('authors', 'array-contains-any', option.authors).orderBy(option.orderBy, 'desc');
+      } else if (option.filter === 'tags') {
+        query = query.where('tags', 'array-contains-any', option.tags).orderBy(option.orderBy, 'desc');
       } else {
         query = query.orderBy(option.orderBy, 'desc');
       }
