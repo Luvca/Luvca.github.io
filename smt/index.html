@@ -87,7 +87,8 @@
             <div class="carousel-inner">
               <div class="fb-post-carousel-items">
                 <div class="carousel-item fb-post-carousel-item">
-                  <img class="d-block w-100 fb-post-image">
+                  <img class="d-block w-100 lazy fb-post-image">
+                  <span class="fb-post-url d-none"></span>
                 </div>
               </div>
               <a class="carousel-control-prev fb-post-carousel-control" role="button" data-slide="prev">
@@ -288,6 +289,7 @@
     </div>
 
     <script src="js/jquery/jquery-3.4.1.min.js"></script>
+    <script src="js/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
     <script src="js/bootstrap/4.4.1/bootstrap.min.js"></script>
     <script src="js/firebasejs/7.2.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>

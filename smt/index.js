@@ -29,6 +29,11 @@ var app = app || {};
       $(document).on('click', '.fb-select-dropbox-folder', app.selectDropboxFolder);
       // Settings Dialog
       $('#fb-save-settings-button').on('click', app.saveSettings);
+      // lazyload
+      $('img.lazy').lazyload({
+        effect: 'fadeIn',
+        effectspeed: 1000
+      });
     } catch(e) {
       api.handleError(e);
     }

@@ -21,7 +21,13 @@ smt.export('view', function(smt, undefined) {
     carouselItems.empty();
     carouselItems.append(cardPost.fields.urls.map((u, i) => {
       var carouselItem = $.parseHTML(carouselItemTemplate);
-      $(carouselItem).find('.fb-post-image').attr('src', u);
+      var img = $(carouselItem).find('.fb-post-image');
+      img.attr('data-original', u);
+      $('img.lazy').lazyload({
+        effect: 'fadeIn',
+        effectspeed: 1000
+      });
+      $(carouselItem).find('.fb-post-url').text(u);
       if (i === 0)
         $(carouselItem).addClass('active');
       return $(carouselItem).prop('outerHTML');
@@ -158,7 +164,7 @@ smt.export('view', function(smt, undefined) {
           return {
             id: card.attr('id'),
             fields: {
-              urls: card.find('.fb-post-image').get().map((i) => $(i).attr('src')),
+              urls: card.find('.fb-post-url').get().map((i) => $(i).text()),
               title: card.find('.fb-post-title').text(),
               type: card.find('.fb-post-type').text(),
               women: card.find('.fb-post-woman').get().map((w) => $(w).text()),
