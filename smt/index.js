@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 var app = app || {};
 
@@ -26,7 +26,8 @@ var app = app || {};
       $(document).on('click', '.fb-down-url-button', app.downUrl);
       $(document).on('click', '.fb-delete-url-button', app.deleteUrl);
       $('#fb-toggle-all-images-select').on('click', app.toggleAllImagesSelect);
-      $('#fb-add-author-button').on('click', 'author', app.addName);
+      $('#fb-add-author-button').on('click', {type: 'authors'}, app.addPerson);
+      $('#fb-save-person-button').on('click', app.savePerson);
       $('#fb-save-post-button').on('click', app.savePost);
       $('#fb-delete-post-button').on('click', app.deletePost);
       // Dropbox Dialog
@@ -131,8 +132,30 @@ var app = app || {};
     view.selectDropboxImages();
   };
 
-  app.addName = function(event) {
-    view.addName(event);
+  app.addPerson = function(event) {
+    view.addPerson(event);
+  };
+
+  app.savePerson = function(event) {
+    if (!confirm('OK ?')) return;
+    if (inProgress) return;
+    inProgress = true;
+    try {
+      var person = view.getPerson(event);
+      view.validatePerson(() => {
+        console.log(person.type);
+        if (person.type === 'authors') {
+          api.saveAuthor(person.data).then().catch((error) => {
+            console.log(error);
+            api.handleError(e);
+          });
+        }
+      });
+    } catch(e) {
+      api.handleError(e);
+    } finally {
+      inProgress = false;
+    }
   };
 
   app.savePost = function(event) {

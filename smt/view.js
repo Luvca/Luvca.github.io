@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
@@ -290,8 +290,32 @@ smt.export('view', function(smt, undefined) {
           });
         },
 
-        addName: function(event) {
-          $('#fb-name-dialog').modal('show');
+        addPerson: function(event) {
+          $('#fb-person-type').val(event.data.type);
+          $('#fb-person-dialog').modal('show');
+        },
+
+        getPerson: function(event) {
+          return {
+            type: $('#fb-person-type').val(),
+            data: {
+              id: $('#fb-person-name').val(),
+              fields: {
+                name: $('#fb-person-name').val(),
+                phoneticName: $('#fb-person-phonetic-name').val()
+              }
+            }
+          }
+        },
+
+        validatePerson: function(callback) {
+          if ($('#fb-preson-form').get(0).checkValidity() === true) {
+            if (callback) {
+              callback();
+            }
+          } else {
+            $('#fb-preson-form').addClass('was-validated');
+          }
         },
 
         getPost: function(event) {

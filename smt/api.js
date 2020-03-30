@@ -50,6 +50,10 @@ smt.export('api', function(smt, undefined) {
       return smt.db.collection('authors').orderBy('phoneticName').get();
     },
 
+    saveAuthor: function(author) {
+      return smt.db.collection('authors').doc(author.id).set(author.fields);
+    },
+
     getTags: function() {
       return smt.db.collection('tags').get();
     },

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -293,8 +293,8 @@
       </div>
     </div>
 
-    <!-- Author Dialog -->
-    <div class="modal fade" id="fb-name-dialog" tabindex="-1" role="dialog">
+    <!-- Name Dialog -->
+    <div class="modal fade" id="fb-person-dialog" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -304,21 +304,22 @@
             </button>
           </div>
           <div class="modal-body">
-            <form id="fb-name-form" class="needs-validation" novalidate>
+            <form id="fb-preson-form" class="needs-validation" novalidate>
+              <input type="hidden" id="fb-person-type">
               <div class="form-group">
                 <label class="col-form-label">Name</label>
-                <input id="fb-name" class="form-control" required>
+                <input id="fb-person-name" class="form-control" required>
                 <div class="invalid-feedback">Name is required.</div>
               </div>
               <div class="form-group">
                 <label class="col-form-label">Phonetic Name</label>
-                <input id="fb-phonetic-name" class="form-control" required>
+                <input id="fb-person-phonetic-name" class="form-control" required>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary fb-close-dialog">Cancel</button>
-            <button id="fb-save-name-button" type="button" class="btn btn-primary">Save</button>
+            <button id="fb-save-person-button" type="button" class="btn btn-primary">Save</button>
           </div>
         </div>
       </div>
