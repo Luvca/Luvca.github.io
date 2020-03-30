@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
@@ -237,7 +237,6 @@ smt.export('view', function(smt, undefined) {
           $dropboxDialog.find('input[name="fb-dropbox-image"]:checked').get().forEach((i) => {
             var postUrl = $.parseHTML(urlTemplate);
             var url = $(i).closest('.card').find('img').attr('src');
-            console.log(url);
             $(postUrl).find('.fb-post-url').attr('src', url);
             $postUrls.append(postUrl);
           });
@@ -254,15 +253,25 @@ smt.export('view', function(smt, undefined) {
               else return 1;
             }).forEach((item) => {
               if (item['.tag'] === 'file' && item.name.split('.').pop().match(/jpe?g|png|gif|bmp/i)) {
+                var dropboxItem = $.parseHTML(dropboxImageTemplate);
+                $dropboxImages.append(dropboxItem);
                 dropbox.listShare(item.id).done((res) => {
                   if (res.links.length === 0) {
                     dropbox.createShare(item.id).done((res) => {
-                      createDropboxImage($dropboxImages, dropboxImageTemplate, item.name, res.url);
+                      var directUrl = dropbox.directUrl(res.url);
+                      $(dropboxItem).find('input[name="fb-dropbox-image"]').attr('value', directUrl);
+                      $(dropboxItem).find('.fb-dropbox-image').text(item.name.replace(/\.[^/.]+$/, ''));
+                      $(dropboxItem).find('img').attr('src', directUrl);
+                      //createDropboxImage($dropboxImages, dropboxImageTemplate, item.name, res.url);
                     }).fail((error) => {
                       console.log(error);
                     });
                   } else {
-                    createDropboxImage($dropboxImages, dropboxImageTemplate, item.name, res.links[0].url);
+                    var directUrl = dropbox.directUrl(res.links[0].url);
+                    $(dropboxItem).find('input[name="fb-dropbox-image"]').attr('value', directUrl);
+                    $(dropboxItem).find('.fb-dropbox-image').text(item.name.replace(/\.[^/.]+$/, ''));
+                    $(dropboxItem).find('img').attr('src', directUrl);
+                    //createDropboxImage($dropboxImages, dropboxImageTemplate, item.name, res.links[0].url);
                   }
                 }).fail((error) => {
                   console.log(error);
