@@ -295,7 +295,7 @@ smt.export('view', function(smt, undefined) {
               authors: $authorsSelect.value(),
               tags: $tagsSelect.value(),
               albums: $albumsSelect.value(),
-              createdAt: Date.parse(dialog.find('#fb-post-created-at').val().replace(/-/g, '/')),
+              createdAt: new Date(Date.parse(dialog.find('#fb-post-created-at').val().replace(/-/g, '/'))),
               updatedAt: new Date()
             }
           };
