@@ -283,8 +283,8 @@ smt.export('view', function(smt, undefined) {
 
         getPost: function(event) {
           var dialog = $(event.target.closest('.modal'));
-        alert(dialog.find('#fb-post-created-at').val());
-        alert(Date.parse(dialog.find('#fb-post-created-at').val()));
+        //alert(dialog.find('#fb-post-created-at').val());
+        //alert(Date.parse(dialog.find('#fb-post-created-at').val()));
           return {
             id: dialog.find('#fb-post-id').val(),
             fields: {
@@ -295,7 +295,7 @@ smt.export('view', function(smt, undefined) {
               authors: $authorsSelect.value(),
               tags: $tagsSelect.value(),
               albums: $albumsSelect.value(),
-              createdAt: new Date(/*Date.parse(dialog.find('#fb-post-created-at').val())*/),
+              createdAt: Date.parse(dialog.find('#fb-post-created-at').val().replace(/-/g, '/'));
               updatedAt: new Date()
             }
           };
