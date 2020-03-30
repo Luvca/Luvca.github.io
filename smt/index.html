@@ -298,7 +298,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Add</h5>
+            <h5 class="modal-title"></h5>
             <button type="button" class="close fb-close-dialog">
               <span>&times;</span>
             </button>
@@ -307,18 +307,18 @@
             <form id="fb-name-form" class="needs-validation" novalidate>
               <div class="form-group">
                 <label class="col-form-label">Name</label>
-                <input id="authorName" class="form-control author-name" required>
+                <input id="fb-name" class="form-control" required>
                 <div class="invalid-feedback">Name is required.</div>
               </div>
               <div class="form-group">
                 <label class="col-form-label">Phonetic Name</label>
-                <input id="authorPhoneticName" class="form-control author-phonetic-name" required>
+                <input id="fb-phonetic-name" class="form-control" required>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary fb-close-dialog">Cancel</button>
-            <button id="saveAuthor" type="button" class="btn btn-primary"><span class="spinner-border spinner-border-sm d-none mr-3" role="status"></span>Save</button>
+            <button id="fb-save-name-button" type="button" class="btn btn-primary">Save</button>
           </div>
         </div>
       </div>
