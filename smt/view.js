@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
@@ -276,7 +276,7 @@ smt.export('view', function(smt, undefined) {
                 }).fail((error) => {
                   console.log(error);
                 });
-              } else if (item['.tag'] == 'folder') {
+              } else if (item['.tag'] == 'folder' && !item.name.endsWith('★')) {
                 $dropboxImages.append(`
                 <div class="card mb-2">
                   <button type="button" class="btn btn-outline-info btn-block fb-select-dropbox-folder" value="${folder}/${item.name}">${item.name}</button>
