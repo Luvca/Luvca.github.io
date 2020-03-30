@@ -290,6 +290,10 @@ smt.export('view', function(smt, undefined) {
           });
         },
 
+        addName: function(event) {
+          $('#fb-name-dialog').modal('show');
+        },
+
         getPost: function(event) {
           var dialog = $(event.target.closest('.modal'));
         //alert(dialog.find('#fb-post-created-at').val());

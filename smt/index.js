@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 var app = app || {};
 
@@ -26,6 +26,7 @@ var app = app || {};
       $(document).on('click', '.fb-down-url-button', app.downUrl);
       $(document).on('click', '.fb-delete-url-button', app.deleteUrl);
       $('#fb-toggle-all-images-select').on('click', app.toggleAllImagesSelect);
+      $('#fb-add-author-button').on('click', 'author', app.addName);
       $('#fb-save-post-button').on('click', app.savePost);
       $('#fb-delete-post-button').on('click', app.deletePost);
       // Dropbox Dialog
@@ -128,6 +129,10 @@ var app = app || {};
 
   app.selectDropboxImages = function(event) {
     view.selectDropboxImages();
+  };
+
+  app.addName = function(event) {
+    view.addName(event);
   };
 
   app.savePost = function(event) {
