@@ -290,28 +290,29 @@ smt.export('view', function(smt, undefined) {
           });
         },
 
-        addPerson: function(event) {
-          $('#fb-person-type').val(event.data.type);
-          $('#fb-person-dialog').modal('show');
+        addAuthor: function(event) {
+          $('#fb-author-type').val(event.data.type);
+          $('#fb-author-dialog').modal('show');
         },
 
-        getPerson: function(event) {
+        getAuthor: function(event) {
           return {
-            type: $('#fb-person-type').val(),
+            type: $('#fb-author-type').val(),
             data: {
-              id: $('#fb-person-name').val(),
+              id: $('#fb-author-name').val(),
               fields: {
-                name: $('#fb-person-name').val(),
-                phoneticName: $('#fb-person-phonetic-name').val()
+                name: $('#fb-author-name').val(),
+                phoneticName: $('#fb-author-phonetic-name').val()
               }
             }
           }
         },
 
-        validatePerson: function(callback) {
+        validateAuthor: function(callback) {
           if ($('#fb-preson-form').get(0).checkValidity() === true) {
             if (callback) {
               callback();
+              $('#fb-author-dialog').modal('hide');
             }
           } else {
             $('#fb-preson-form').addClass('was-validated');
