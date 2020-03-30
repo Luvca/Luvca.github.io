@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
@@ -293,7 +293,7 @@ smt.export('view', function(smt, undefined) {
               authors: $authorsSelect.value(),
               tags: $tagsSelect.value(),
               albums: $albumsSelect.value(),
-              createdAt: new Date(Date.parse(dialog.find('#fb-post-created-at').val())),
+              createdAt: new Date(/*Date.parse(dialog.find('#fb-post-created-at').val())*/),
               updatedAt: new Date()
             }
           };
