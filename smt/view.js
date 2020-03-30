@@ -284,7 +284,7 @@ smt.export('view', function(smt, undefined) {
         getPost: function(event) {
           var dialog = $(event.target.closest('.modal'));
         //alert(dialog.find('#fb-post-created-at').val());
-        //alert(Date.parse(dialog.find('#fb-post-created-at').val()));
+        alert(new Date(Date.parse(dialog.find('#fb-post-created-at').val().replace(/-/g, '/'))));
           return {
             id: dialog.find('#fb-post-id').val(),
             fields: {
