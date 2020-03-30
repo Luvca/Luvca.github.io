@@ -250,7 +250,7 @@ smt.export('view', function(smt, undefined) {
           $dropboxImages.empty();
           dropbox.listFolder(folder).done((res) => {
             res.entries.sort(function(a, b) {
-              if (a.client_modified < b.client_modified) return -1;
+              if (a.name < b.name) return -1;
               else return 1;
             }).forEach((item) => {
               if (item['.tag'] === 'file' && item.name.split('.').pop().match(/jpe?g|png|gif|bmp/i)) {
