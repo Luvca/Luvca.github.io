@@ -161,15 +161,27 @@ var app = app || {};
     if (inProgress) return;
     inProgress = true;
     try {
-      var post = view.getPost(event);
       view.validatePost(() => {
         var post = view.getPost(event);
-        api.savePost(post).then(() => {
-          view.updatePost(post);
-        }).catch((error) => {
-          console.log(error);
-          api.handleError(e);
-        });
+        if (!post.individual) {
+          api.savePost(post).then(() => {
+            view.updatePost(post);
+          }).catch((error) => {
+            console.log(error);
+            api.handleError(error);
+          });
+        } else {
+          post.fields.urls.forEach((u) => {
+            var p = {};
+            p.fields = post.fields;
+            p.fields.urls = [u];
+            api.savePost(p).then(() => {
+            }).catch((error) => {
+              console.log(error);
+              api.handleError(error);
+            });
+          });
+        }
       });
     } catch(e) {
       api.handleError(e);

@@ -327,6 +327,7 @@ smt.export('view', function(smt, undefined) {
         //alert(new Date(Date.parse(dialog.find('#fb-post-created-at').val().replace(/-/g, '/'))));
           return {
             id: dialog.find('#fb-post-id').val(),
+            individual: $('#fb-post-individual').val(),
             fields: {
               urls: dialog.find('.fb-post-url').get().map((u) => $(u).attr('src')),
               title: dialog.find('#fb-post-title').val(),
