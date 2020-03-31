@@ -18,6 +18,7 @@ var app = app || {};
       $('#fb-read-next-button').on('click', false, app.searchPosts);
       $('#fb-add-post-button').on('click', false, app.addPost);
       $('#fb-show-settings-button').on('click', false, app.showSettings);
+      $('#fb-remove-opacity').on('click', app.removeOpacity);
       // Card
       $(document).on('click', '.fb-edit-post-button', app.editPost);
       // Edit Dialog
@@ -219,5 +220,9 @@ var app = app || {};
     var settings = view.getSettings();
     console.log(settings);
     smt.setSettings(settings);
+  };
+
+  app.removeOpacity = function() {
+    $('img').css('opacity', '1');
   };
 }(app));
