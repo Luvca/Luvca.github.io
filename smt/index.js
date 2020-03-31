@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 var app = app || {};
 
@@ -163,6 +163,7 @@ var app = app || {};
     try {
       var post = view.getPost(event);
       view.validatePost(() => {
+        var post = view.getPost(event);
         api.savePost(post).then(() => {
           view.updatePost(post);
         }).catch((error) => {
