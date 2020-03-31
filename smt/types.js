@@ -13,7 +13,6 @@ smt.export('types', function (smt, undefined) {
       });
       return {
         getAll: function() {
-          console.log(types);
           return types;
         }
       };

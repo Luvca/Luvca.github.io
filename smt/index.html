@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -81,8 +81,6 @@
       <div class="py-2 bg-light">
         <button id="fb-add-post-button" type="button" class="btn btn-sm btn-outline-secondary ml-2" value="">Add</button>
       </div>
-      <div id="info-msg-area" class="alert-info"></div>
-      <div id="error-msg-area" class="alert-danger"></div>
 
       <!-- Cards-->
       <div id="search-result">
@@ -137,6 +135,8 @@
       <div class="py-2 bg-light">
         <button id="fb-read-next-button" type="button" class="btn btn-sm btn-outline-secondary ml-2 d-none">Next</button>
       </div>
+      <div id="info-msg-area" class="alert-info"></div>
+      <div id="error-msg-area" class="alert-danger"></div>
     </main>
 
     <!-- Settings Dialog -->
@@ -170,7 +170,6 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 id="editModalTitle" class="modal-title">Edit</h5>
-            <i class="fb-remove-opacity fa fa-eye"></i>
             <button type="button" class="close fb-close-dialog">
               <span>&times;</span>
             </button>
@@ -184,6 +183,7 @@
                 <div class="form-inline">
                   <label class="col-form-label fb-form-label">Images</label>
                   <button type="button" id="fb-add-images-button" class="fb-plus-button pt-2" value="">&#x2295;</button>
+                  <i class="fb-remove-opacity fa fa-eye ml-auto"></i>
                 </div>
                 <div id="fb-post-urls" class="form-group">
                   <table class="w-100">
@@ -246,7 +246,7 @@
               </div>
               <span id="fb-post-tags" class="h-25"></span>
               <script>var $tagsSelect;</script>
-              <div id="fb-post-individual-area" class="form-check form-check-inline">
+              <div id="fb-post-individual-area" class="form-check form-check-inline mt-2">
                 <input id="fb-post-individual" type="checkbox" class="form-check-input" value="individual">
                 <label class="form-check-label">Individual</label>
               </div>

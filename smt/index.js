@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 var app = app || {};
 
@@ -6,6 +6,7 @@ var app = app || {};
   var api = smt.import('api');
   var view;
   var inProgress = false;
+  var opacity = true;
 
   $(function() {
     try {
@@ -14,6 +15,7 @@ var app = app || {};
       $('#fb-corner').on('click', true, app.setupSearch);
       $(document).on('click', '.fb-close-dialog', app.closeDialog);
       $(document).on('click', '.fb-search', app.selectSearchText);
+      $(document).on('DOMSubtreeModified', '.select-pure__select', app.selectSearchText);
       $('#fb-search-posts-button').on('click', true, app.searchPosts);
       $('#fb-read-next-button').on('click', false, app.searchPosts);
       $('#fb-add-post-button').on('click', false, app.addPost);
@@ -50,8 +52,7 @@ var app = app || {};
   };
 
   app.selectSearchText = function(event) {
-    console.log(event.target);
-    view.selectSearchText(event);
+    view.selectSearchText(event.target);
   };
 
   app.searchPosts = function(event) {
@@ -223,6 +224,12 @@ var app = app || {};
   };
 
   app.removeOpacity = function() {
-    $('img').css('opacity', '1');
+    if (opacity) {
+      $('img').css('opacity', '1');
+      opacity = false;
+    } else {
+      $('img').css('opacity', '0.1');
+      opacity = true;
+    }
   };
 }(app));

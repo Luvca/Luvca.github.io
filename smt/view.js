@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
@@ -70,15 +70,6 @@ smt.export('view', function(smt, undefined) {
     });
   }
 
-  function createDropboxImage(container, template, name, url) {
-    var item = $.parseHTML(template);
-    var directUrl = dropbox.directUrl(url);
-    $(item).find('input[name="fb-dropbox-image"]').attr('value', directUrl);
-    $(item).find('.fb-dropbox-image').text(name.replace(/\.[^/.]+$/, ''));
-    $(item).find('img').attr('src', directUrl);
-    container.append(item);
-  }
-
   return {
     create: function() {
       var $searchLimit = $('#fb-search-limit');
@@ -123,6 +114,7 @@ smt.export('view', function(smt, undefined) {
           $womenSelectSearch = createSelectPure('#fb-post-women-search', women.getAll());
           $authorsSelectSearch = createSelectPure('#fb-post-authors-search', authors.getAll());
           $tagsSelectSearch = createSelectPure('#fb-post-tags-search', tags.getAll());
+          $('input[name="fb-search"]').prop('checked', false);
         },
 
         closeDialog: function(event) {
@@ -143,8 +135,8 @@ smt.export('view', function(smt, undefined) {
           };
         },
 
-        selectSearchText: function(event) {
-          var div = $(event.target.closest('.form-check-inline'));
+        selectSearchText: function(target) {
+          var div = $(target.closest('.form-check-inline'));
           div.find('input[name="fb-search"]').prop('checked', true);
         },
 
