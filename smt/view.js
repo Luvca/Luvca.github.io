@@ -224,10 +224,10 @@ smt.export('view', function(smt, undefined) {
           // Delete button
           if (!card.id) {
             $('#fb-delete-post-button').addClass('d-none');
-            $('#fb-post-individual').removeClass('d-none');
+            $('#fb-post-individual-area').removeClass('d-none');
           } else {
             $('#fb-delete-post-button').removeClass('d-none');
-            $('#fb-post-individual').addClass('d-none');
+            $('#fb-post-individual-area').addClass('d-none');
           }
         },
 
@@ -327,7 +327,7 @@ smt.export('view', function(smt, undefined) {
         //alert(new Date(Date.parse(dialog.find('#fb-post-created-at').val().replace(/-/g, '/'))));
           return {
             id: dialog.find('#fb-post-id').val(),
-            individual: $('#fb-post-individual').val(),
+            individual: $('#fb-post-individual:checked').val(),
             fields: {
               urls: dialog.find('.fb-post-url').get().map((u) => $(u).attr('src')),
               title: dialog.find('#fb-post-title').val(),
@@ -354,8 +354,8 @@ smt.export('view', function(smt, undefined) {
 
         updatePost: function(data) {
           createCard(data, $cardTemplate, function(card) {
-            if (data.id) {
-              var current = $(`#${data.id}`);
+            var current = $(`#${data.id}`);
+            if (current.length) {
               current.replaceWith(card);
             }
             else

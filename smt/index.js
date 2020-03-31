@@ -175,7 +175,9 @@ var app = app || {};
             var p = {};
             p.fields = post.fields;
             p.fields.urls = [u];
-            api.savePost(p).then(() => {
+            api.savePost(p).then((ref) => {
+              p.id = ref.id;
+              view.updatePost(p);
             }).catch((error) => {
               console.log(error);
               api.handleError(error);
