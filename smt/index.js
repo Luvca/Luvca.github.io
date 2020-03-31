@@ -29,8 +29,14 @@ var app = app || {};
       $(document).on('click', '.fb-down-url-button', app.downUrl);
       $(document).on('click', '.fb-delete-url-button', app.deleteUrl);
       $('#fb-toggle-all-images-select').on('click', app.toggleAllImagesSelect);
-      $('#fb-add-author-button').on('click', {type: 'authors'}, app.addAuthor);
+      $('#fb-add-album-button').on('click', app.addAlbum);
+      $('#fb-save-album-button').on('click', app.saveAlbum);
+      $('#fb-add-woman-button').on('click', app.addWoman);
+      $('#fb-save-woman-button').on('click', app.saveWoman);
+      $('#fb-add-author-button').on('click', app.addAuthor);
       $('#fb-save-author-button').on('click', app.saveAuthor);
+      $('#fb-add-tag-button').on('click', app.addTag);
+      $('#fb-save-tag-button').on('click', app.saveTag);
       $('#fb-save-post-button').on('click', app.savePost);
       $('#fb-delete-post-button').on('click', app.deletePost);
       // Dropbox Dialog
@@ -134,6 +140,52 @@ var app = app || {};
     view.selectDropboxImages();
   };
 
+  app.addAlbum = function(event) {
+    view.addAlbum(event);
+  };
+
+  app.saveAlbum = function(event) {
+    if (!confirm('OK ?')) return;
+    if (inProgress) return;
+    inProgress = true;
+    try {
+      var album = view.getAlbum(event);
+      view.validateAlbum(() => {
+        api.saveAlbum(album).then().catch((error) => {
+          console.log(error);
+          api.handleError(e);
+        });
+      });
+    } catch(e) {
+      api.handleError(e);
+    } finally {
+      inProgress = false;
+    }
+  };
+
+  app.addWoman = function(event) {
+    view.addWoman(event);
+  };
+
+  app.saveWoman = function(event) {
+    if (!confirm('OK ?')) return;
+    if (inProgress) return;
+    inProgress = true;
+    try {
+      var woman = view.getWoman(event);
+      view.validateWoman(() => {
+        api.saveWoman(woman).then().catch((error) => {
+          console.log(error);
+          api.handleError(e);
+        });
+      });
+    } catch(e) {
+      api.handleError(e);
+    } finally {
+      inProgress = false;
+    }
+  };
+
   app.addAuthor = function(event) {
     view.addAuthor(event);
   };
@@ -145,8 +197,30 @@ var app = app || {};
     try {
       var author = view.getAuthor(event);
       view.validateAuthor(() => {
-        console.log(author.type);
-        api.saveAuthor(author.data).then().catch((error) => {
+        api.saveAuthor(author).then().catch((error) => {
+          console.log(error);
+          api.handleError(e);
+        });
+      });
+    } catch(e) {
+      api.handleError(e);
+    } finally {
+      inProgress = false;
+    }
+  };
+
+  app.addTag = function(event) {
+    view.addTag(event);
+  };
+
+  app.saveTag = function(event) {
+    if (!confirm('OK ?')) return;
+    if (inProgress) return;
+    inProgress = true;
+    try {
+      var tag = view.getTag(event);
+      view.validateTag(() => {
+        api.saveTag(tag).then().catch((error) => {
           console.log(error);
           api.handleError(e);
         });

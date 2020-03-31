@@ -42,6 +42,10 @@ smt.export('api', function(smt, undefined) {
       return smt.db.collection('types').get();
     },
 
+    getAlbums: function() {
+      return smt.db.collection('albums').get();
+    },
+
     getWomen: function() {
       return smt.db.collection('women').orderBy('phoneticName').get();
     },
@@ -50,16 +54,24 @@ smt.export('api', function(smt, undefined) {
       return smt.db.collection('authors').orderBy('phoneticName').get();
     },
 
-    saveAuthor: function(author) {
-      return smt.db.collection('authors').doc(author.id).set(author.fields);
-    },
-
     getTags: function() {
       return smt.db.collection('tags').get();
     },
 
-    getAlbums: function() {
-      return smt.db.collection('albums').get();
+    saveAlbum: function(album) {
+      return smt.db.collection('albums').doc(album.id).set(woman.fields);
+    },
+
+    saveWoman: function(woman) {
+      return smt.db.collection('women').doc(woman.id).set(woman.fields);
+    },
+
+    saveAuthor: function(author) {
+      return smt.db.collection('authors').doc(author.id).set(author.fields);
+    },
+
+    saveTag: function(tag) {
+      return smt.db.collection('tags').doc(tag.id).set(tag.fields);
     },
 
     intersect: function(a, b) {

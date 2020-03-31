@@ -284,32 +284,101 @@ smt.export('view', function(smt, undefined) {
           });
         },
 
+        addAlbum: function(event) {
+          $('#fb-album-dialog').modal('show');
+        },
+
+        getAlbum: function(event) {
+          return {
+            id: $('#fb-album-name').val(),
+            fields: {
+              name: $('#fb-album-name').val()
+            }
+          }
+        },
+
+        validateAlbum: function(callback) {
+          if ($('#fb-album-form').get(0).checkValidity() === true) {
+            if (callback) {
+              callback();
+              $('#fb-album-dialog').modal('hide');
+            }
+          } else {
+            $('#fb-album-form').addClass('was-validated');
+          }
+        },
+
+        addWoman: function(event) {
+          $('#fb-woman-dialog').modal('show');
+        },
+
+        getWoman: function(event) {
+          return {
+            id: $('#fb-woman-name').val(),
+            fields: {
+              name: $('#fb-woman-name').val(),
+              phoneticName: $('#fb-woman-phonetic-name').val()
+            }
+          }
+        },
+
+        validateWoman: function(callback) {
+          if ($('#fb-woman-form').get(0).checkValidity() === true) {
+            if (callback) {
+              callback();
+              $('#fb-woman-dialog').modal('hide');
+            }
+          } else {
+            $('#fb-woman-form').addClass('was-validated');
+          }
+        },
+
         addAuthor: function(event) {
-          $('#fb-author-type').val(event.data.type);
           $('#fb-author-dialog').modal('show');
         },
 
         getAuthor: function(event) {
           return {
-            type: $('#fb-author-type').val(),
-            data: {
-              id: $('#fb-author-name').val(),
-              fields: {
-                name: $('#fb-author-name').val(),
-                phoneticName: $('#fb-author-phonetic-name').val()
-              }
+            id: $('#fb-author-name').val(),
+            fields: {
+              name: $('#fb-author-name').val(),
+              phoneticName: $('#fb-author-phonetic-name').val()
             }
           }
         },
 
         validateAuthor: function(callback) {
-          if ($('#fb-preson-form').get(0).checkValidity() === true) {
+          if ($('#fb-author-form').get(0).checkValidity() === true) {
             if (callback) {
               callback();
               $('#fb-author-dialog').modal('hide');
             }
           } else {
-            $('#fb-preson-form').addClass('was-validated');
+            $('#fb-author-form').addClass('was-validated');
+          }
+        },
+
+        addTag: function(event) {
+          $('#fb-tag-dialog').modal('show');
+        },
+
+        getTag: function(event) {
+          return {
+            id: $('#fb-tag-name').val(),
+            fields: {
+              name: $('#fb-tag-name').val()
+            }
+          }
+        },
+
+        validateTag: function(callback) {
+          if ($('#fb-tag-form').get(0).checkValidity() === true) {
+            if (callback) {
+              callback();
+              $('#fb-tag-dialog').modal('hide');
+            }
+          } else {
+            $('#fb-tag-form').addClass('was-validated');
           }
         },
 
