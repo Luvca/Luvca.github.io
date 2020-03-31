@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
@@ -224,8 +224,10 @@ smt.export('view', function(smt, undefined) {
           // Delete button
           if (!card.id) {
             $('#fb-delete-post-button').addClass('d-none');
+            $('#fb-post-individual').removeClass('d-none');
           } else {
             $('#fb-delete-post-button').removeClass('d-none');
+            $('#fb-post-individual').addClass('d-none');
           }
         },
 
