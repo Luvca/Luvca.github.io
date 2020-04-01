@@ -8,12 +8,21 @@ smt.export('authors', function (smt, undefined) {
     create: function() {
       api.getAuthors().then((ref) => {
         ref.forEach((doc) => {
-          authors.push({label: doc.id, value: doc.id });
+          authors.push(doc.id);
         });
       });
       return {
         getAll: function() {
           return authors;
+        },
+
+        getAllSelectPure: function() {
+          return authors.map((a) => {return {label: a, value: a}});
+        },
+
+        add: function(author) {
+          authors.push(author.id);
+          authors.sort();
         }
       };
     }

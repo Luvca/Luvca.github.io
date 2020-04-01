@@ -8,12 +8,21 @@ smt.export('tags', function (smt, undefined) {
     create: function() {
       api.getTags().then((ref) => {
         ref.forEach((doc) => {
-          tags.push({label: doc.id, value: doc.id });
+          tags.push(doc.id);
         });
       });
       return {
         getAll: function() {
           return tags;
+        },
+
+        getAllSelectPure: function() {
+          return tags.map((a) => {return {label: a, value: a}});
+        },
+
+        add: function(tag) {
+          tags.push(tag.id);
+          tags.sort();
         }
       };
     }

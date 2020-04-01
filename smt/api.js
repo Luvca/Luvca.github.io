@@ -25,13 +25,11 @@ smt.export('api', function(smt, undefined) {
     },
 
     savePost: function(post) {
-      if (post.id)
-        return smt.db.collection('posts').doc(post.id).set(post.fields);
-      else {
+      if (!post.fields.createdAt) {
         post.fields.createdAt = new Date();
-        post.fields.updatedAt = new Date();
-        return smt.db.collection('posts').add(post.fields);
       }
+      post.fields.updatedAt = new Date();
+      return smt.db.collection('posts').doc(post.id).set(post.fields);
     },
 
     deletePost: function(post) {
@@ -59,7 +57,7 @@ smt.export('api', function(smt, undefined) {
     },
 
     saveAlbum: function(album) {
-      return smt.db.collection('albums').doc(album.id).set(woman.fields);
+      return smt.db.collection('albums').doc(album.id).set(album.fields);
     },
 
     saveWoman: function(woman) {
@@ -74,6 +72,10 @@ smt.export('api', function(smt, undefined) {
       return smt.db.collection('tags').doc(tag.id).set(tag.fields);
     },
 
+    createId: function() {
+      return smt.db.collection('_').doc().id;
+    },
+
     intersect: function(a, b) {
       var setA = new Set(a);
       var setB = new Set(b);
@@ -86,6 +88,10 @@ smt.export('api', function(smt, undefined) {
     handleError: function(e) {
       console.error(e);
       alert(e + ' ' + e.stack);
+    },
+
+    initDialog: function(diaog) {
+      $(diaog).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
     }
   };
 });

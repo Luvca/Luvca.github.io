@@ -111,9 +111,9 @@ smt.export('view', function(smt, undefined) {
           albums.getAll().forEach((a) => {
             $($('<option>', {value: a}).append(a)).appendTo($searchAlbum);
           });
-          $womenSelectSearch = createSelectPure('#fb-post-women-search', women.getAll());
-          $authorsSelectSearch = createSelectPure('#fb-post-authors-search', authors.getAll());
-          $tagsSelectSearch = createSelectPure('#fb-post-tags-search', tags.getAll());
+          $womenSelectSearch = createSelectPure('#fb-post-women-search', women.getAllSelectPure());
+          $authorsSelectSearch = createSelectPure('#fb-post-authors-search', authors.getAllSelectPure());
+          $tagsSelectSearch = createSelectPure('#fb-post-tags-search', tags.getAllSelectPure());
           $('input[name="fb-search"]').prop('checked', false);
         },
 
@@ -148,14 +148,14 @@ smt.export('view', function(smt, undefined) {
             lastVisible = result.docs[result.docs.length - 1];
             var divider = $('<div>');
             $resultArea.append(divider);
-            result.docs.forEach((ref, i) => {
+            result.docs.forEach((ref) => {
               var fields = ref.data();
               try {
                 fields.createdAt = fields.createdAt.toDate();
               } catch {}
               createCard({id: ref.id, fields: fields}, $cardTemplate, function(card) {
                 $resultArea.append(card);
-              })
+              });
             });
             $('html,body').animate({ scrollTop: divider.offset().top });
             $readNextButton.removeClass('d-none');
@@ -180,6 +180,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         editPost: function(card) {
+          api.initDialog($editDialog);
           $editForm.removeClass('was-validated');
           // Id
           $editDialog.find('#fb-post-id').val(card.id);
@@ -209,9 +210,9 @@ smt.export('view', function(smt, undefined) {
           $('#fb-google-title').prop('href', `https://www.google.co.jp/search?q=${card.fields.title}+${card.fields.type}+adult`);
           // Badges
           $albumsSelect = createSelectPure('#fb-post-albums', albums.getAllSelectPure(), card.fields.albums);
-          $womenSelect = createSelectPure('#fb-post-women', women.getAll(), card.fields.women);
-          $authorsSelect = createSelectPure('#fb-post-authors', authors.getAll(), card.fields.authors);
-          $tagsSelect = createSelectPure('#fb-post-tags', tags.getAll(), card.fields.tags);
+          $womenSelect = createSelectPure('#fb-post-women', women.getAllSelectPure(), card.fields.women);
+          $authorsSelect = createSelectPure('#fb-post-authors', authors.getAllSelectPure(), card.fields.authors);
+          $tagsSelect = createSelectPure('#fb-post-tags', tags.getAllSelectPure(), card.fields.tags);
           $editDialog.modal('show');
           // Delete button
           if (!card.id) {
@@ -223,181 +224,20 @@ smt.export('view', function(smt, undefined) {
           }
         },
 
-        toggleAllImagesSelect: function(event) {
-          $('input[name="fb-dropbox-image"]').prop('checked', event.target.checked);
-        },
-
-        selectDropboxImages: function() {
-          $dropboxDialog.find('input[name="fb-dropbox-image"]:checked').get().forEach((i) => {
-            var postUrl = $.parseHTML(urlTemplate);
-            var url = $(i).closest('.card').find('img').attr('src');
-            $(postUrl).find('.fb-post-url').attr('src', url);
-            $postUrls.append(postUrl);
-          });
-          $dropboxDialog.modal('hide');
-        },
-
-        readDropbox: function(event) {
-          var folder = $(event.target).val();
-          console.log(folder);
-          $dropboxImages.empty();
-          dropbox.listFolder(folder).done((res) => {
-            res.entries.sort(function(a, b) {
-              if (a.name < b.name) return -1;
-              else return 1;
-            }).forEach((item) => {
-              if (item['.tag'] === 'file' && item.name.split('.').pop().match(/jpe?g|png|gif|bmp/i)) {
-                var dropboxItem = $.parseHTML(dropboxImageTemplate);
-                $dropboxImages.append(dropboxItem);
-                dropbox.listShare(item.id).done((res) => {
-                  if (res.links.length === 0) {
-                    dropbox.createShare(item.id).done((res) => {
-                      var directUrl = dropbox.directUrl(res.url);
-                      $(dropboxItem).find('input[name="fb-dropbox-image"]').attr('value', directUrl);
-                      $(dropboxItem).find('.fb-dropbox-image').text(item.name.replace(/\.[^/.]+$/, ''));
-                      $(dropboxItem).find('img').attr('src', directUrl);
-                      //createDropboxImage($dropboxImages, dropboxImageTemplate, item.name, res.url);
-                    }).fail((error) => {
-                      console.log(error);
-                    });
-                  } else {
-                    var directUrl = dropbox.directUrl(res.links[0].url);
-                    $(dropboxItem).find('input[name="fb-dropbox-image"]').attr('value', directUrl);
-                    $(dropboxItem).find('.fb-dropbox-image').text(item.name.replace(/\.[^/.]+$/, ''));
-                    $(dropboxItem).find('img').attr('src', directUrl);
-                    //createDropboxImage($dropboxImages, dropboxImageTemplate, item.name, res.links[0].url);
-                  }
-                }).fail((error) => {
-                  console.log(error);
-                });
-              } else if (item['.tag'] == 'folder' && !item.name.endsWith('★')) {
-                $dropboxImages.append(`
-                <div class="card mb-2">
-                  <button type="button" class="btn btn-outline-info btn-block fb-select-dropbox-folder" value="${folder}/${item.name}">${item.name}</button>
-                </div>`)
-              }
-            });
-            $dropboxDialog.modal('show');
-          }).fail((error) => {
-            console.log(error);
-            alert(error.responseText);
-          });
-        },
-
-        addAlbum: function(event) {
-          $('#fb-album-dialog').modal('show');
-        },
-
-        getAlbum: function(event) {
-          return {
-            id: $('#fb-album-name').val(),
-            fields: {
-              name: $('#fb-album-name').val()
-            }
-          }
-        },
-
-        validateAlbum: function(callback) {
-          if ($('#fb-album-form').get(0).checkValidity() === true) {
-            if (callback) {
-              callback();
-              $('#fb-album-dialog').modal('hide');
-            }
-          } else {
-            $('#fb-album-form').addClass('was-validated');
-          }
-        },
-
-        addWoman: function(event) {
-          $('#fb-woman-dialog').modal('show');
-        },
-
-        getWoman: function(event) {
-          return {
-            id: $('#fb-woman-name').val(),
-            fields: {
-              name: $('#fb-woman-name').val(),
-              phoneticName: $('#fb-woman-phonetic-name').val()
-            }
-          }
-        },
-
-        validateWoman: function(callback) {
-          if ($('#fb-woman-form').get(0).checkValidity() === true) {
-            if (callback) {
-              callback();
-              $('#fb-woman-dialog').modal('hide');
-            }
-          } else {
-            $('#fb-woman-form').addClass('was-validated');
-          }
-        },
-
-        addAuthor: function(event) {
-          $('#fb-author-dialog').modal('show');
-        },
-
-        getAuthor: function(event) {
-          return {
-            id: $('#fb-author-name').val(),
-            fields: {
-              name: $('#fb-author-name').val(),
-              phoneticName: $('#fb-author-phonetic-name').val()
-            }
-          }
-        },
-
-        validateAuthor: function(callback) {
-          if ($('#fb-author-form').get(0).checkValidity() === true) {
-            if (callback) {
-              callback();
-              $('#fb-author-dialog').modal('hide');
-            }
-          } else {
-            $('#fb-author-form').addClass('was-validated');
-          }
-        },
-
-        addTag: function(event) {
-          $('#fb-tag-dialog').modal('show');
-        },
-
-        getTag: function(event) {
-          return {
-            id: $('#fb-tag-name').val(),
-            fields: {
-              name: $('#fb-tag-name').val()
-            }
-          }
-        },
-
-        validateTag: function(callback) {
-          if ($('#fb-tag-form').get(0).checkValidity() === true) {
-            if (callback) {
-              callback();
-              $('#fb-tag-dialog').modal('hide');
-            }
-          } else {
-            $('#fb-tag-form').addClass('was-validated');
-          }
-        },
-
         getPost: function(event) {
           var dialog = $(event.target.closest('.modal'));
-        //alert(dialog.find('#fb-post-created-at').val());
-        //alert(new Date(Date.parse(dialog.find('#fb-post-created-at').val().replace(/-/g, '/'))));
           return {
             id: dialog.find('#fb-post-id').val(),
             individual: $('#fb-post-individual:checked').val(),
             fields: {
               urls: dialog.find('.fb-post-url').get().map((u) => $(u).attr('src')),
-              title: dialog.find('#fb-post-title').val(),
+              title: $('#fb-post-title').val(),
               type: dialog.find('input[name="fb-post-type"]:checked').val(),
               women: $womenSelect.value(),
               authors: $authorsSelect.value(),
               tags: $tagsSelect.value(),
               albums: $albumsSelect.value(),
-              createdAt: new Date(Date.parse(dialog.find('#fb-post-created-at').val().replace(/-/g, '/'))),
+              createdAt: new Date(Date.parse($('#fb-post-created-at').val().replace(/-/g, '/').replace(/T/, ' ').replace(/Z/, ''))),
               updatedAt: new Date()
             }
           };
@@ -413,14 +253,18 @@ smt.export('view', function(smt, undefined) {
           }
         },
 
-        updatePost: function(data) {
-          createCard(data, $cardTemplate, function(card) {
-            var current = $(`#${data.id}`);
+        updatePost: function(post) {
+          try {
+            post.fields.createdAt = post.fields.createdAt.toDate();
+          } catch {}
+          createCard(post, $cardTemplate, function(card) {
+            var current = $(`#${post.id}`);
             if (current.length) {
               current.replaceWith(card);
             }
-            else
+            else {
               $resultArea.prepend(card);
+            }
           });
           $editDialog.modal('hide');
         },
@@ -465,8 +309,195 @@ smt.export('view', function(smt, undefined) {
           $(src).remove();
         },
 
+        toggleAllImagesSelect: function(event) {
+          $('input[name="fb-dropbox-image"]').prop('checked', event.target.checked);
+        },
+
+        selectDropboxImages: function() {
+          $dropboxDialog.find('input[name="fb-dropbox-image"]:checked').get().forEach((e, i) => {
+            var postUrl = $.parseHTML(urlTemplate);
+            var url = $(e).closest('.card').find('img').attr('src');
+            $(postUrl).find('.fb-post-url').attr('src', url);
+            if (i === 0) {
+              var createdAt = $(e).closest('.card').find('img').attr('alt');
+              $('#fb-post-created-at').val(createdAt);
+              console.log(createdAt);
+            }
+            $postUrls.append(postUrl);
+          });
+          $dropboxDialog.modal('hide');
+        },
+
+        readDropbox: function(event) {
+          api.initDialog($dropboxDialog);
+          var folder = $(event.target).val();
+          $dropboxImages.empty();
+          dropbox.listFolder(folder).done((res) => {
+            res.entries.sort(function(a, b) {
+              if (a.name < b.name) return -1;
+              else return 1;
+            }).forEach((item) => {
+              if (item['.tag'] === 'file' && item.name.split('.').pop().match(/jpe?g|png|gif|bmp/i)) {
+                var dropboxItem = $.parseHTML(dropboxImageTemplate);
+                $dropboxImages.append(dropboxItem);
+                dropbox.listShare(item.id).done((res) => {
+                  if (res.links.length === 0) {
+                    dropbox.createShare(item.id).done((res) => {
+                      var directUrl = dropbox.directUrl(res.url);
+                      $(dropboxItem).find('input[name="fb-dropbox-image"]').attr('value', directUrl);
+                      $(dropboxItem).find('.fb-dropbox-image').text(item.name.replace(/\.[^/.]+$/, ''));
+                      $(dropboxItem).find('img').attr('src', directUrl);
+                      $(dropboxItem).find('img').attr('alt', item.client_modified);
+                      //createDropboxImage($dropboxImages, dropboxImageTemplate, item.name, res.url);
+                    }).fail((error) => {
+                      console.log(error);
+                    });
+                  } else {
+                    var directUrl = dropbox.directUrl(res.links[0].url);
+                    $(dropboxItem).find('input[name="fb-dropbox-image"]').attr('value', directUrl);
+                    $(dropboxItem).find('.fb-dropbox-image').text(item.name.replace(/\.[^/.]+$/, ''));
+                    $(dropboxItem).find('img').attr('src', directUrl);
+                    $(dropboxItem).find('img').attr('alt', item.client_modified);
+                    //createDropboxImage($dropboxImages, dropboxImageTemplate, item.name, res.links[0].url);
+                  }
+                }).fail((error) => {
+                  console.log(error);
+                });
+              } else if (item['.tag'] == 'folder' && !item.name.endsWith('★')) {
+                $dropboxImages.append(`
+                <div class="card mb-2">
+                  <button type="button" class="btn btn-outline-info btn-block fb-select-dropbox-folder" value="${folder}/${item.name}">${item.name}</button>
+                </div>`)
+              }
+            });
+            $dropboxDialog.modal('show');
+          }).fail((error) => {
+            api.handleError(error.responseText);
+          });
+        },
+
+        addAlbum: function(event) {
+          api.initDialog($('#fb-album-dialog'));
+          $('#fb-album-dialog').modal('show');
+        },
+
+        getAlbum: function(event) {
+          return {
+            id: $('#fb-album-name').val(),
+            fields: {
+            }
+          }
+        },
+
+        validateAlbum: function(album, callback) {
+          if ($('#fb-album-form').get(0).checkValidity() === true) {
+            if (callback) {
+              callback();
+              albums.add(album);
+              var newAll = albums.getAllSelectPure();
+              var newValue = $albumsSelect.value();
+              newValue.push(album.id);
+              $('#fb-album-dialog').modal('hide');
+              $albumsSelect = createSelectPure('#fb-post-albums', newAll, newValue);
+            }
+          } else {
+            $('#fb-album-form').addClass('was-validated');
+          }
+        },
+
+        addWoman: function(event) {
+          api.initDialog($('#fb-woman-dialog'));
+          $('#fb-woman-dialog').modal('show');
+        },
+
+        getWoman: function(event) {
+          return {
+            id: $('#fb-woman-name').val(),
+            fields: {
+              name: $('#fb-woman-name').val(),
+              phoneticName: $('#fb-woman-phonetic-name').val()
+            }
+          }
+        },
+
+        validateWoman: function(woman, callback) {
+          if ($('#fb-woman-form').get(0).checkValidity() === true) {
+            if (callback) {
+              callback();
+              women.add(woman);
+              var newAll = women.getAllSelectPure();
+              var newValue = $womenSelect.value();
+              newValue.push(woman.id);
+              $('#fb-woman-dialog').modal('hide');
+              $womenSelect = createSelectPure('#fb-post-women', newAll, newValue);
+            }
+          } else {
+            $('#fb-woman-form').addClass('was-validated');
+          }
+        },
+
+        addAuthor: function(event) {
+          api.initDialog($('#fb-author-dialog'));
+          $('#fb-author-dialog').modal('show');
+        },
+
+        getAuthor: function(event) {
+          return {
+            id: $('#fb-author-name').val(),
+            fields: {
+              name: $('#fb-author-name').val(),
+              phoneticName: $('#fb-author-phonetic-name').val()
+            }
+          }
+        },
+
+        validateAuthor: function(author, callback) {
+          if ($('#fb-author-form').get(0).checkValidity() === true) {
+            if (callback) {
+              callback();
+              authors.add(author);
+              var newAll = authors.getAllSelectPure();
+              var newValue = $authorsSelect.value();
+              newValue.push(author.id);
+              $('#fb-author-dialog').modal('hide');
+              $authorsSelect = createSelectPure('#fb-post-authors', newAll, newValue);
+            }
+          } else {
+            $('#fb-author-form').addClass('was-validated');
+          }
+        },
+
+        addTag: function(event) {
+          api.initDialog($('#fb-tag-dialog'));
+          $('#fb-tag-dialog').modal('show');
+        },
+
+        getTag: function(event) {
+          return {
+            id: $('#fb-tag-name').val(),
+            fields: {
+            }
+          }
+        },
+
+        validateTag: function(tag, callback) {
+          if ($('#fb-tag-form').get(0).checkValidity() === true) {
+            if (callback) {
+              callback();
+              tags.add(tag);
+              var newAll = tags.getAllSelectPure();
+              var newValue = $tagsSelect.value();
+              newValue.push(tag.id);
+              $('#fb-tag-dialog').modal('hide');
+              $tagsSelect = createSelectPure('#fb-post-tags', newAll, newValue);
+            }
+          } else {
+            $('#fb-tag-form').addClass('was-validated');
+          }
+        },
+
         showSettings: function() {
-          console.log($settingsDialog);
+          api.initDialog($settingsDialog);
           $settingsDialog.modal('show');
         },
 

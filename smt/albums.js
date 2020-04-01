@@ -18,6 +18,11 @@ smt.export('albums', function (smt, undefined) {
 
         getAllSelectPure: function() {
           return albums.map((a) => {return {label: a, value: a}});
+        },
+
+        add: function(album) {
+          albums.push(album.id);
+          albums.sort();
         }
       };
     }

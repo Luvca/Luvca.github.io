@@ -133,7 +133,11 @@ var app = app || {};
   };
 
   app.selectDropboxFolder = function(event) {
-    view.readDropbox(event);
+    try {
+      view.readDropbox(event);
+    } catch(e) {
+      api.handleError(e);
+    }
   };
 
   app.selectDropboxImages = function(event) {
@@ -150,10 +154,10 @@ var app = app || {};
     inProgress = true;
     try {
       var album = view.getAlbum(event);
-      view.validateAlbum(() => {
-        api.saveAlbum(album).then().catch((error) => {
+      view.validateAlbum(album, () => {
+        api.saveAlbum(album).catch((error) => {
           console.log(error);
-          api.handleError(e);
+          api.handleError(error);
         });
       });
     } catch(e) {
@@ -173,10 +177,10 @@ var app = app || {};
     inProgress = true;
     try {
       var woman = view.getWoman(event);
-      view.validateWoman(() => {
-        api.saveWoman(woman).then().catch((error) => {
+      view.validateWoman(woman, () => {
+        api.saveWoman(woman).catch((error) => {
           console.log(error);
-          api.handleError(e);
+          api.handleError(error);
         });
       });
     } catch(e) {
@@ -196,10 +200,10 @@ var app = app || {};
     inProgress = true;
     try {
       var author = view.getAuthor(event);
-      view.validateAuthor(() => {
-        api.saveAuthor(author).then().catch((error) => {
+      view.validateAuthor(author, () => {
+        api.saveAuthor(author).catch((error) => {
           console.log(error);
-          api.handleError(e);
+          api.handleError(error);
         });
       });
     } catch(e) {
@@ -219,10 +223,10 @@ var app = app || {};
     inProgress = true;
     try {
       var tag = view.getTag(event);
-      view.validateTag(() => {
-        api.saveTag(tag).then().catch((error) => {
+      view.validateTag(tag, () => {
+        api.saveTag(tag).catch((error) => {
           console.log(error);
-          api.handleError(e);
+          api.handleError(error);
         });
       });
     } catch(e) {
@@ -240,28 +244,30 @@ var app = app || {};
       view.validatePost(() => {
         var post = view.getPost(event);
         if (!post.individual) {
-          api.savePost(post).then(() => {
-            view.updatePost(post);
-          }).catch((error) => {
-            console.log(error);
+          if (!post.id) {
+            post.id = api.createId();
+          }
+          var res = api.savePost(post);
+          view.updatePost(post);
+          res.catch((error) => {
             api.handleError(error);
           });
         } else {
           post.fields.urls.forEach((u) => {
             var p = {};
+            p.id = api.createId();
             p.fields = post.fields;
             p.fields.urls = [u];
-            api.savePost(p).then((ref) => {
-              p.id = ref.id;
-              view.updatePost(p);
-            }).catch((error) => {
-              console.log(error);
+            var res = api.savePost(p);
+            view.updatePost(p);
+            res.catch((error) => {
               api.handleError(error);
             });
           });
         }
       });
     } catch(e) {
+      console.log(e);
       api.handleError(e);
     } finally {
       inProgress = false;
