@@ -313,6 +313,11 @@ smt.export('view', function(smt, undefined) {
           $('input[name="fb-dropbox-image"]').prop('checked', event.target.checked);
         },
 
+        addUrl: function() {
+          var postUrl = $.parseHTML(urlTemplate);
+          $postUrls.append(postUrl);
+        },
+
         selectDropboxImages: function() {
           $dropboxDialog.find('input[name="fb-dropbox-image"]:checked').get().forEach((e, i) => {
             var postUrl = $.parseHTML(urlTemplate);

@@ -6,7 +6,7 @@ var app = app || {};
   var api = smt.import('api');
   var view;
   var inProgress = false;
-  var opacity = true;
+  var opacity = 0;
 
   $(function() {
     try {
@@ -20,11 +20,15 @@ var app = app || {};
       $('#fb-read-next-button').on('click', false, app.searchPosts);
       $('#fb-add-post-button').on('click', false, app.addPost);
       $('#fb-show-settings-button').on('click', false, app.showSettings);
+      $(document).on('click', '.fb-back-to-top', app.backToTop);
       $(document).on('click', '.fb-remove-opacity', app.removeOpacity);
       // Card
       $(document).on('click', '.fb-edit-post-button', app.editPost);
       // Edit Dialog
+      $('#fb-add-url-button').on('click', app.addUrl);
       $('#fb-add-images-button').on('click', app.addImages);
+      $(document).on('click', '.fb-copy-url-button', app.copyUrl);
+      $(document).on('click', '.fb-paste-url-button', app.pasteUrl);
       $(document).on('click', '.fb-up-url-button', app.upUrl);
       $(document).on('click', '.fb-down-url-button', app.downUrl);
       $(document).on('click', '.fb-delete-url-button', app.deleteUrl);
@@ -107,12 +111,26 @@ var app = app || {};
     }
   };
 
+  app.addUrl = function() {
+    view.addUrl();
+  };
+
   app.addImages = function(event) {
     try {
       view.readDropbox(event);
     } catch(e) {
       api.handleError(e);
     } finally {
+    }
+  };
+
+  app.copyUrl = function(event) {
+    smt.clipboard = $(event.target.closest('table')).find('img').attr('src');
+  };
+
+  app.pasteUrl = function() {
+    if (smt.clipboard.length > 0) {
+      $(event.target.closest('table')).find('img').attr('src', smt.clipboard);
     }
   };
 
@@ -303,13 +321,21 @@ var app = app || {};
     smt.setSettings(settings);
   };
 
+  app.backToTop = function() {
+    $('body, html').scrollTop(0);
+  };
+
   app.removeOpacity = function() {
-    if (opacity) {
-      $('img').css('opacity', '1');
-      opacity = false;
-    } else {
-      $('img').css('opacity', '0.1');
-      opacity = true;
+    opacity++;
+    var mod = opacity % 3;
+    if (mod === 0) {
+      $('.fb-card-contents').css({'visibility': 'visible'});
+      $('img').css({'opacity': '0.1'});
+    } else if (mod === 1) {
+      $('.fb-card-contents').css({'visibility': 'visible'});
+      $('img').css({'opacity': '1'});
+    } else if (mod === 2) {
+      $('.fb-card-contents').css('visibility', 'hidden');
     }
   };
 }(app));

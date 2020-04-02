@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -85,7 +85,7 @@
       <!-- Cards-->
       <div id="search-result">
         <div id="fb-card-template" class="card box-shadow mb-2 d-none fb-post">
-          <div class="carousel slide fb-post-carousel" data-interval="false" data-ride="false">
+          <div class="carousel slide fb-post-carousel fb-card-contents" data-interval="false" data-ride="false">
             <div class="carousel-inner">
               <div class="fb-post-carousel-items">
                 <div class="carousel-item fb-post-carousel-item">
@@ -104,21 +104,27 @@
             </div>
           </div>
           <div class="card-body pt-2">
-            <h5 class="card-title fb-post-title"></h5>
-            <div class="fb-post-albums">
-              <span class="badge mr-1 fb-post-album"></span>
-            </div>
-            <div class="fb-post-women">
-              <span class="badge mr-1 fb-post-woman"></span>
-            </div>
-            <div class="fb-post-authors">
-              <span class="badge mr-1 fb-post-author"></span>
-            </div>
-            <div class="fb-post-tags">
-              <span class="badge mr-1 fb-post-tag"></span>
+            <div class="fb-card-contents">
+              <h5 class="card-title fb-post-title"></h5>
+              <div class="fb-post-albums">
+                <span class="badge mr-1 fb-post-album"></span>
+              </div>
+              <div class="fb-post-women">
+                <span class="badge mr-1 fb-post-woman"></span>
+              </div>
+              <div class="fb-post-authors">
+                <span class="badge mr-1 fb-post-author"></span>
+              </div>
+              <div class="fb-post-tags">
+                <span class="badge mr-1 fb-post-tag"></span>
+              </div>
             </div>
             <div class="d-flex justify-content-between align-items-center mt-2">
-              <button type="button" class="btn btn-sm btn-outline-secondary pt-0 fb-edit-post-button" data-target="#editDialog">Edit</button>                                        <i class="fb-remove-opacity fa fa-eye text-muted mr-2"></i>
+              <button type="button" class="btn btn-sm btn-outline-secondary pt-0 fb-edit-post-button" data-target="#editDialog">Edit</button>
+              <div>
+                <i class="fb-back-to-top fa fa-arrow-up text-muted mr-2"></i>
+                <i class="fb-remove-opacity fa fa-eye text-muted mr-2"></i>
+              </div>
             </div>
           </div>
           <div class="card-footer text-muted small fb-card-footer">
@@ -182,8 +188,10 @@
               <div class="form-group">
                 <div class="form-inline">
                   <label class="col-form-label fb-form-label">Images</label>
-                  <button type="button" id="fb-add-images-button" class="fb-plus-button pt-2" value="">&#x2295;</button>
-                  <i class="fb-remove-opacity fa fa-eye ml-auto"></i>
+                  <button type="button" id="fb-add-url-button" class="fb-plus-button pt-2" value="">&#x2295;</button>
+                  <button type="button" id="fb-add-images-button" class="fb-plus-button pt-2" value="">
+                    <i class="fa fa-dropbox"></i>
+                  </button>
                 </div>
                 <div id="fb-post-urls" class="form-group">
                   <table class="w-100">
@@ -193,9 +201,12 @@
                           <img class="w-100 fb-post-url">
                         </td>
                         <td class="align-top pl-1 w-25">
+                          <button type="button" class="form-control fb-copy-url-button">Copy</button>
+                          <button type="button" class="form-control fb-paste-url-button">Paste</button>
                           <button type="button" class="form-control fb-up-url-button">Up</button>
                           <button type="button" class="form-control fb-down-url-button">Down</button>
                           <button type="button" class="form-control fb-delete-url-button">Delete</button>
+                          <i class="fb-remove-opacity fa fa-eye ml-auto"></i>
                         </td>
                       </tr>
                     </tbody>
