@@ -421,7 +421,6 @@ smt.export('view', function(smt, undefined) {
           return {
             id: $('#fb-woman-name').val(),
             fields: {
-              name: $('#fb-woman-name').val(),
               phoneticName: $('#fb-woman-phonetic-name').val()
             }
           }
@@ -453,7 +452,6 @@ smt.export('view', function(smt, undefined) {
           return {
             id: $('#fb-author-name').val(),
             fields: {
-              name: $('#fb-author-name').val(),
               phoneticName: $('#fb-author-phonetic-name').val()
             }
           }

@@ -205,7 +205,6 @@ var app = app || {};
       var woman = view.getWoman(event);
       view.validateWoman(woman, () => {
         api.saveWoman(woman).catch((error) => {
-          console.log(error);
           api.handleError(error);
         });
       });
