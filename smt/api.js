@@ -90,8 +90,8 @@ smt.export('api', function(smt, undefined) {
       alert(e + ' ' + e.stack);
     },
 
-    initDialog: function(diaog) {
-      $(diaog).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
+    initForm: function(form) {
+      $(form).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
     }
   };
 });

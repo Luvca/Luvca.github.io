@@ -97,6 +97,7 @@ smt.export('view', function(smt, undefined) {
           $resultArea.parent().scrollTop(0);
           $resultArea.empty();
           $infoMessageArea.empty();
+          $readNextButton.addClass('d-none');
           lastVisible = undefined;
         },
 
@@ -180,7 +181,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         editPost: function(card) {
-          api.initDialog($editDialog);
+          api.initForm($editDialog);
           $editForm.removeClass('was-validated');
           // Id
           $editDialog.find('#fb-post-id').val(card.id);
@@ -334,7 +335,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         readDropbox: function(event) {
-          api.initDialog($dropboxDialog);
+          api.initForm($dropboxDialog);
           var folder = $(event.target).val();
           $dropboxImages.empty();
           dropbox.listFolder(folder).done((res) => {
@@ -382,7 +383,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         addAlbum: function(event) {
-          api.initDialog($('#fb-album-dialog'));
+          api.initForm($('#fb-album-dialog'));
           $('#fb-album-dialog').modal('show');
         },
 
@@ -411,7 +412,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         addWoman: function(event) {
-          api.initDialog($('#fb-woman-dialog'));
+          api.initForm($('#fb-woman-dialog'));
           $('#fb-woman-dialog').modal('show');
         },
 
@@ -442,7 +443,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         addAuthor: function(event) {
-          api.initDialog($('#fb-author-dialog'));
+          api.initForm($('#fb-author-dialog'));
           $('#fb-author-dialog').modal('show');
         },
 
@@ -473,7 +474,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         addTag: function(event) {
-          api.initDialog($('#fb-tag-dialog'));
+          api.initForm($('#fb-tag-dialog'));
           $('#fb-tag-dialog').modal('show');
         },
 
@@ -502,7 +503,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         showSettings: function() {
-          api.initDialog($settingsDialog);
+          api.initForm($settingsDialog);
           $settingsDialog.modal('show');
         },
 

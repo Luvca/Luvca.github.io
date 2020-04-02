@@ -16,6 +16,7 @@ var app = app || {};
       $(document).on('click', '.fb-close-dialog', app.closeDialog);
       $(document).on('click', '.fb-search', app.selectSearchText);
       $(document).on('DOMSubtreeModified', '.select-pure__select', app.selectSearchText);
+      $('#fb-reset').on('click', true, app.reset);
       $('#fb-search-posts-button').on('click', true, app.searchPosts);
       $('#fb-read-next-button').on('click', false, app.searchPosts);
       $('#fb-add-post-button').on('click', false, app.addPost);
@@ -57,6 +58,11 @@ var app = app || {};
     view.setupSearch();
   };
 
+  app.reset = function () {
+    view.setupSearch();
+    view.reset();
+  };
+
   app.closeDialog = function(event) {
     view.closeDialog(event);
   };
@@ -69,8 +75,9 @@ var app = app || {};
     if (inProgress) return;
     inProgress = true;
     try {
-      if (event.data)
+      if (event.data) {
         view.reset();
+      }
       api.showProgress(true);
       var option = view.getSearchOption();
       console.log(option);
