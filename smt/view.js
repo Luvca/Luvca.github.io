@@ -369,7 +369,7 @@ smt.export('view', function(smt, undefined) {
                 }).fail((error) => {
                   console.log(error);
                 });
-              } else if (item['.tag'] == 'folder' && !item.name.endsWith('★')) {
+              } else if (item['.tag'] == 'folder' && !(/(★|☆)$/.test(item.name))) {
                 $dropboxImages.append(`
                 <div class="card mb-2">
                   <button type="button" class="btn btn-outline-info btn-block fb-select-dropbox-folder" value="${folder}/${item.name}">${item.name}</button>
