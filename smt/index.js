@@ -335,15 +335,11 @@ var app = app || {};
 
   app.removeOpacity = function() {
     opacity++;
-    var mod = opacity % 3;
+    var mod = opacity % 2;
     if (mod === 0) {
-      $('.fb-opacity-contents').css({'visibility': 'visible'});
       $('img').css({'opacity': '0.1'});
     } else if (mod === 1) {
-      $('.fb-opacity-contents').css({'visibility': 'visible'});
       $('img').css({'opacity': '1'});
-    } else if (mod === 2) {
-      $('.fb-opacity-contents').css('visibility', 'hidden');
     }
   };
 }(app));

@@ -405,6 +405,7 @@ smt.export('view', function(smt, undefined) {
               newValue.push(album.id);
               $('#fb-album-dialog').modal('hide');
               $albumsSelect = createSelectPure('#fb-post-albums', newAll, newValue);
+              $albumsSelectSearch = createSelectPure('#fb-post-albums-search', newAll);
             }
           } else {
             $('#fb-album-form').addClass('was-validated');
@@ -436,6 +437,7 @@ smt.export('view', function(smt, undefined) {
               newValue.push(woman.id);
               $('#fb-woman-dialog').modal('hide');
               $womenSelect = createSelectPure('#fb-post-women', newAll, newValue);
+              $womenSelectSearch = createSelectPure('#fb-post-women-search', newAll);
             }
           } else {
             $('#fb-woman-form').addClass('was-validated');
@@ -467,6 +469,7 @@ smt.export('view', function(smt, undefined) {
               newValue.push(author.id);
               $('#fb-author-dialog').modal('hide');
               $authorsSelect = createSelectPure('#fb-post-authors', newAll, newValue);
+              $authorsSelectSearch = createSelectPure('#fb-post-authors-search', newAll);
             }
           } else {
             $('#fb-author-form').addClass('was-validated');
@@ -496,6 +499,7 @@ smt.export('view', function(smt, undefined) {
               newValue.push(tag.id);
               $('#fb-tag-dialog').modal('hide');
               $tagsSelect = createSelectPure('#fb-post-tags', newAll, newValue);
+              $tagsSelectSearch = createSelectPure('#fb-post-tags-search', newAll);
             }
           } else {
             $('#fb-tag-form').addClass('was-validated');
