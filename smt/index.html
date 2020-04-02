@@ -86,7 +86,7 @@
       <!-- Cards-->
       <div id="search-result">
         <div id="fb-card-template" class="card box-shadow mb-2 d-none fb-post">
-          <div class="carousel slide fb-post-carousel fb-card-contents" data-interval="false" data-ride="false">
+          <div class="carousel slide fb-post-carousel fb-opacity-contents" data-interval="false" data-ride="false">
             <div class="carousel-inner">
               <div class="fb-post-carousel-items">
                 <div class="carousel-item fb-post-carousel-item">
@@ -105,7 +105,7 @@
             </div>
           </div>
           <div class="card-body pt-2">
-            <div class="fb-card-contents">
+            <div class="fb-opacity-contents">
               <h5 class="card-title fb-post-title"></h5>
               <div class="fb-post-albums">
                 <span class="badge mr-1 fb-post-album"></span>
@@ -142,8 +142,8 @@
       <div class="py-2 bg-light">
         <button id="fb-read-next-button" type="button" class="btn btn-sm btn-outline-secondary ml-2 d-none">Next</button>
       </div>
-      <div id="info-msg-area" class="alert-info"></div>
-      <div id="error-msg-area" class="alert-danger"></div>
+      <div id="info-msg-area" class="alert-info alert-dismissible"></div>
+      <div id="error-msg-area" class="alert-danger alert-dismissible"></div>
     </main>
 
     <!-- Settings Dialog -->
@@ -199,7 +199,7 @@
                     <tbody>
                       <tr>
                         <td class="align-top">
-                          <img class="w-100 fb-post-url">
+                          <img class="w-100 fb-post-url fb-opacity-contents">
                         </td>
                         <td class="align-top pl-1 w-25">
                           <button type="button" class="form-control fb-copy-url-button">Copy</button>

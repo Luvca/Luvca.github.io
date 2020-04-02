@@ -75,6 +75,7 @@ var app = app || {};
     if (inProgress) return;
     inProgress = true;
     try {
+      opacity = 0;
       if (event.data) {
         view.reset();
       }
@@ -336,13 +337,13 @@ var app = app || {};
     opacity++;
     var mod = opacity % 3;
     if (mod === 0) {
-      $('.fb-card-contents').css({'visibility': 'visible'});
+      $('.fb-opacity-contents').css({'visibility': 'visible'});
       $('img').css({'opacity': '0.1'});
     } else if (mod === 1) {
-      $('.fb-card-contents').css({'visibility': 'visible'});
+      $('.fb-opacity-contents').css({'visibility': 'visible'});
       $('img').css({'opacity': '1'});
     } else if (mod === 2) {
-      $('.fb-card-contents').css('visibility', 'hidden');
+      $('.fb-opacity-contents').css('visibility', 'hidden');
     }
   };
 }(app));
