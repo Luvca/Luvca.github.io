@@ -97,8 +97,7 @@ var app = app || {};
     try {
       view.editPost({
         fields: {
-          urls: [],
-          createdAt: new Date()
+          urls: []
         }
       });
     } catch(e) {
@@ -114,6 +113,63 @@ var app = app || {};
     } catch(e) {
       api.handleError(e);
     } finally {
+    }
+  };
+
+  app.savePost = function(event) {
+    if (!confirm('OK ?')) return;
+    if (inProgress) return;
+    inProgress = true;
+    try {
+      view.validatePost(() => {
+        var post = view.getPost(event);
+        if (!post.individual) {
+          if (!post.id) {
+            post.id = api.createId();
+          }
+          var res = api.savePost(post);
+          view.updatePost(post);
+          res.catch((error) => {
+            api.handleError(error);
+          });
+        } else {
+          post.fields.urls.forEach((u) => {
+            var p = {};
+            p.id = api.createId();
+            p.fields = post.fields;
+            p.fields.urls = [u];
+            var res = api.savePost(p);
+            view.updatePost(p);
+            res.catch((error) => {
+              api.handleError(error);
+            });
+          });
+        }
+      });
+    } catch(e) {
+      console.log(e);
+      api.handleError(e);
+    } finally {
+      inProgress = false;
+    }
+  };
+
+  app.deletePost = function(event) {
+    if (!confirm('OK ?')) return;
+    if (inProgress) return;
+    inProgress = true;
+    try {
+      var post = view.getPost(event);
+      api.deletePost(post).then(() => {
+        view.deletePost(post);
+      }).catch((error) => {
+        console.log(error);
+        alert(error);
+      });
+    } catch(e) {
+      api.handleError(e);
+    } finally {
+      inProgress = false;
     }
   };
 
@@ -252,63 +308,6 @@ var app = app || {};
           console.log(error);
           api.handleError(error);
         });
-      });
-    } catch(e) {
-      api.handleError(e);
-    } finally {
-      inProgress = false;
-    }
-  };
-
-  app.savePost = function(event) {
-    if (!confirm('OK ?')) return;
-    if (inProgress) return;
-    inProgress = true;
-    try {
-      view.validatePost(() => {
-        var post = view.getPost(event);
-        if (!post.individual) {
-          if (!post.id) {
-            post.id = api.createId();
-          }
-          var res = api.savePost(post);
-          view.updatePost(post);
-          res.catch((error) => {
-            api.handleError(error);
-          });
-        } else {
-          post.fields.urls.forEach((u) => {
-            var p = {};
-            p.id = api.createId();
-            p.fields = post.fields;
-            p.fields.urls = [u];
-            var res = api.savePost(p);
-            view.updatePost(p);
-            res.catch((error) => {
-              api.handleError(error);
-            });
-          });
-        }
-      });
-    } catch(e) {
-      console.log(e);
-      api.handleError(e);
-    } finally {
-      inProgress = false;
-    }
-  };
-
-  app.deletePost = function(event) {
-    if (!confirm('OK ?')) return;
-    if (inProgress) return;
-    inProgress = true;
-    try {
-      var post = view.getPost(event);
-      api.deletePost(post).then(() => {
-        view.deletePost(post);
-      }).catch((error) => {
-        console.log(error);
-        alert(error);
       });
     } catch(e) {
       api.handleError(e);

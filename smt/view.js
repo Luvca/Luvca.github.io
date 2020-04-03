@@ -229,21 +229,28 @@ smt.export('view', function(smt, undefined) {
 
         getPost: function(event) {
           var dialog = $(event.target.closest('.modal'));
-          return {
+          var post = {
             id: dialog.find('#fb-post-id').val(),
             individual: $('#fb-post-individual:checked').val(),
             fields: {
-              urls: dialog.find('.fb-post-url').get().map((u) => $(u).attr('src')),
+              urls: dialog.find('.fb-post-url').get().map((u) => $(u).attr('src')).filter((u) => u.length > 0),
               title: $('#fb-post-title').val(),
               type: dialog.find('input[name="fb-post-type"]:checked').val(),
               women: $womenSelect.value(),
               authors: $authorsSelect.value(),
               tags: $tagsSelect.value(),
-              albums: $albumsSelect.value(),
-              createdAt: new Date(Date.parse($('#fb-post-created-at').val().replace(/-/g, '/').replace(/T/, ' ').replace(/Z/, ''))),
-              updatedAt: new Date()
+              albums: $albumsSelect.value()
             }
           };
+          var createdAt = $('#fb-post-created-at').val();
+          var now = new Date();
+          if (createdAt.length > 0) {
+              post.fields.createdAt = new Date(Date.parse(createdAt.replace(/-/g, '/').replace(/T/, ' ').replace(/Z/, '')));
+          } else {
+              post.fields.createdAt = now;
+          }
+          post.fields.updatedAt = now;
+          return post;
         },
 
         validatePost: function(callback) {
@@ -280,7 +287,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         upUrl: function(event) {
-          var src = event.target.closest('table');
+          var src = event.target.closest('.fb-image-table');
           var srcImg = $(src).find('img');
           var srcUrl = srcImg.attr('src');
           var dst = src.previousSibling.previousSibling;
@@ -294,7 +301,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         downUrl: function(event) {
-          var src = event.target.closest('table');
+          var src = event.target.closest('.fb-image-table');
           var srcImg = $(src).find('img');
           var srcUrl = srcImg.attr('src');
           var dst = src.nextSibling.nextSibling;
