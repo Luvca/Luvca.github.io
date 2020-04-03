@@ -8,21 +8,23 @@ smt.export('tags', function (smt, undefined) {
     create: function() {
       api.getTags().then((ref) => {
         ref.forEach((doc) => {
-          tags.push(doc.id);
+          tags.push({name: doc.id, phoneticName: doc.data().phoneticName});
         });
       });
       return {
         getAll: function() {
-          return tags;
+          return tags.map((t => t.name));
         },
 
         getAllSelectPure: function() {
-          return tags.map((a) => {return {label: a, value: a}});
+          return tags.map((a) => {return {label: a.name, value: a.name}});
         },
 
         add: function(tag) {
-          tags.push(tag.id);
-          tags.sort();
+          tags.push({name: tag.id, phoneticName: tag.fields.phoneticName});
+          tags.sort((a, b) => {
+            return (a.phoneticName < b.phoneticName ? -1 : 1);
+          });
         }
       };
     }

@@ -493,6 +493,7 @@ smt.export('view', function(smt, undefined) {
           return {
             id: $('#fb-tag-name').val(),
             fields: {
+              phoneticName: $('#fb-tag-phonetic-name').val()
             }
           }
         },
