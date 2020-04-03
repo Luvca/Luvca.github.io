@@ -271,11 +271,12 @@ smt.export('view', function(smt, undefined) {
             var current = $(`#${post.id}`);
             if (current.length) {
               current.replaceWith(card);
+              api.setOpacity();
             }
             else {
               $resultArea.prepend(card);
+              api.setOpacity();
             }
-            api.setOpacity();
           });
           $editDialog.modal('hide');
         },
