@@ -23,7 +23,7 @@ smt.export('women', function (smt, undefined) {
         add: function(woman) {
           women.push({name: woman.id, phoneticName: woman.fields.phoneticName});
           women.sort((a, b) => {
-            return (a < b ? -1 : 1);
+            return (a.phoneticName < b.phoneticName ? -1 : 1);
           });
         }
       };

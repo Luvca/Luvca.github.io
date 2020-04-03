@@ -23,7 +23,7 @@ smt.export('authors', function (smt, undefined) {
         add: function(author) {
           authors.push({name: author.id, phoneticName: author.fields.phoneticName});
           authors.sort((a, b) => {
-            return (a < b ? -1 : 1);
+            return (a.phoneticName < b.phoneticName ? -1 : 1);
           });
         }
       };

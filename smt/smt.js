@@ -10,6 +10,7 @@ var smt = smt || {};
   });
   smt.db = firebase.firestore();
   smt.settings = {};
+  smt.clipboard = [];
 
   smt.setSettings = function(settings) {
     console.log(settings);
