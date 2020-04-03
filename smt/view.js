@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
@@ -275,6 +275,7 @@ smt.export('view', function(smt, undefined) {
             else {
               $resultArea.prepend(card);
             }
+            api.setOpacity();
           });
           $editDialog.modal('hide');
         },
