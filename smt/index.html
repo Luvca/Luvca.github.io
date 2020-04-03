@@ -86,7 +86,7 @@
       <!-- Cards-->
       <div id="search-result">
         <div id="fb-card-template" class="card box-shadow mb-2 d-none fb-post">
-          <div class="carousel slide fb-post-carousel fb-opacity-contents" data-interval="false" data-ride="false">
+          <div class="carousel slide fb-post-carousel" data-interval="false" data-ride="false">
             <div class="carousel-inner">
               <div class="fb-post-carousel-items">
                 <div class="carousel-item fb-post-carousel-item">
@@ -105,7 +105,7 @@
             </div>
           </div>
           <div class="card-body pt-2">
-            <div class="fb-opacity-contents">
+            <div>
               <h5 class="card-title fb-post-title"></h5>
               <div class="fb-post-albums">
                 <span class="badge mr-1 fb-post-album"></span>
@@ -199,7 +199,7 @@
                     <tbody>
                       <tr>
                         <td class="align-top">
-                          <img class="w-100 fb-post-url fb-opacity-contents">
+                          <img class="w-100 fb-post-url fb-remove-opacity">
                         </td>
                         <td class="align-top pl-1 w-25">
                           <button type="button" class="form-control fb-copy-url-button">Copy</button>
@@ -207,11 +207,6 @@
                           <button type="button" class="form-control fb-up-url-button">Up</button>
                           <button type="button" class="form-control fb-down-url-button">Down</button>
                           <button type="button" class="form-control fb-delete-url-button">Delete</button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <i class="fb-remove-opacity fa fa-eye ml-auto"></i>
                         </td>
                       </tr>
                     </tbody>
@@ -303,7 +298,7 @@
                     <input name="fb-dropbox-image" type="checkbox" class="form-check-input">
                     <label class="form-check-label fb-dropbox-image"></label>
                   </div>
-                  <img class="card-img-bottom">
+                  <img class="card-img-bottom fb-remove-opacity">
                 </div>
               </div>
             </div>

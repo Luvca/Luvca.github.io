@@ -156,6 +156,7 @@ smt.export('view', function(smt, undefined) {
               } catch {}
               createCard({id: ref.id, fields: fields}, $cardTemplate, function(card) {
                 $resultArea.append(card);
+                api.setOpacity();
               });
             });
             $('html,body').animate({ scrollTop: divider.offset().top });
@@ -215,6 +216,7 @@ smt.export('view', function(smt, undefined) {
           $authorsSelect = createSelectPure('#fb-post-authors', authors.getAllSelectPure(), card.fields.authors);
           $tagsSelect = createSelectPure('#fb-post-tags', tags.getAllSelectPure(), card.fields.tags);
           $editDialog.modal('show');
+          api.setOpacity();
           // Delete button
           if (!card.id) {
             $('#fb-delete-post-button').addClass('d-none');
@@ -377,6 +379,7 @@ smt.export('view', function(smt, undefined) {
               }
             });
             $dropboxDialog.modal('show');
+            api.setOpacity();
           }).fail((error) => {
             api.handleError(error.responseText);
           });

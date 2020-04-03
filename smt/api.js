@@ -92,6 +92,16 @@ smt.export('api', function(smt, undefined) {
 
     initForm: function(form) {
       $(form).find('textarea, :text, select').val('').end().find(':checked').prop('checked', false);
+    },
+
+    setOpacity: function() {
+      console.log(smt.opacity);
+      var mod = smt.opacity % 2;
+      if (mod === 0) {
+        $('img').css({'opacity': '0.1'});
+      } else if (mod === 1) {
+        $('img').css({'opacity': '1'});
+      }
     }
-  };
+  }
 });

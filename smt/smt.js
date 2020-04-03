@@ -11,6 +11,7 @@ var smt = smt || {};
   smt.db = firebase.firestore();
   smt.settings = {};
   smt.clipboard = [];
+  smt.opacity = 0;
 
   smt.setSettings = function(settings) {
     console.log(settings);

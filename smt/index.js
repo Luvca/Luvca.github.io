@@ -6,7 +6,6 @@ var app = app || {};
   var api = smt.import('api');
   var view;
   var inProgress = false;
-  var opacity = 0;
 
   $(function() {
     try {
@@ -75,7 +74,6 @@ var app = app || {};
     if (inProgress) return;
     inProgress = true;
     try {
-      opacity = 0;
       if (event.data) {
         view.reset();
       }
@@ -334,12 +332,7 @@ var app = app || {};
   };
 
   app.removeOpacity = function() {
-    opacity++;
-    var mod = opacity % 2;
-    if (mod === 0) {
-      $('img').css({'opacity': '0.1'});
-    } else if (mod === 1) {
-      $('img').css({'opacity': '1'});
-    }
+    smt.opacity++;
+    api.setOpacity();
   };
 }(app));
