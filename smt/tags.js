@@ -13,11 +13,15 @@ smt.export('tags', function (smt, undefined) {
       });
       return {
         getAll: function() {
-          return tags.map((t => t.name));
+          return tags.sort((a, b) => {
+            return (a.phoneticName < b.phoneticName ? -1 : 1);
+          }).map((t => t.name));
         },
 
         getAllSelectPure: function() {
-          return tags.map((a) => {return {label: a.name, value: a.name}});
+          return tags.sort((a, b) => {
+            return (a.phoneticName < b.phoneticName ? -1 : 1);
+          }).map((a) => {return {label: a.name, value: a.name}});
         },
 
         add: function(tag) {
