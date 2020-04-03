@@ -315,7 +315,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         deleteUrl: function(event) {
-          var src = event.target.closest('table');
+          var src = event.target.closest('.fb-image-table');
           $(src).remove();
         },
 

@@ -187,13 +187,13 @@ var app = app || {};
   };
 
   app.copyUrl = function(event) {
-    smt.clipboard.push($(event.target.closest('table')).find('img').attr('src'));
+    smt.clipboard.push($(event.target.closest('.fb-image-table')).find('img').attr('src'));
   };
 
   app.pasteUrl = function(event) {
     if (smt.clipboard.length > 0) {
       var url = smt.clipboard.pop();
-      $(event.target.closest('table')).find('img').attr('src', url);
+      $(event.target.closest('.fb-image-table')).find('img').attr('src', url);
     }
   };
 
