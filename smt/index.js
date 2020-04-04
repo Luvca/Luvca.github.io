@@ -25,6 +25,7 @@ var app = app || {};
       $(document).on('click', '.fb-remove-opacity', app.removeOpacity);
       // Card
       $(document).on('click', '.fb-edit-post-button', app.editPost);
+      $(document).on('click', '.fb-copy-post-button', app.copyPost);
       // Edit Dialog
       $('#fb-add-url-button').on('click', app.addUrl);
       $('#fb-add-images-button').on('click', app.addImages);
@@ -126,6 +127,17 @@ var app = app || {};
       api.handleError(e);
     } finally {
     }
+  };
+
+  app.copyPost = function(event) {
+    if (!confirm('OK ?')) return;
+    var post = view.pickPost(event);
+    post.id = api.createId();
+    var res = api.savePost(post);
+    view.updatePost(post);
+    res.catch((error) => {
+      api.handleError(error);
+    });
   };
 
   app.savePost = function(event) {
