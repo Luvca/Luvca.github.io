@@ -8,7 +8,11 @@ smt.export('tags', function (smt, undefined) {
     create: function() {
       api.getTags().then((ref) => {
         ref.forEach((doc) => {
-          tags.push({name: doc.id, phoneticName: doc.data().phoneticName});
+          var phoneticName = doc.data().phoneticName;
+          if (!phoneticName) {
+            phoneticName = '\uf8ff';
+          }
+          tags.push({name: doc.id, phoneticName: phoneticName});
         });
       });
       return {
