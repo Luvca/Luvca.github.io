@@ -15,12 +15,12 @@ var app = app || {};
       $(document).on('click', '.fb-close-dialog', app.closeDialog);
       $(document).on('click', '.fb-search', app.selectSearchText);
       $(document).on('DOMSubtreeModified', '.select-pure__select', app.selectSearchText);
-      $('#fb-reset').on('click', true, app.reset);
       $('#fb-search-heart').on('click', app.searchHeart);
       $('#fb-search-posts-button').on('click', {reset: true}, app.searchPosts);
       $('#fb-read-next-button').on('click', {reset: false}, app.searchPosts);
       $('#fb-add-post-button').on('click', false, app.addPost);
       $('#fb-show-settings-button').on('click', false, app.showSettings);
+      $(document).on('click', '.fb-reset', app.reset);
       $(document).on('click', '.fb-back-to-top', app.backToTop);
       $(document).on('click', '.fb-remove-opacity', app.removeOpacity);
       // Card
