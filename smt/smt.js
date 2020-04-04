@@ -14,7 +14,6 @@ var smt = smt || {};
   smt.opacity = 0;
 
   smt.setSettings = function(settings) {
-    console.log(settings);
     smt.settings = settings;
   };
 

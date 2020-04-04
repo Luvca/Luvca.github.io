@@ -16,8 +16,9 @@ var app = app || {};
       $(document).on('click', '.fb-search', app.selectSearchText);
       $(document).on('DOMSubtreeModified', '.select-pure__select', app.selectSearchText);
       $('#fb-reset').on('click', true, app.reset);
-      $('#fb-search-posts-button').on('click', true, app.searchPosts);
-      $('#fb-read-next-button').on('click', false, app.searchPosts);
+      $('#fb-search-love').on('click', {reset: true, love: true}, app.searchPosts);
+      $('#fb-search-posts-button').on('click', {reset: true}, app.searchPosts);
+      $('#fb-read-next-button').on('click', {reset: false}, app.searchPosts);
       $('#fb-add-post-button').on('click', false, app.addPost);
       $('#fb-show-settings-button').on('click', false, app.showSettings);
       $(document).on('click', '.fb-back-to-top', app.backToTop);
@@ -43,6 +44,7 @@ var app = app || {};
       $('#fb-save-tag-button').on('click', app.saveTag);
       $('#fb-save-post-button').on('click', app.savePost);
       $('#fb-delete-post-button').on('click', app.deletePost);
+      $('#fb-post-heart').on('click', app.toggleLove);
       // Dropbox Dialog
       $('#fb-select-images-button').on('click', app.selectDropboxImages);
       $(document).on('click', '.fb-select-dropbox-folder', app.selectDropboxFolder);
@@ -74,12 +76,14 @@ var app = app || {};
     if (inProgress) return;
     inProgress = true;
     try {
-      if (event.data) {
+      if (event.data.reset) {
         view.reset();
       }
       api.showProgress(true);
       var option = view.getSearchOption();
-      console.log(option);
+      if (event.data.love) {
+        option.love = true;
+      }
       api.searchPosts(option).then((res) => {
         view.showPosts(res);
       }).catch((error) => {
@@ -225,6 +229,17 @@ var app = app || {};
     view.selectDropboxImages();
   };
 
+  app.toggleLove = function(event) {
+    var love = $('#fb-post-love').val();
+    if (love.length == 0) {
+      $('#fb-post-love').val('love');
+      $('#fb-post-heart').css('color', 'red').removeClass('fa-heart-o').addClass('fa-heart');
+    } else {
+      $('#fb-post-love').val('');
+      $('#fb-post-heart').css('color', 'gray').removeClass('fa-heart').addClass('fa-heart-o');
+    }
+  };
+
   app.addAlbum = function(event) {
     view.addAlbum(event);
   };
@@ -322,7 +337,6 @@ var app = app || {};
 
   app.saveSettings = function(event) {
     var settings = view.getSettings();
-    console.log(settings);
     smt.setSettings(settings);
   };
 

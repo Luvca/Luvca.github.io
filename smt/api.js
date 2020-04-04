@@ -4,7 +4,9 @@ smt.export('api', function(smt, undefined) {
   return {
     searchPosts: function(option) {
       var query = smt.db.collection('posts');
-      if (option.filter === 'title' && option.text.length > 0) {
+      if (option.love) {
+        query = query.where('love', '==', true).orderBy(option.orderBy, 'desc');
+      } else if (option.filter === 'title' && option.text.length > 0) {
         query = query.orderBy('title').startAt(option.text).endAt(option.text + '\uf8ff');
       } else if (option.filter === 'type' && option.text.length > 0) {
           query = query.where('type', '==', option.text).orderBy(option.orderBy, 'desc');

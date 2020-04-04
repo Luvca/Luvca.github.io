@@ -33,6 +33,11 @@ smt.export('view', function(smt, undefined) {
       return $(carouselItem).prop('outerHTML');
     }).join(''));
     $(card).find('.fb-post-title').text(cardPost.fields.title);
+    if (cardPost.fields.love) {
+      $(card).find('.fb-post-love').css('color', 'red').addClass('fa-heart');
+    } else {
+      $(card).find('.fb-post-love').addClass('fa-heart-o');
+    }
     $(card).find('.fb-post-type').text(cardPost.fields.type);
     createBadge(card, cardPost.fields.women, '.fb-post-women', '.fb-post-woman');
     createBadge(card, cardPost.fields.authors, '.fb-post-authors', '.fb-post-author');
@@ -208,6 +213,11 @@ smt.export('view', function(smt, undefined) {
             $(typeItem).find('.fb-post-type').text(t);
             typeHolder.append(typeItem);
           });
+          // Love
+          if (card.fields.love) {
+            $editDialog.find('#fb-post-love').val('love');
+            $editDialog.find('#fb-post-heart').addClass('fa-heart').css('color', 'red');
+          }
           // Google
           $('#fb-google-title').prop('href', `https://www.google.co.jp/search?q=${card.fields.title}+${card.fields.type}+adult`);
           // Badges
@@ -236,6 +246,7 @@ smt.export('view', function(smt, undefined) {
               urls: dialog.find('.fb-post-url').get().map((u) => $(u).attr('src')).filter((u) => u.length > 0),
               title: $('#fb-post-title').val(),
               type: dialog.find('input[name="fb-post-type"]:checked').val(),
+              love: $('#fb-post-love').val() == 'love',
               women: $womenSelect.value(),
               authors: $authorsSelect.value(),
               tags: $tagsSelect.value(),
@@ -523,7 +534,6 @@ smt.export('view', function(smt, undefined) {
         },
 
         getSettings: function() {
-          console.log($('#fb-dropbox-code').val());
           return {
             dropboxCode: $dropboxCode.val()
           };
