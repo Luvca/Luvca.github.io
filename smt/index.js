@@ -16,7 +16,7 @@ var app = app || {};
       $(document).on('click', '.fb-search', app.selectSearchText);
       $(document).on('DOMSubtreeModified', '.select-pure__select', app.selectSearchText);
       $('#fb-reset').on('click', true, app.reset);
-      $('#fb-search-love').on('click', {reset: true, love: true}, app.searchPosts);
+      $('#fb-search-heart').on('click', app.searchHeart);
       $('#fb-search-posts-button').on('click', {reset: true}, app.searchPosts);
       $('#fb-read-next-button').on('click', {reset: false}, app.searchPosts);
       $('#fb-add-post-button').on('click', false, app.addPost);
@@ -72,6 +72,17 @@ var app = app || {};
     view.selectSearchText(event.target);
   };
 
+  app.searchHeart = function(event) {
+    var love = $('#fb-search-love').val();
+    if (love.length == 0) {
+      $('#fb-search-love').val('love');
+      $('#fb-search-heart').css('color', 'red').removeClass('fa-heart-o').addClass('fa-heart');
+    } else {
+      $('#fb-search-love').val('');
+      $('#fb-search-heart').css('color', 'gray').removeClass('fa-heart').addClass('fa-heart-o');
+    }
+  };
+
   app.searchPosts = function(event) {
     if (inProgress) return;
     inProgress = true;
@@ -81,9 +92,6 @@ var app = app || {};
       }
       api.showProgress(true);
       var option = view.getSearchOption();
-      if (event.data.love) {
-        option.love = true;
-      }
       api.searchPosts(option).then((res) => {
         view.showPosts(res);
       }).catch((error) => {

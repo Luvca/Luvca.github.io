@@ -15,7 +15,11 @@
         <button id="fb-corner" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fb-menu">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <i id="fb-show-settings-button" class="fa fa-cog text-muted text-right mr-2"></i>
+        <div class="ml-auto">
+          <i id="fb-reset" class="fa fa-eraser text-muted mr-2"></i>
+          <i class="fb-remove-opacity fa fa-eye text-muted mr-2"></i>
+          <i id="fb-show-settings-button" class="fa fa-cog text-muted text-right mr-2"></i>
+        </div>
       </nav>
       <div class="collapse" id="fb-menu">
         <div class="bg-dark p-2">
@@ -32,6 +36,8 @@
                     <input class="form-check-input" type="radio" name="fb-search" value="type">
                     <select id="fb-search-type" class="form-control fb-search">
                     </select>
+                    <input type="hidden" id="fb-search-love">
+                    <i id="fb-search-heart" class="fa fa-heart ml-2 mr-2"></i>
                   </div>
                   <div class="form-check-inline w-100">
                     <input class="form-check-input" type="radio" name="fb-search" value="album">
@@ -67,9 +73,6 @@
                     <label class="form-check-label text-muted">Updated at</label>
                   </div>
                   <div class="form-check-inline float-right mr-0">
-                    <i id="fb-reset" class="fa fa-eraser text-muted mr-2"></i>
-                    <i class="fb-remove-opacity fa fa-eye text-muted mr-2"></i>
-                    <i id="fb-search-love" class="fa fa-heart text-muted mr-2"></i>
                     <button id="fb-search-posts-button" type="button" class="btn btn-sm btn-outline-secondary">Search</button>
                   </div>
                 </li>

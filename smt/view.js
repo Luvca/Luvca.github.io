@@ -131,6 +131,7 @@ smt.export('view', function(smt, undefined) {
         getSearchOption: function() {
           return {
             filter: $('input[name="fb-search"]:checked').val(),
+            love: $('#fb-search-love').val(),
             text: $('input[name="fb-search"]:checked').closest('div').find('.fb-search').val(),
             women: $womenSelectSearch.value(),
             authors: $authorsSelectSearch.value(),
@@ -352,6 +353,7 @@ smt.export('view', function(smt, undefined) {
               console.log(createdAt);
             }
             $postUrls.append(postUrl);
+            api.setOpacity();
           });
           $dropboxDialog.modal('hide');
         },

@@ -4,12 +4,14 @@ smt.export('api', function(smt, undefined) {
   return {
     searchPosts: function(option) {
       var query = smt.db.collection('posts');
-      if (option.love) {
-        query = query.where('love', '==', true).orderBy(option.orderBy, 'desc');
-      } else if (option.filter === 'title' && option.text.length > 0) {
+      if (option.filter === 'title' && option.text.length > 0) {
         query = query.orderBy('title').startAt(option.text).endAt(option.text + '\uf8ff');
       } else if (option.filter === 'type' && option.text.length > 0) {
-          query = query.where('type', '==', option.text).orderBy(option.orderBy, 'desc');
+          query = query.where('type', '==', option.text);
+          if (option.love == 'love') {
+            query = query.where('love', '==', true);
+          }
+          query = query.orderBy(option.orderBy, 'desc');
       } else if (option.filter === 'album' && option.text.length > 0) {
           query = query.where('albums', 'array-contains-any', [option.text]).orderBy(option.orderBy, 'desc');
       } else if (option.filter === 'women' && option.women.length > 0) {
