@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 var app = app || {};
 
@@ -219,6 +219,7 @@ var app = app || {};
     if (smt.clipboard.length > 0) {
       var url = smt.clipboard.pop();
       $(event.target.closest('.fb-image-table')).find('img').attr('src', url);
+      api.setOpacity();
     }
   };
 
