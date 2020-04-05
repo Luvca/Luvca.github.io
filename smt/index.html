@@ -12,16 +12,16 @@
   <body>
     <header class="pos-f-t">
       <nav class="navbar navbar-dark bg-dark p-0">
-        <button id="fb-corner" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fb-menu">
+        <button id="fb-humburger-button" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fb-menu">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="ml-auto">
           <i class="fa fa-eraser text-muted mr-2 fb-reset"></i>
-          <i class="fb-remove-opacity fa fa-eye text-muted mr-2"></i>
+          <i class="fa fa-eye text-muted mr-2 fb-set-opacity"></i>
           <i id="fb-show-settings-button" class="fa fa-cog text-muted text-right mr-2"></i>
         </div>
       </nav>
-      <div class="collapse" id="fb-menu">
+      <div id="fb-menu" class="collapse">
         <div class="bg-dark p-2">
           <h5 class="text-white">Fruit Basket</h5>
           <div class="float-none">
@@ -46,17 +46,17 @@
                   </div>
                   <div class="form-check-inline w-100">
                     <input class="form-check-input" type="radio" name="fb-search" value="women">
-                    <span id="fb-post-women-search" class="h-25 w-100 fb-search"></span>
+                    <span id="fb-post-women-search" class="h-25 w-100"></span>
                     <script>var $womenSelectSearch;</script>
                   </div>
                   <div class="form-check-inline w-100">
                     <input class="form-check-input" type="radio" name="fb-search" value="authors">
-                    <span id="fb-post-authors-search" class="h-25 w-100 fb-search"></span>
+                    <span id="fb-post-authors-search" class="h-25 w-100"></span>
                     <script>var $authorsSelectSearch;</script>
                   </div>
                   <div class="form-check-inline w-100">
                     <input class="form-check-input" type="radio" name="fb-search" value="tags">
-                    <span id="fb-post-tags-search" class="h-25 w-100 fb-search"></span>
+                    <span id="fb-post-tags-search" class="h-25 w-100"></span>
                     <script>var $tagsSelectSearch;</script>
                   </div>
                 </li>
@@ -132,7 +132,7 @@
                 </div>
               <div>
                 <i class="fa fa-eraser text-muted mr-2 fb-reset"></i>
-                <i class="fb-remove-opacity fa fa-eye text-muted mr-2"></i>
+                <i class="fb-set-opacity fa fa-eye text-muted mr-2"></i>
                 <i class="fb-back-to-top fa fa-arrow-up text-muted mr-2"></i>
               </div>
             </div>
@@ -208,7 +208,7 @@
                     <tbody>
                       <tr>
                         <td class="align-top">
-                          <img class="w-100 fb-post-url fb-remove-opacity">
+                          <img class="w-100 fb-post-url fb-set-opacity">
                         </td>
                         <td class="align-top pl-1 w-25">
                           <table class="w-100">
@@ -342,7 +342,7 @@
                     <input name="fb-dropbox-image" type="checkbox" class="form-check-input">
                     <label class="form-check-label fb-dropbox-image"></label>
                   </div>
-                  <img class="card-img-bottom fb-remove-opacity">
+                  <img class="card-img-bottom fb-set-opacity">
                 </div>
               </div>
             </div>

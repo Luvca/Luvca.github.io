@@ -4,37 +4,39 @@ var app = app || {};
 
 (function(app) {
   var api = smt.import('api');
-  var view;
+  var view = smt.import('view').create();
   var inProgress = false;
 
   $(function() {
     try {
-      view = smt.import('view').create();
-      // Main window
-      $('#fb-corner').on('click', true, app.setupSearch);
+      // Common
       $(document).on('click', '.fb-close-dialog', app.closeDialog);
+      // Search
+      $('#fb-humburger-button').on('click', true, app.setupSearch);
       $(document).on('click', '.fb-search', app.selectSearchText);
       $(document).on('DOMSubtreeModified', '.select-pure__select', app.selectSearchText);
-      $('#fb-search-heart').on('click', app.searchHeart);
+      $('#fb-search-heart').on('click', app.setLoveFilter);
       $('#fb-search-posts-button').on('click', {reset: true}, app.searchPosts);
-      $('#fb-read-next-button').on('click', {reset: false}, app.searchPosts);
-      $('#fb-add-post-button').on('click', false, app.addPost);
       $('#fb-show-settings-button').on('click', false, app.showSettings);
+      // List
+      $('#fb-add-post-button').on('click', false, app.addPost);
+      $('#fb-read-next-button').on('click', {reset: false}, app.searchPosts);
       $(document).on('click', '.fb-reset', app.reset);
       $(document).on('click', '.fb-back-to-top', app.backToTop);
-      $(document).on('click', '.fb-remove-opacity', app.removeOpacity);
+      $(document).on('click', '.fb-set-opacity', app.setOpacity);
       // Card
       $(document).on('click', '.fb-edit-post-button', app.editPost);
       $(document).on('click', '.fb-copy-post-button', app.copyPost);
       // Edit Dialog
       $('#fb-add-url-button').on('click', app.addUrl);
       $('#fb-add-images-button').on('click', app.addImages);
+      $('#fb-toggle-all-images-select').on('click', app.toggleAllImagesSelect);
+      $('#fb-post-heart').on('click', app.toggleLove);
       $(document).on('click', '.fb-copy-url-button', app.copyUrl);
       $(document).on('click', '.fb-paste-url-button', app.pasteUrl);
       $(document).on('click', '.fb-up-url-button', app.upUrl);
       $(document).on('click', '.fb-down-url-button', app.downUrl);
       $(document).on('click', '.fb-delete-url-button', app.deleteUrl);
-      $('#fb-toggle-all-images-select').on('click', app.toggleAllImagesSelect);
       $('#fb-add-album-button').on('click', app.addAlbum);
       $('#fb-save-album-button').on('click', app.saveAlbum);
       $('#fb-add-woman-button').on('click', app.addWoman);
@@ -45,7 +47,6 @@ var app = app || {};
       $('#fb-save-tag-button').on('click', app.saveTag);
       $('#fb-save-post-button').on('click', app.savePost);
       $('#fb-delete-post-button').on('click', app.deletePost);
-      $('#fb-post-heart').on('click', app.toggleLove);
       // Dropbox Dialog
       $('#fb-select-images-button').on('click', app.selectDropboxImages);
       $(document).on('click', '.fb-select-dropbox-folder', app.selectDropboxFolder);
@@ -73,7 +74,7 @@ var app = app || {};
     view.selectSearchText(event.target);
   };
 
-  app.searchHeart = function(event) {
+  app.setLoveFilter = function(event) {
     var love = $('#fb-search-love').val();
     if (love.length == 0) {
       $('#fb-search-love').val('love');
@@ -364,7 +365,7 @@ var app = app || {};
     $('body, html').scrollTop(0);
   };
 
-  app.removeOpacity = function() {
+  app.setOpacity = function() {
     smt.opacity++;
     api.setOpacity();
   };
