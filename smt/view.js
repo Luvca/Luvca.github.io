@@ -190,6 +190,7 @@ smt.export('view', function(smt, undefined) {
         editPost: function(card) {
           api.initForm($editDialog);
           $editForm.removeClass('was-validated');
+          $('#fb-post-heart').css('color', 'gray').removeClass('fa-heart').addClass('fa-heart-o');
           // Id
           $editDialog.find('#fb-post-id').val(card.id);
           // Created at
