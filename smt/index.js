@@ -385,7 +385,6 @@ var app = app || {};
       dataType: 'json',
       data: [],
       headers: {
-        "Origin": "https://luvca.github.io",
         "Authentication": "Bearer 4/yQGOSTtAf2sGjOtOH3Ydue_1f5jowYRUWd131vpxeMWUUIkdyp0pYBaEr2kvEPO0fAkfWeYBCC1rVvQKnpsueXo"
       }
     }).done((data, status, xhr) => {
