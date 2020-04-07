@@ -391,12 +391,13 @@ var app = app || {};
     }).done((data, status, xhr) => {
       console.log(status);
       console.log(data);
-      alert(data);
+      alert("data: " + data);
     }).fail((xhr, status, thrown) => {
       api.handleError(status);
+      api.handleError(thrown);
     });
     } catch (e) {
-      api.handleError(e);
+      api.handleError("e: " + e);
     }
   };
 }(app));
