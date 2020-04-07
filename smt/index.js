@@ -373,6 +373,7 @@ var app = app || {};
   };
 
   app.test = function() {
+    console.log('test');
     $.ajax('https://photoslibrary.googleapis.com/v1/mediaItems:search', {
       type: 'POST',
       dataType: 'json',
@@ -381,6 +382,7 @@ var app = app || {};
         "Authentication": "Bearer 4/yQFVtRimBQjoodNILEgu5ct5TMvpPNmKVL8RuG2gbig4rStu-cwz_2tr1ggu_ZsDyiBci4oOUvfkldE3NDw7y8A"
       }
     }).done((data, status, xhr) => {
+      console.log(status);
       console.log(data);
     }).fail((xhr, status, thrown) => {
       api.handleError(xhr.status);
