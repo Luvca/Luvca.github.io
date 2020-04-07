@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 var app = app || {};
 
@@ -20,6 +20,7 @@ var app = app || {};
       $('#fb-show-settings-button').on('click', false, app.showSettings);
       // List
       $('#fb-add-post-button').on('click', false, app.addPost);
+      $('#fb-test-button').on('click', false, app.test);
       $('#fb-read-next-button').on('click', {reset: false}, app.searchPosts);
       $(document).on('click', '.fb-reset', app.reset);
       $(document).on('click', '.fb-back-to-top', app.backToTop);
@@ -369,5 +370,20 @@ var app = app || {};
   app.setOpacity = function() {
     smt.opacity++;
     api.setOpacity();
+  };
+
+  app.test = function() {
+    $.ajax('https://photoslibrary.googleapis.com/v1/mediaItems:search', {
+      type: 'POST',
+      dataType: 'json',
+      data: [],
+      headers: {
+        "Authentication": "Bearer 4/yQFVtRimBQjoodNILEgu5ct5TMvpPNmKVL8RuG2gbig4rStu-cwz_2tr1ggu_ZsDyiBci4oOUvfkldE3NDw7y8A"
+      }
+    }).done((data, status, xhr) => {
+      console.log(data);
+    }).fail((xhr, status, thrown) => {
+      api.handleError(xhr.status);
+    });
   };
 }(app));
