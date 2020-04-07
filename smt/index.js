@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 var app = app || {};
 
@@ -374,6 +374,7 @@ var app = app || {};
 
   app.test = function() {
     console.log('test');
+    try {
     //var xhr = new XMLHttpRequest();
     //xhr.open('POST',
     //  'https://photoslibrary.googleapis.com/v1/mediaItems:search');
@@ -393,5 +394,8 @@ var app = app || {};
     }).fail((xhr, status, thrown) => {
       api.handleError(xhr.status);
     });
+    } catch (e) {
+      api.handleError(e);
+    }
   };
 }(app));
