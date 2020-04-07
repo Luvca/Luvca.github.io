@@ -374,25 +374,24 @@ var app = app || {};
 
   app.test = function() {
     console.log('test');
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST',
-      'https://photoslibrary.googleapis.com/v1/mediaItems:search');
-    xhr.setRequestHeader('Authentication', 'Bearer 4/yQGOSTtAf2sGjOtOH3Ydue_1f5jowYRUWd131vpxeMWUUIkdyp0pYBaEr2kvEPO0fAkfWeYBCC1rVvQKnpsueXo');
-    xhr.send();
-/*
+    //var xhr = new XMLHttpRequest();
+    //xhr.open('POST',
+    //  'https://photoslibrary.googleapis.com/v1/mediaItems:search');
+    //xhr.setRequestHeader('Authentication', 'Bearer 4/yQGOSTtAf2sGjOtOH3Ydue_1f5jowYRUWd131vpxeMWUUIkdyp0pYBaEr2kvEPO0fAkfWeYBCC1rVvQKnpsueXo');
+    //xhr.send();
     $.ajax('https://photoslibrary.googleapis.com/v1/mediaItems:search', {
       type: 'POST',
       dataType: 'json',
       data: [],
       headers: {
-        "Authentication": "Bearer 4/yQFVtRimBQjoodNILEgu5ct5TMvpPNmKVL8RuG2gbig4rStu-cwz_2tr1ggu_ZsDyiBci4oOUvfkldE3NDw7y8A"
+        "Authentication": "Bearer 4/yQGOSTtAf2sGjOtOH3Ydue_1f5jowYRUWd131vpxeMWUUIkdyp0pYBaEr2kvEPO0fAkfWeYBCC1rVvQKnpsueXo"
       }
     }).done((data, status, xhr) => {
       console.log(status);
       console.log(data);
+      alert(data);
     }).fail((xhr, status, thrown) => {
       api.handleError(xhr.status);
     });
-    */
   };
 }(app));
