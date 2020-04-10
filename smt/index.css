@@ -12,6 +12,10 @@ img {
   opacity: 0.1;
 }
 
+img.firebaseui-idp-icon {
+  opacity: 1;
+}
+
 .fb-post-album {
   color: rgba(255, 255, 255, 1);
   background-color: rgb(110, 63, 163, 1);

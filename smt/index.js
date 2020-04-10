@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 var app = app || {};
 
@@ -9,6 +9,21 @@ var app = app || {};
 
   $(function() {
     try {
+      var ui = new firebaseui.auth.AuthUI(firebase.auth());
+      ui.start('#firebaseui-auth-container', {
+        callbacks: {
+          signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+            $('#firebaseui-auth-container').addClass('d-none');
+            $('#authenticated-area').removeClass('d-none');
+            return true;
+          }
+        },
+        credentialHelper: firebaseui.auth.CredentialHelper.NONE,
+        //signInSuccessUrl: '.',
+        signInOptions: [
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID
+        ]
+      });
       // Common
       $(document).on('click', '.fb-close-dialog', app.closeDialog);
       // Search
@@ -18,6 +33,7 @@ var app = app || {};
       $('#fb-search-heart').on('click', app.setLoveFilter);
       $('#fb-search-posts-button').on('click', {reset: true}, app.searchPosts);
       $('#fb-show-settings-button').on('click', false, app.showSettings);
+      $('#fb-sign-out-button').on('click', false, app.signOut);
       // List
       $('#fb-add-post-button').on('click', false, app.addPost);
       $('#fb-test-button').on('click', false, app.test);
@@ -370,6 +386,13 @@ var app = app || {};
   app.setOpacity = function() {
     smt.opacity++;
     api.setOpacity();
+  };
+
+  app.signOut = function() {
+    if (!confirm('OK ?')) return;
+    $('#firebaseui-auth-container').removeClass('d-none');
+    $('#authenticated-area').addClass('d-none');
+firebase.auth().signOut();
   };
 
   app.test = function() {

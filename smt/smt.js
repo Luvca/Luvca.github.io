@@ -6,7 +6,9 @@ var smt = smt || {};
   var container = {};
 
   firebase.initializeApp({
-    projectId: 'fruit-basket-data'
+    projectId: 'fruit-basket-data',
+    apiKey: 'AIzaSyB7G3nC8SOm2nb-l7hNXIJVtSbMkcGSzq0',
+    authDomain: 'fruit-basket-data.firebaseapp.com'
   });
   smt.db = firebase.firestore();
   smt.settings = {};

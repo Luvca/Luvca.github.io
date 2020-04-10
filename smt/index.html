@@ -6,155 +6,160 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" href="css/bootstrap/4.4.1/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css">
     <link rel="stylesheet" href="css/select-pure/select-pure.css">
     <link rel="stylesheet" href="index.css">
   </head>
   <body>
-    <header class="pos-f-t">
-      <nav class="navbar navbar-dark bg-dark p-0">
-        <button id="fb-humburger-button" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fb-menu">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="ml-auto">
-          <i class="fa fa-eraser text-muted mr-2 fb-reset"></i>
-          <i class="fa fa-eye text-muted mr-2 fb-set-opacity"></i>
-          <i id="fb-show-settings-button" class="fa fa-cog text-muted text-right mr-2"></i>
-        </div>
-      </nav>
-      <div id="fb-menu" class="collapse">
-        <div class="bg-dark p-2">
-          <h5 class="text-white">Fruit Basket</h5>
-          <div class="float-none">
-            <nav class="navbar navbar-dark p-1">
-              <ul class="navbar-nav w-100">
-                <li class="nav-item">
-                  <div class="form-check-inline w-100">
-                    <input class="form-check-input" type="radio" name="fb-search" value="title">
-                    <input id="fb-search-title" class="form-control fb-search" placeholder="(Title)">
-                  </div>
-                  <div class="form-check-inline w-100">
-                    <input class="form-check-input" type="radio" name="fb-search" value="type">
-                    <select id="fb-search-type" class="form-control fb-search">
-                    </select>
-                    <input type="hidden" id="fb-search-love">
-                    <i id="fb-search-heart" class="fa fa-heart ml-2 mr-2"></i>
-                  </div>
-                  <div class="form-check-inline w-100">
-                    <input class="form-check-input" type="radio" name="fb-search" value="album">
-                    <select id="fb-search-album" class="form-control fb-search">
-                    </select>
-                  </div>
-                  <div class="form-check-inline w-100">
-                    <input class="form-check-input" type="radio" name="fb-search" value="women">
-                    <span id="fb-post-women-search" class="h-25 w-100"></span>
-                    <script>var $womenSelectSearch;</script>
-                  </div>
-                  <div class="form-check-inline w-100">
-                    <input class="form-check-input" type="radio" name="fb-search" value="authors">
-                    <span id="fb-post-authors-search" class="h-25 w-100"></span>
-                    <script>var $authorsSelectSearch;</script>
-                  </div>
-                  <div class="form-check-inline w-100">
-                    <input class="form-check-input" type="radio" name="fb-search" value="tags">
-                    <span id="fb-post-tags-search" class="h-25 w-100"></span>
-                    <script>var $tagsSelectSearch;</script>
-                  </div>
-                </li>
-                <li class="nav-item">
-                  <input id="fb-search-limit" class="custom-range" type="range" min="0" max="200" step="5" value="25">
-                </li>
-                <li class="nav-item">
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input hna-order-by" type="radio" name="fb-search-order-by" value="createdAt">
-                    <label class="form-check-label text-muted">Created at</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input hna-order-by" type="radio" name="fb-search-order-by" value="updatedAt" checked>
-                    <label class="form-check-label text-muted">Updated at</label>
-                  </div>
-                  <div class="form-check-inline float-right mr-0">
-                    <button id="fb-search-posts-button" type="button" class="btn btn-sm btn-outline-secondary">Search</button>
-                  </div>
-                </li>
-              </ul>
-            </nav>
+    <div id="firebaseui-auth-container"></div>
+    <div id="authenticated-area" class="d-none">
+      <header class="pos-f-t">
+        <nav class="navbar navbar-dark bg-dark p-0">
+          <button id="fb-humburger-button" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fb-menu">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="ml-auto">
+            <i class="fa fa-eraser text-muted mr-2 fb-reset"></i>
+            <i class="fa fa-eye text-muted mr-2 fb-set-opacity"></i>
+            <i id="fb-show-settings-button" class="fa fa-cog text-muted text-right mr-2"></i>
+            <i id="fb-sign-out-button" class="fa fa-sign-out text-muted text-right mr-2"></i>
           </div>
-        </div>
-      </div>
-    </header>
-    <main role="main">
-      <div class="py-2 bg-light">
-        <button id="fb-add-post-button" type="button" class="btn btn-sm btn-outline-secondary ml-2" value="">Add</button>
-        <button id="fb-test-button" type="button" class="btn btn-sm btn-outline-secondary ml-2" value="">Test</button>
-      </div>
-
-      <!-- Cards-->
-      <div id="search-result">
-        <div id="fb-card-template" class="card box-shadow mb-2 d-none fb-post">
-          <div class="carousel slide fb-post-carousel" data-interval="false" data-ride="false">
-            <div class="carousel-inner">
-              <div class="fb-post-carousel-items">
-                <div class="carousel-item fb-post-carousel-item">
-                  <img class="d-block w-100 lazy fb-post-image">
-                  <span class="fb-post-url d-none"></span>
-                </div>
-              </div>
-              <a class="carousel-control-prev fb-post-carousel-control" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="carousel-control-next fb-post-carousel-control" role="button" data-slide="next">
-                <span class="carousel-control-next-icon"></span>
-                <span class="sr-only">Next</span>
-              </a>
+        </nav>
+        <div id="fb-menu" class="collapse">
+          <div class="bg-dark p-2">
+            <h5 class="text-white">Fruit Basket</h5>
+            <div class="float-none">
+              <nav class="navbar navbar-dark p-1">
+                <ul class="navbar-nav w-100">
+                  <li class="nav-item">
+                    <div class="form-check-inline w-100">
+                      <input class="form-check-input" type="radio" name="fb-search" value="title">
+                      <input id="fb-search-title" class="form-control fb-search" placeholder="(Title)">
+                    </div>
+                    <div class="form-check-inline w-100">
+                      <input class="form-check-input" type="radio" name="fb-search" value="type">
+                      <select id="fb-search-type" class="form-control fb-search">
+                      </select>
+                      <input type="hidden" id="fb-search-love">
+                      <i id="fb-search-heart" class="fa fa-heart ml-2 mr-2"></i>
+                    </div>
+                    <div class="form-check-inline w-100">
+                      <input class="form-check-input" type="radio" name="fb-search" value="album">
+                      <select id="fb-search-album" class="form-control fb-search">
+                      </select>
+                    </div>
+                    <div class="form-check-inline w-100">
+                      <input class="form-check-input" type="radio" name="fb-search" value="women">
+                      <span id="fb-post-women-search" class="h-25 w-100"></span>
+                      <script>var $womenSelectSearch;</script>
+                    </div>
+                    <div class="form-check-inline w-100">
+                      <input class="form-check-input" type="radio" name="fb-search" value="authors">
+                      <span id="fb-post-authors-search" class="h-25 w-100"></span>
+                      <script>var $authorsSelectSearch;</script>
+                    </div>
+                    <div class="form-check-inline w-100">
+                      <input class="form-check-input" type="radio" name="fb-search" value="tags">
+                      <span id="fb-post-tags-search" class="h-25 w-100"></span>
+                      <script>var $tagsSelectSearch;</script>
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <input id="fb-search-limit" class="custom-range" type="range" min="0" max="200" step="5" value="25">
+                  </li>
+                  <li class="nav-item">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input hna-order-by" type="radio" name="fb-search-order-by" value="createdAt">
+                      <label class="form-check-label text-muted">Created at</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input hna-order-by" type="radio" name="fb-search-order-by" value="updatedAt" checked>
+                      <label class="form-check-label text-muted">Updated at</label>
+                    </div>
+                    <div class="form-check-inline float-right mr-0">
+                      <button id="fb-search-posts-button" type="button" class="btn btn-sm btn-outline-secondary">Search</button>
+                    </div>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
-          <div class="card-body pt-2">
-            <div>
-              <h5 class="card-title fb-post-title d-inline"></h5>
-              <i class="fa pull-right fb-post-love"></i></span>
-              <div class="fb-post-albums">
-                <span class="badge mr-1 fb-post-album"></span>
-              </div>
-              <div class="fb-post-women">
-                <span class="badge mr-1 fb-post-woman"></span>
-              </div>
-              <div class="fb-post-authors">
-                <span class="badge mr-1 fb-post-author"></span>
-              </div>
-              <div class="fb-post-tags">
-                <span class="badge mr-1 fb-post-tag"></span>
+        </div>
+      </header>
+      <main role="main">
+        <div class="py-2 bg-light">
+          <button id="fb-add-post-button" type="button" class="btn btn-sm btn-outline-secondary ml-2" value="">Add</button>
+          <button id="fb-test-button" type="button" class="btn btn-sm btn-outline-secondary ml-2" value="">Test</button>
+        </div>
+  
+        <!-- Cards-->
+        <div id="search-result">
+          <div id="fb-card-template" class="card box-shadow mb-2 d-none fb-post">
+            <div class="carousel slide fb-post-carousel" data-interval="false" data-ride="false">
+              <div class="carousel-inner">
+                <div class="fb-post-carousel-items">
+                  <div class="carousel-item fb-post-carousel-item">
+                    <img class="d-block w-100 lazy fb-post-image">
+                    <span class="fb-post-url d-none"></span>
+                  </div>
+                </div>
+                <a class="carousel-control-prev fb-post-carousel-control" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next fb-post-carousel-control" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon"></span>
+                  <span class="sr-only">Next</span>
+                </a>
               </div>
             </div>
-            <div class="d-flex justify-content-between align-items-center mt-2">
-              <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary pt-0 mr-2 fb-edit-post-button">Edit</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary pt-0 fb-copy-post-button">Copy</button>
-                </div>
+            <div class="card-body pt-2">
               <div>
-                <i class="fa fa-eraser text-muted mr-2 fb-reset"></i>
-                <i class="fb-set-opacity fa fa-eye text-muted mr-2"></i>
-                <i class="fb-back-to-top fa fa-arrow-up text-muted mr-2"></i>
+                <h5 class="card-title fb-post-title d-inline"></h5>
+                <i class="fa pull-right fb-post-love"></i></span>
+                <div class="fb-post-albums">
+                  <span class="badge mr-1 fb-post-album"></span>
+                </div>
+                <div class="fb-post-women">
+                  <span class="badge mr-1 fb-post-woman"></span>
+                </div>
+                <div class="fb-post-authors">
+                  <span class="badge mr-1 fb-post-author"></span>
+                </div>
+                <div class="fb-post-tags">
+                  <span class="badge mr-1 fb-post-tag"></span>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary pt-0 mr-2 fb-edit-post-button">Edit</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary pt-0 fb-copy-post-button">Copy</button>
+                  </div>
+                <div>
+                  <i class="fa fa-eraser text-muted mr-2 fb-reset"></i>
+                  <i class="fb-set-opacity fa fa-eye text-muted mr-2"></i>
+                  <i class="fb-back-to-top fa fa-arrow-up text-muted mr-2"></i>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="card-footer text-muted small fb-card-footer">
-            <div>
-              <span class="fb-post-type"></span>
-              <span>&#x00D7;</span>
-              <span class="fb-post-url-count"></span>
+            <div class="card-footer text-muted small fb-card-footer">
+              <div>
+                <span class="fb-post-type"></span>
+                <span>&#x00D7;</span>
+                <span class="fb-post-url-count"></span>
+              </div>
+              <div><span>created: </span><span class="fb-post-created-at"></span></div>
+              <div class="fb-post-id"></div>
             </div>
-            <div><span>created: </span><span class="fb-post-created-at"></span></div>
-            <div class="fb-post-id"></div>
           </div>
         </div>
-      </div>
-      <div class="py-2 bg-light">
-        <button id="fb-read-next-button" type="button" class="btn btn-sm btn-outline-secondary ml-2 d-none">Next</button>
-      </div>
-      <div id="info-msg-area" class="alert-info alert-dismissible text-center"></div>
-      <div id="error-msg-area" class="alert-danger alert-dismissible text-center"></div>
-    </main>
+        <div class="py-2 bg-light">
+          <button id="fb-read-next-button" type="button" class="btn btn-sm btn-outline-secondary ml-2 d-none">Next</button>
+        </div>
+        <div id="info-msg-area" class="alert-info alert-dismissible text-center"></div>
+        <div id="error-msg-area" class="alert-danger alert-dismissible text-center"></div>
+      </main>
+    </div>
 
     <!-- Settings Dialog -->
     <div class="modal" id="fb-settings-dialog" tabindex="-1" role="dialog">
@@ -479,7 +484,9 @@
 
     <script src="js/jquery/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap/4.4.1/bootstrap.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-firestore.js"></script>
     <script src="js/select-pure/0.5.0/bundle.js"></script>
     <script type="text/javascript" src="smt.js"></script>
