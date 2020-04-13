@@ -3,6 +3,7 @@
 smt.export('view', function(smt, undefined) {
   var api = smt.import('api');
   var dropbox = smt.import('dropbox');
+  var google = smt.import('google-drive');
   var types = smt.import('types').create();
   var albums = smt.import('albums').create();
   var women = smt.import('women').create();
@@ -407,6 +408,34 @@ smt.export('view', function(smt, undefined) {
             api.handleError(error.responseText);
           });
         },
+
+        readGoogleDrive: function(event) {
+          api.initForm($dropboxDialog);
+          var folder = $(event.target).val();
+          $dropboxImages.empty();
+          google.listFolder(folder).then((res) => {
+            res.result.files.forEach((item) => {
+              if (item.mimeType == 'application/vnd.google-apps.folder') {
+                $dropboxImages.append(`
+                <div class="card mb-2">
+                  <button type="button" class="btn btn-outline-info btn-block fb-select-google-folder" value="${item.id}">${item.name}</button>
+                </div>`)
+              } else {
+                if (item.mimeType.match(/image\/.+/i)) {
+                  var dropboxItem = $.parseHTML(dropboxImageTemplate);
+                  $dropboxImages.append(dropboxItem);
+                  var directUrl = google.directUrl(item.webContentLink);
+                  $(dropboxItem).find('input[name="fb-dropbox-image"]').attr('value', directUrl);
+                  $(dropboxItem).find('.fb-dropbox-image').text(item.name.replace(/\.[^/.]+$/, ''));
+                  $(dropboxItem).find('img').attr('src', directUrl);
+                  $(dropboxItem).find('img').attr('alt', item.modifiedTime);
+                }
+              }
+            })
+          });
+          $dropboxDialog.modal('show');
+          api.setOpacity();
+      },
 
         addAlbum: function(event) {
           api.initForm($('#fb-album-dialog'));

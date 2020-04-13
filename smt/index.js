@@ -15,6 +15,7 @@ var app = app || {};
           signInSuccessWithAuthResult: function(authResult, redirectUrl) {
             $('#firebaseui-auth-container').addClass('d-none');
             $('#authenticated-area').removeClass('d-none');
+            gapi.load('client:auth2', app.initClient);
             return true;
           }
         },
@@ -67,6 +68,7 @@ var app = app || {};
       // Dropbox Dialog
       $('#fb-select-images-button').on('click', app.selectDropboxImages);
       $(document).on('click', '.fb-select-dropbox-folder', app.selectDropboxFolder);
+      $(document).on('click', '.fb-select-google-folder', app.selectGoogleFolder);
       // Settings Dialog
       $('#fb-save-settings-button').on('click', app.saveSettings);
     } catch(e) {
@@ -221,7 +223,12 @@ var app = app || {};
 
   app.addImages = function(event) {
     try {
-      view.readDropbox(event);
+      var target = event.target;
+      if ($(target).hasClass('fa-dropbox')) {
+        view.readDropbox(event);
+      } else if ($(target).hasClass('fa-google-drive')) {
+        view.readGoogleDrive(event);
+      }
     } catch(e) {
       api.handleError(e);
     } finally {
@@ -266,6 +273,14 @@ var app = app || {};
 
   app.selectDropboxImages = function(event) {
     view.selectDropboxImages();
+  };
+
+  app.selectGoogleFolder = function(event) {
+    try {
+      view.readGoogleDrive(event);
+    } catch(e) {
+      api.handleError(e);
+    }
   };
 
   app.toggleLove = function(event) {
@@ -392,10 +407,57 @@ var app = app || {};
     if (!confirm('OK ?')) return;
     $('#firebaseui-auth-container').removeClass('d-none');
     $('#authenticated-area').addClass('d-none');
-firebase.auth().signOut();
+    firebase.auth().signOut();
   };
 
   app.test = function() {
+    try {
+      //gapi.auth2.getAuthInstance().signIn();
+      gapi.client.drive.files.list({
+        'pageSize': 10,
+        'fields': "nextPageToken, files(id, name, modifiedTime, webContentLink, parents, mimeType)",
+        'orderBy': 'name',
+        //'q': '"1oKkw3icNxyiv56o2WOKiGwAYBmREwXvO" in parents'
+      }).then(function(response) {
+        var files = response.result.files;
+        if (files && files.length > 0) {
+          for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            console.log(file);
+          }
+        } else {
+          console.log('No files found.');
+        }
+      });
+      } catch(e) {
+        console.log(e);
+      }
+  };
+
+    /**
+     *  Initializes the API client library and sets up sign-in state
+     *  listeners.
+     */
+    app.initClient = function() {
+    gapi.client.init({
+      apiKey: 'AIzaSyB7G3nC8SOm2nb-l7hNXIJVtSbMkcGSzq0',
+      clientId: '93900782530-58pkdsekc6q6s3to3a63qum520ado967.apps.googleusercontent.com',
+      discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+      scope: 'https://www.googleapis.com/auth/drive.readonly'
+    }).then(function () {
+      // Listen for sign-in state changes.
+      //gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+      // Handle the initial sign-in state.
+      //updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+      //authorizeButton.onclick = handleAuthClick;
+      //signoutButton.onclick = handleSignoutClick;
+    }, function(error) {
+      appendPre(JSON.stringify(error, null, 2));
+    });
+  };
+
+  app.testo = function() {
     console.log('test');
     try {
     //var xhr = new XMLHttpRequest();
