@@ -236,7 +236,17 @@ var app = app || {};
   };
 
   app.copyUrl = function(event) {
-    smt.clipboard.push($(event.target.closest('.fb-image-table')).find('img').attr('src'));
+    var src = $(event.target.closest('.fb-image-table')).find('img').attr('src');
+    console.log(src);
+    var pre = document.createElement('pre');
+    pre.style.webkitUserSelect = 'auto';
+    pre.style.userSelect = 'auto';
+    pre.textContent = src;
+    document.body.appendChild(pre);
+    document.getSelection().selectAllChildren(pre);
+    document.execCommand('copy');
+    document.body.removeChild(pre);
+    smt.clipboard.push(src);
   };
 
   app.pasteUrl = function(event) {

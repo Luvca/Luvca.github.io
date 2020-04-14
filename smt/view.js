@@ -425,6 +425,7 @@ smt.export('view', function(smt, undefined) {
                   var dropboxItem = $.parseHTML(dropboxImageTemplate);
                   $dropboxImages.append(dropboxItem);
                   var directUrl = google.directUrl(item.webContentLink);
+                  console.log(directUrl);
                   $(dropboxItem).find('input[name="fb-dropbox-image"]').attr('value', directUrl);
                   $(dropboxItem).find('.fb-dropbox-image').text(item.name.replace(/\.[^/.]+$/, ''));
                   $(dropboxItem).find('img').attr('src', directUrl);
