@@ -345,6 +345,7 @@ smt.export('view', function(smt, undefined) {
         },
 
         selectDropboxImages: function() {
+          $('#fb-post-title').val($('#fb-dropbox-title').val());
           $dropboxDialog.find('input[name="fb-dropbox-image"]:checked').get().forEach((e, i) => {
             var postUrl = $.parseHTML(urlTemplate);
             var url = $(e).closest('.card').find('img').attr('src');
@@ -412,10 +413,11 @@ smt.export('view', function(smt, undefined) {
         readGoogleDrive: function(event) {
           api.initForm($dropboxDialog);
           var folder = $(event.target).val();
+          $('#fb-dropbox-title').val($(event.target).text());
           $dropboxImages.empty();
           google.listFolder(folder).then((res) => {
             res.result.files.forEach((item) => {
-              if (item.mimeType == 'application/vnd.google-apps.folder') {
+              if (item.mimeType == 'application/vnd.google-apps.folder' && !(/(★|☆)$/.test(item.name))) {
                 $dropboxImages.append(`
                 <div class="card mb-2">
                   <button type="button" class="btn btn-outline-info btn-block fb-select-google-folder" value="${item.id}">${item.name}</button>
