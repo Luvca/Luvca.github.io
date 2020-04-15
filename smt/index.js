@@ -51,6 +51,7 @@ var app = app || {};
       $('#fb-add-images-button').on('click', app.addImages);
       $('#fb-toggle-all-images-select').on('click', app.toggleAllImagesSelect);
       $('#fb-post-heart').on('click', app.toggleLove);
+      $(document).on('click', '.fb-view-url-button', app.viewUrl);
       $(document).on('click', '.fb-copy-url-button', app.copyUrl);
       $(document).on('click', '.fb-paste-url-button', app.pasteUrl);
       $(document).on('click', '.fb-up-url-button', app.upUrl);
@@ -234,6 +235,11 @@ var app = app || {};
       api.handleError(e);
     } finally {
     }
+  };
+
+  app.viewUrl = function() {
+    var src = $(event.target.closest('.fb-image-table')).find('img').attr('src');
+    window.open(src, '_blank');
   };
 
   app.copyUrl = function(event) {
