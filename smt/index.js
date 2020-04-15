@@ -4,7 +4,7 @@ var app = app || {};
 
 (function(app) {
   var api = smt.import('api');
-  var view = smt.import('view').create();
+  var view;
   var inProgress = false;
 
   $(function() {
@@ -16,6 +16,7 @@ var app = app || {};
             $('#firebaseui-auth-container').addClass('d-none');
             $('#authenticated-area').removeClass('d-none');
             gapi.load('client:auth2', app.initClient);
+            view = smt.import('view').create();
             return true;
           }
         },
@@ -434,6 +435,7 @@ var app = app || {};
           for (var i = 0; i < files.length; i++) {
             var file = files[i];
             console.log(file);
+            document.write(JSON.stringify(file));
           }
         } else {
           console.log('No files found.');
@@ -448,7 +450,7 @@ var app = app || {};
      *  Initializes the API client library and sets up sign-in state
      *  listeners.
      */
-    app.initClient = function() {
+  app.initClient = function() {
     gapi.client.init({
       apiKey: 'AIzaSyB7G3nC8SOm2nb-l7hNXIJVtSbMkcGSzq0',
       clientId: '93900782530-58pkdsekc6q6s3to3a63qum520ado967.apps.googleusercontent.com',
@@ -467,7 +469,7 @@ var app = app || {};
     });
   };
 
-  app.testo = function() {
+  app.testPhotosApi = function() {
     console.log('test');
     try {
     //var xhr = new XMLHttpRequest();
