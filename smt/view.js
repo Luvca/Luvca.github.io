@@ -464,7 +464,7 @@ smt.export('view', function(smt, undefined) {
               newValue.push(album.id);
               $('#fb-album-dialog').modal('hide');
               $albumsSelect = createSelectPure('#fb-post-albums', newAll, newValue);
-              $albumsSelectSearch = createSelectPure('#fb-post-albums-search', newAll);
+              $($('<option>', {value: album.id}).append(album.id)).appendTo($searchAlbum);
             }
           } else {
             $('#fb-album-form').addClass('was-validated');
