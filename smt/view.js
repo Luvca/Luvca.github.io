@@ -364,6 +364,7 @@ smt.export('view', function(smt, undefined) {
         readDropbox: function(event) {
           api.initForm($dropboxDialog);
           var folder = $(event.target).val();
+          $('#fb-dropbox-title').val($(event.target).text());
           $dropboxImages.empty();
           dropbox.listFolder(folder).done((res) => {
             res.entries.sort(function(a, b) {
