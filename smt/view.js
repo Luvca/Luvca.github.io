@@ -427,7 +427,8 @@ smt.export('view', function(smt, undefined) {
                 if (item.mimeType.match(/image\/.+/i)) {
                   var dropboxItem = $.parseHTML(dropboxImageTemplate);
                   $dropboxImages.append(dropboxItem);
-                  var directUrl = google.directUrl(item.webContentLink);
+                  //var directUrl = google.directUrl(item.webContentLink);
+                  var directUrl = google.directUrl(item.thumbnailLink);
                   console.log(directUrl);
                   $(dropboxItem).find('input[name="fb-dropbox-image"]').attr('value', directUrl);
                   $(dropboxItem).find('.fb-dropbox-image').text(item.name.replace(/\.[^/.]+$/, ''));

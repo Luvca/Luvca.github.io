@@ -38,7 +38,7 @@ var app = app || {};
       $('#fb-sign-out-button').on('click', false, app.signOut);
       // List
       $('#fb-add-post-button').on('click', false, app.addPost);
-      $('#fb-test-button').on('click', false, app.test);
+      $('#fb-test-button').on('click', false, app.testGoogleDrive);
       $('#fb-read-next-button').on('click', {reset: false}, app.searchPosts);
       $(document).on('click', '.fb-reset', app.reset);
       $(document).on('click', '.fb-back-to-top', app.backToTop);
@@ -427,12 +427,12 @@ var app = app || {};
     firebase.auth().signOut();
   };
 
-  app.test = function() {
+  app.testGoogleDrive = function() {
     try {
       //gapi.auth2.getAuthInstance().signIn();
       gapi.client.drive.files.list({
-        'pageSize': 10,
-        'fields': "nextPageToken, files(id, name, modifiedTime, webContentLink, parents, mimeType)",
+        'pageSize': 100,
+        'fields': "nextPageToken, files(id, name, thumbnailLink, modifiedTime, webContentLink, parents, mimeType)",
         'orderBy': 'name',
         //'q': '"1oKkw3icNxyiv56o2WOKiGwAYBmREwXvO" in parents'
       }).then(function(response) {
@@ -475,7 +475,7 @@ var app = app || {};
     });
   };
 
-  app.testPhotosApi = function() {
+  app.testGooglePhotos = function() {
     console.log('test');
     try {
     //var xhr = new XMLHttpRequest();
