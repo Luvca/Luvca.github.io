@@ -10,10 +10,5 @@ smt.export('google-drive', function(smt, undefined) {
         'q': `"${url}" in parents`
       });
     },
-
-    directUrl: function(url) {
-      //return url.replace('&export=download', '');
-      return url.replace(/=s[0-9]+$/, '=s0');
-    }
   };
 });

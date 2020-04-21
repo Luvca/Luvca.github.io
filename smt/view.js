@@ -30,7 +30,8 @@ smt.export('view', function(smt, undefined) {
       $(carouselItem).find('.fb-post-url').text(u);
       if (i === 0)
         $(carouselItem).addClass('active');
-      if (i <= 1 || i == a.length - 1) {
+        var preFetch = 2;
+      if (i <= preFetch || i >= a.length - preFetch) {
         img.attr('src', u);
       } else {
         img.attr('data-src', u);
@@ -431,8 +432,8 @@ smt.export('view', function(smt, undefined) {
                 if (item.mimeType.match(/image\/.+/i)) {
                   var dropboxItem = $.parseHTML(dropboxImageTemplate);
                   $dropboxImages.append(dropboxItem);
-                  //var directUrl = google.directUrl(item.webContentLink);
-                  var directUrl = google.directUrl(item.thumbnailLink);
+                  var directUrl = item.webContentLink.replace('&export=download', '');
+                  //var directUrl = item.thumbnailLink.replace(/=s[0-9]+$/, '=s0');
                   console.log(directUrl);
                   $(dropboxItem).find('input[name="fb-dropbox-image"]').attr('value', directUrl);
                   $(dropboxItem).find('.fb-dropbox-image').text(item.name.replace(/\.[^/.]+$/, ''));
