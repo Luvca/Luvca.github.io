@@ -30,12 +30,12 @@ smt.export('view', function(smt, undefined) {
       $(carouselItem).find('.fb-post-url').text(u);
       if (i === 0)
         $(carouselItem).addClass('active');
-        var preFetch = 2;
-      if (i <= preFetch || i >= a.length - preFetch) {
+      //var preFetch = 2;
+      //if (i <= preFetch || i >= a.length - preFetch) {
         img.attr('src', u);
-      } else {
-        img.attr('data-src', u);
-      }
+      //} else {
+      //  img.attr('data-src', u);
+      //}
       return $(carouselItem).prop('outerHTML');
     }).join(''));
     $(card).find('.fb-post-title').text(cardPost.fields.title);
