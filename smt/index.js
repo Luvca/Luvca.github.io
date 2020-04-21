@@ -49,6 +49,7 @@ var app = app || {};
       $(document).on('click', '.fb-copy-post-button', app.copyPost);
       // Edit Dialog
       $('#fb-add-url-button').on('click', app.addUrl);
+      $('#fb-goto-bottom').on('click', app.gotoBottom);
       $('#fb-add-images-button').on('click', app.addImages);
       $('#fb-toggle-all-images-select').on('click', app.toggleAllImagesSelect);
       $('#fb-post-heart').on('click', app.toggleLove);
@@ -246,6 +247,10 @@ var app = app || {};
       api.handleError(e);
     } finally {
     }
+  };
+
+  app.gotoBottom = function() {
+    $('#editDialog').animate({ scrollTop: $('#fb-edit-dialog-footer').offset().top });
   };
 
   app.viewUrl = function() {

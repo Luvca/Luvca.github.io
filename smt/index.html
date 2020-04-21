@@ -204,7 +204,8 @@
                 <div class="form-inline">
                   <label class="col-form-label fb-form-label">Images</label>
                   <button type="button" id="fb-add-url-button" class="fb-plus-button pt-2" value="">&#x2295;</button>
-                  <button type="button" id="fb-add-images-button" class="fb-plus-button pt-2 ml-auto" value="">
+                  <a href="#fb-edit-dialog-footer" class="pt-2 mr-2 ml-auto"><i class="fa fa-arrow-down"></i></a>
+                  <button type="button" id="fb-add-images-button" class="fb-plus-button pt-2" value="">
                     <i class="fab fa-dropbox mr-2"></i>
                     <i class="fab fa-google-drive mr-1"></i>
                   </button>
@@ -321,7 +322,7 @@
 
             </form>
           </div>
-          <div class="modal-footer">
+          <div id="fb-edit-dialog-footer" class="modal-footer">
             <button id="fb-delete-post-button" type="button" class="btn btn-danger mr-auto">Delete</button>
             <button type="button" class="btn btn-secondary fb-close-dialog">Cancel</button>
             <button id="fb-save-post-button" type="button" class="btn btn-primary">Save</button>
@@ -347,6 +348,7 @@
                 <input id="fb-toggle-all-images-select" type="checkbox" class="form-check-input">
                 <label class="form-check-label">Select All</label>
               </div>
+              <a href="#fb-dropbox-dialog-footer" class="pt-2 mr-2 ml-auto"><i class="fa fa-arrow-down"></i></a>
               <div class="card mb-2">
                 <button type="button" class="btn btn-outline-info btn-block fb-select-dropbox-folder" value="">/</button>
               </div>
@@ -361,7 +363,7 @@
               </div>
             </div>
           </div>
-          <div class="modal-footer">
+          <div id="fb-dropbox-dialog-footer" class="modal-footer">
             <button type="button" class="btn btn-secondary fb-close-dialog">Cancel</button>
             <button id="fb-select-images-button" type="button" class="btn btn-primary">Select</button>
           </div>
