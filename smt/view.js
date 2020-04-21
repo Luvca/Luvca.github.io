@@ -20,10 +20,9 @@ smt.export('view', function(smt, undefined) {
     var carouselItems = $(card).find('.fb-post-carousel-items');
     var carouselItemTemplate = $(card).find('.fb-post-carousel-item').prop('outerHTML');
     carouselItems.empty();
-    carouselItems.append(cardPost.fields.urls.map((u, i) => {
+    carouselItems.append(cardPost.fields.urls.map((u, i, a) => {
       var carouselItem = $.parseHTML(carouselItemTemplate);
       var img = $(carouselItem).find('.fb-post-image');
-      img.attr('src', u);
       //$('img.lazy').lazyload({
       //  effect: 'fadeIn',
       //  effectspeed: 1000
@@ -31,6 +30,11 @@ smt.export('view', function(smt, undefined) {
       $(carouselItem).find('.fb-post-url').text(u);
       if (i === 0)
         $(carouselItem).addClass('active');
+      if (i <= 1 || i == a.length - 1) {
+        img.attr('src', u);
+      } else {
+        img.attr('data-src', u);
+      }
       return $(carouselItem).prop('outerHTML');
     }).join(''));
     $(card).find('.fb-post-title').text(cardPost.fields.title);

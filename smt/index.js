@@ -44,6 +44,7 @@ var app = app || {};
       $(document).on('click', '.fb-back-to-top', app.backToTop);
       $(document).on('click', '.fb-set-opacity', app.setOpacity);
       // Card
+      $(document).on('slide.bs.carousel', '.carousel.lazy', app.slideCarousel);
       $(document).on('click', '.fb-edit-post-button', app.editPost);
       $(document).on('click', '.fb-copy-post-button', app.copyPost);
       // Edit Dialog
@@ -126,6 +127,12 @@ var app = app || {};
       inProgress = false;
       api.showProgress(false);
     }
+  };
+
+  app.slideCarousel = function(event) {
+    var lazy = $(event.relatedTarget).find('img[data-src]');
+    lazy.attr('src', lazy.data('src'));
+    lazy.removeAttr('data-src');
   };
 
   app.addPost = function(event) {
