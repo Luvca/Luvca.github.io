@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 var app = app || {};
 
@@ -100,10 +100,10 @@ var app = app || {};
     var love = $('#fb-search-love').val();
     if (love.length == 0) {
       $('#fb-search-love').val('love');
-      $('#fb-search-heart').css('color', 'red').removeClass('fa-heart-o').addClass('fa-heart');
+      $('#fb-search-heart').css('color', 'red').removeClass('far').addClass('fas');
     } else {
       $('#fb-search-love').val('');
-      $('#fb-search-heart').css('color', 'gray').removeClass('fa-heart').addClass('fa-heart-o');
+      $('#fb-search-heart').css('color', 'gray').removeClass('fas').addClass('far');
     }
   };
 
@@ -315,10 +315,10 @@ var app = app || {};
     var love = $('#fb-post-love').val();
     if (love.length == 0) {
       $('#fb-post-love').val('love');
-      $('#fb-post-heart').css('color', 'red').removeClass('fa-heart-o').addClass('fa-heart');
+      $('#fb-post-heart').css('color', 'red').removeClass('far').addClass('fas');
     } else {
       $('#fb-post-love').val('');
-      $('#fb-post-heart').css('color', 'gray').removeClass('fa-heart').addClass('fa-heart-o');
+      $('#fb-post-heart').css('color', 'gray').removeClass('fas').addClass('far');
     }
   };
 
