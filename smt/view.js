@@ -42,7 +42,7 @@ smt.export('view', function(smt, undefined) {
     if (cardPost.fields.love) {
       $(card).find('.fb-post-love').css('color', 'red').addClass('fa-heart');
     } else {
-      $(card).find('.fb-post-love').addClass('fa-heart-o');
+      $(card).find('.fb-post-love').addClass('far');
     }
     $(card).find('.fb-post-type').text(cardPost.fields.type);
     createBadge(card, cardPost.fields.women, '.fb-post-women', '.fb-post-woman');
@@ -196,7 +196,7 @@ smt.export('view', function(smt, undefined) {
         editPost: function(card) {
           api.initForm($editDialog);
           $editForm.removeClass('was-validated');
-          $('#fb-post-heart').css('color', 'gray').removeClass('fa-heart').addClass('fa-heart-o');
+          $('#fb-post-heart').css('color', 'gray').removeClass('fas').addClass('far');
           // Id
           $editDialog.find('#fb-post-id').val(card.id);
           // Created at
@@ -224,7 +224,7 @@ smt.export('view', function(smt, undefined) {
           // Love
           if (card.fields.love) {
             $editDialog.find('#fb-post-love').val('love');
-            $editDialog.find('#fb-post-heart').addClass('fa-heart').css('color', 'red');
+            $editDialog.find('#fb-post-heart').addClass('fas').css('color', 'red');
           }
           // Google
           $('#fb-google-title').prop('href', `https://www.google.co.jp/search?q=${card.fields.title}+${card.fields.type}+adult`);
