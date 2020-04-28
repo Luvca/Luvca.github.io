@@ -40,7 +40,7 @@ smt.export('view', function(smt, undefined) {
     }).join(''));
     $(card).find('.fb-post-title').text(cardPost.fields.title);
     if (cardPost.fields.love) {
-      $(card).find('.fb-post-love').css('color', 'red').addClass('fa-heart');
+      $(card).find('.fb-post-love').css('color', 'red').addClass('fas');
     } else {
       $(card).find('.fb-post-love').addClass('far');
     }
