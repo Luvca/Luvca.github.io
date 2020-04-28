@@ -40,9 +40,9 @@ smt.export('view', function(smt, undefined) {
     }).join(''));
     $(card).find('.fb-post-title').text(cardPost.fields.title);
     if (cardPost.fields.love) {
-      $(card).find('.fb-post-love').css('color', 'red').addClass('fas');
+      $(card).find('.fb-post-love').css('color', 'red').removeClass('far').addClass('fas');
     } else {
-      $(card).find('.fb-post-love').addClass('far');
+      $(card).find('.fb-post-love').removeClass('fas').addClass('far');
     }
     $(card).find('.fb-post-type').text(cardPost.fields.type);
     createBadge(card, cardPost.fields.women, '.fb-post-women', '.fb-post-woman');
