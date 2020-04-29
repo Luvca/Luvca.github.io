@@ -351,7 +351,8 @@ smt.export('view', function(smt, undefined) {
         },
 
         selectDropboxImages: function() {
-          $('#fb-post-title').val($('#fb-dropbox-title').val());
+          if ($('#fb-post-title').val().length === 0)
+            $('#fb-post-title').val($('#fb-dropbox-title').val());
           $dropboxDialog.find('input[name="fb-dropbox-image"]:checked').get().forEach((e, i) => {
             var postUrl = $.parseHTML(urlTemplate);
             var url = $(e).closest('.card').find('img').attr('src');
