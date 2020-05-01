@@ -46,6 +46,12 @@ smt.export('view', function(smt, undefined) {
       $(card).find('.fb-post-love').removeClass('fas').addClass('far').css('color', 'white');
     }
     $(card).find('.fb-post-type').text(cardPost.fields.type);
+    if (cardPost.fields.videoUrl) {
+      $(card).find('.fb-view-post-button').attr('data-href', cardPost.fields.videoUrl);
+      $(card).find('.fb-view-post-button').removeClass('d-none');
+    } else {
+      $(card).find('.fb-view-post-button').addClass('d-none');
+    }
     createBadge(card, cardPost.fields.women, '.fb-post-women', '.fb-post-woman');
     createBadge(card, cardPost.fields.authors, '.fb-post-authors', '.fb-post-author');
     createBadge(card, cardPost.fields.tags, '.fb-post-tags', '.fb-post-tag');
@@ -185,6 +191,7 @@ smt.export('view', function(smt, undefined) {
               urls: card.find('.fb-post-url').get().map((i) => $(i).text()),
               title: card.find('.fb-post-title').text(),
               type: card.find('.fb-post-type').text(),
+              videoUrl: card.find('.fb-view-post-button').attr('data-href'),
               love: card.find('.fb-post-love').css('color') == 'rgb(255, 0, 0)',
               women: card.find('.fb-post-woman').get().map((w) => $(w).text()),
               authors: card.find('.fb-post-author').get().map((a) => $(a).text()),
@@ -237,7 +244,7 @@ smt.export('view', function(smt, undefined) {
             $editDialog.find('#fb-post-heart').removeClass('fas').addClass('far').css('color', 'gray');
           }
           // Google
-          $('#fb-google-title').prop('href', `https://www.google.co.jp/search?q=${card.fields.title}+${card.fields.type}+adult`);
+          //$('#fb-google-title').prop('href', `https://www.google.co.jp/search?q=${card.fields.title}+${card.fields.type}+adult`);
           // Badges
           $albumsSelect = createSelectPure('#fb-post-albums', albums.getAllSelectPure(), card.fields.albums);
           $womenSelect = createSelectPure('#fb-post-women', women.getAllSelectPure(), card.fields.women);
@@ -264,6 +271,7 @@ smt.export('view', function(smt, undefined) {
               urls: dialog.find('.fb-post-url').get().map((u) => $(u).attr('src')).filter((u) => u.length > 0),
               title: $('#fb-post-title').val(),
               type: dialog.find('input[name="fb-post-type"]:checked').val(),
+              videoUrl: dialog.find('#fb-post-video-url').val(),
               love: $('#fb-post-love').val() == 'love',
               women: $womenSelect.value(),
               authors: $authorsSelect.value(),

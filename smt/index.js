@@ -47,7 +47,9 @@ var app = app || {};
       $(document).on('slide.bs.carousel', '.carousel.lazy', app.slideCarousel);
       $(document).on('click', '.fb-edit-post-button', app.editPost);
       $(document).on('click', '.fb-copy-post-button', app.copyPost);
+      $(document).on('click', '.fb-view-post-button', app.viewPost);
       // Edit Dialog
+      $('#fb-google-title').on('click', app.googleSearch);
       $('#fb-add-url-button').on('click', app.addUrl);
       $('#fb-add-images-button').on('click', app.addImages);
       $('#fb-toggle-all-images-select').on('click', app.toggleAllImagesSelect);
@@ -169,6 +171,11 @@ var app = app || {};
     });
   };
 
+  app.viewPost = function(event) {
+    var post = view.pickPost(event);
+    window.open(post.fields.videoUrl, '_blank');
+  };
+
   app.savePost = function(event) {
     if (!confirm('OK ?')) return;
     if (inProgress) return;
@@ -224,6 +231,11 @@ var app = app || {};
     } finally {
       inProgress = false;
     }
+  };
+
+  app.googleSearch = function(event) {
+    var post = view.getPost(event);
+    window.open(`https://www.google.co.jp/search?q=${post.fields.title}+${post.fields.women}+adult`, '_blank');
   };
 
   app.addUrl = function() {
