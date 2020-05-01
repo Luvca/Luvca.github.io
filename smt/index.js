@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 var app = app || {};
 
@@ -130,13 +130,9 @@ var app = app || {};
   };
 
   app.slideCarousel = function(event) {
-    console.log('slide');
-    var lazies = $(event.relatedTarget).parent().find('img[data-src]').get();
-    lazies.forEach((lazy) => {
-      $(lazy).attr('src', $(lazy).data('src'));
-      $(lazy).removeAttr('data-src');
-      console.log('lazy load');
-    });
+    var lazy = $(event.relatedTarget).find('img[data-src]');
+    $(lazy).attr('src', $(lazy).data('src'));
+    $(lazy).removeAttr('data-src');
   };
 
   app.addPost = function(event) {

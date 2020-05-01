@@ -28,14 +28,15 @@ smt.export('view', function(smt, undefined) {
       //  effectspeed: 1000
       //});
       $(carouselItem).find('.fb-post-url').text(u);
-      if (i === 0)
+      if (i === 0) {
         $(carouselItem).addClass('active');
       //var preFetch = 2;
       //if (i <= preFetch || i >= a.length - preFetch) {
         img.attr('src', u);
-      //} else {
-      //  img.attr('data-src', u);
-      //}
+      } else {
+        img.attr('src', 'holder.js/300x200');
+        img.attr('data-src', u);
+      }
       return $(carouselItem).prop('outerHTML');
     }).join(''));
     $(card).find('.fb-post-title').text(cardPost.fields.title);
@@ -198,6 +199,11 @@ smt.export('view', function(smt, undefined) {
           api.initForm($editDialog);
           $editForm.removeClass('was-validated');
           $('#fb-post-heart').css('color', 'gray').removeClass('fas').addClass('far');
+          if (card.id) {
+            $('#editModalTitle').text('Edit');
+          } else {
+            $('#editModalTitle').text('Add');
+          }
           // Id
           $editDialog.find('#fb-post-id').val(card.id);
           // Created at
@@ -225,7 +231,10 @@ smt.export('view', function(smt, undefined) {
           // Love
           if (card.fields.love) {
             $editDialog.find('#fb-post-love').val('love');
-            $editDialog.find('#fb-post-heart').addClass('fas').css('color', 'red');
+            $editDialog.find('#fb-post-heart').removeClass('far').addClass('fas').css('color', 'red');
+          } else {
+            $editDialog.find('#fb-post-love').val('');
+            $editDialog.find('#fb-post-heart').removeClass('fas').addClass('far').css('color', 'gray');
           }
           // Google
           $('#fb-google-title').prop('href', `https://www.google.co.jp/search?q=${card.fields.title}+${card.fields.type}+adult`);
@@ -351,13 +360,18 @@ smt.export('view', function(smt, undefined) {
         },
 
         selectDropboxImages: function() {
-          if ($('#fb-post-title').val().length === 0)
-            $('#fb-post-title').val($('#fb-dropbox-title').val());
-          $dropboxDialog.find('input[name="fb-dropbox-image"]:checked').get().forEach((e, i) => {
+          $dropboxDialog.find('input[name="fb-dropbox-image"]:checked').get().forEach((e, i, a) => {
             var postUrl = $.parseHTML(urlTemplate);
             var url = $(e).closest('.card').find('img').attr('src');
             $(postUrl).find('.fb-post-url').attr('src', url);
             if (i === 0) {
+              if ($('#fb-post-title').val().length === 0) {
+                if (a.length === 1) {
+                  $('#fb-post-title').val($(e).closest('.card').find('.fb-dropbox-image').text());
+                } else {
+                  $('#fb-post-title').val($('#fb-dropbox-title').val());
+                }
+              }
               var createdAt = $(e).closest('.card').find('img').attr('alt');
               $('#fb-post-created-at').val(createdAt);
               console.log(createdAt);
