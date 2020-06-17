@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 var app = app || {};
 
@@ -9,6 +9,9 @@ var app = app || {};
 
   $(function() {
     try {
+      var args = new URLSearchParams(location.search);
+      if (args.has('user'))
+        $('#fb-auth-user').val(args.get('user')); 
       var ui = new firebaseui.auth.AuthUI(firebase.auth());
       ui.start('#firebaseui-auth-container', {
         callbacks: {
