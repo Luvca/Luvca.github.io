@@ -24,7 +24,7 @@ var app = app || {};
           }
         },
         credentialHelper: firebaseui.auth.CredentialHelper.NONE,
-        //signInSuccessUrl: '.',
+        signInSuccessUrl: 'luvca.github.io/smt',
         signInOptions: [
           firebase.auth.GoogleAuthProvider.PROVIDER_ID
         ]
