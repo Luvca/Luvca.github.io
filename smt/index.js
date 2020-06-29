@@ -31,6 +31,7 @@ var app = app || {};
       });
       // Common
       $(document).on('click', '.fb-close-dialog', app.closeDialog);
+      $('#fb-copy-user-button').on('click', true, app.copyUser);
       // Search
       $('#fb-humburger-button').on('click', true, app.setupSearch);
       $(document).on('click', '.fb-search', app.selectSearchText);
@@ -83,6 +84,12 @@ var app = app || {};
       api.handleError(e);
     }
   });
+
+  app.copyUser = function() {
+    var user = document.getElementById('fb-auth-user');
+    user.select();
+    document.execCommand('copy');
+  };
 
   app.setupSearch = function() {
     view.setupSearch();
