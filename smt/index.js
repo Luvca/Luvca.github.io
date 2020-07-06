@@ -45,6 +45,7 @@ var app = app || {};
       $('#fb-test-button').on('click', false, app.testGoogleDrive);
       $('#fb-read-next-button').on('click', {reset: false}, app.searchPosts);
       $(document).on('click', '.fb-google-title', app.googleSearch);
+      $(document).on('click', '.fb-nyaa', app.nyaaSearch);
       $(document).on('click', '.fb-reset', app.reset);
       $(document).on('click', '.fb-back-to-top', app.backToTop);
       $(document).on('click', '.fb-set-opacity', app.setOpacity);
@@ -249,6 +250,10 @@ var app = app || {};
     if (!post) post = view.pickPost(event);
     window.open(`https://www.google.co.jp/search?q=${post.fields.title}+${post.fields.women}`, '_blank');
   };
+
+  app.nyaaSearch = function(event) {
+    var post = view.pickPost(event);
+    window.open(`https://sukebei.nyaa.si/?q=${post.fields.title}+${post.fields.women}&f=0&c=0_0`, '_blank');
 
   app.addUrl = function() {
     view.addUrl();
