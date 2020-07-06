@@ -44,6 +44,7 @@ var app = app || {};
       $('#fb-add-post-button').on('click', false, app.addPost);
       $('#fb-test-button').on('click', false, app.testGoogleDrive);
       $('#fb-read-next-button').on('click', {reset: false}, app.searchPosts);
+      $(document).on('click', '.fb-google-title', app.googleSearch);
       $(document).on('click', '.fb-reset', app.reset);
       $(document).on('click', '.fb-back-to-top', app.backToTop);
       $(document).on('click', '.fb-set-opacity', app.setOpacity);
@@ -245,7 +246,8 @@ var app = app || {};
 
   app.googleSearch = function(event) {
     var post = view.getPost(event);
-    window.open(`https://www.google.co.jp/search?q=${post.fields.title}+${post.fields.women}+adult`, '_blank');
+    if (!post) post = view.pickPost(event);
+    window.open(`https://www.google.co.jp/search?q=${post.fields.title}+${post.fields.women}`, '_blank');
   };
 
   app.addUrl = function() {
