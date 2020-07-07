@@ -247,8 +247,8 @@ var app = app || {};
   };
 
   app.googleSearch = function(event) {
-    var post = view.getPost(event);
-    if (!post) post = view.pickPost(event);
+    var post = view.pickPost(event);
+    if (!post) post = view.getPost(event);
     window.open(`https://www.google.co.jp/search?q=${post.fields.title}+${post.fields.women}`, '_blank');
   };
 
