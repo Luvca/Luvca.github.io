@@ -259,7 +259,7 @@ var app = app || {};
 
   app.japanhubSearch = function(event) {
     var post = view.pickPost(event);
-    window.open(`https://www.google.co.jp/search?q=japanhub.net:${post.fields.title}`, '_blank');
+    window.open(`https://www.google.co.jp/search?q=site:japanhub.net ${post.fields.title}`, '_blank');
   };
 
   app.addUrl = function() {
