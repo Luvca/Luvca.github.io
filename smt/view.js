@@ -139,6 +139,7 @@ smt.export('view', function(smt, undefined) {
         closeDialog: function(event) {
           var dialog = $(event.target.closest('.modal'));
           $(dialog).modal('hide');
+          api.initForm($(dialog));
         },
 
         getSearchOption: function() {
