@@ -46,6 +46,7 @@ var app = app || {};
       $('#fb-read-next-button').on('click', {reset: false}, app.searchPosts);
       $(document).on('click', '.fb-google-title', app.googleSearch);
       $(document).on('click', '.fb-nyaa', app.nyaaSearch);
+      $(document).on('click', '.fb-japanhub', app.japanhubSearch);
       $(document).on('click', '.fb-reset', app.reset);
       $(document).on('click', '.fb-back-to-top', app.backToTop);
       $(document).on('click', '.fb-set-opacity', app.setOpacity);
@@ -254,6 +255,11 @@ var app = app || {};
   app.nyaaSearch = function(event) {
     var post = view.pickPost(event);
     window.open(`https://sukebei.nyaa.si/?q=${post.fields.title.replace(/ ?[0-9]+歳$/, '')}+${post.fields.women}&f=0&c=0_0`, '_blank');
+  };
+
+  app.japanhubSearch = function(event) {
+    var post = view.pickPost(event);
+    window.open(`https://www.google.co.jp/search?q=japanhub.net:${post.fields.title}`, '_blank');
   };
 
   app.addUrl = function() {
