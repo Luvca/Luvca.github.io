@@ -253,7 +253,7 @@ var app = app || {};
 
   app.nyaaSearch = function(event) {
     var post = view.pickPost(event);
-    window.open(`https://sukebei.nyaa.si/?q=${post.fields.title.replace(/ ?[0-9]+çŒ$/, '')}+${post.fields.women}&f=0&c=0_0`, '_blank');
+    window.open(`https://sukebei.nyaa.si/?q=${post.fields.title.replace(/ ?[0-9]+Ê≠≥$/, '')}+${post.fields.women}&f=0&c=0_0`, '_blank');
   };
 
   app.addUrl = function() {
