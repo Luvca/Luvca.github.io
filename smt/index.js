@@ -254,7 +254,11 @@ var app = app || {};
 
   app.nyaaSearch = function(event) {
     var post = view.pickPost(event);
-    window.open(`https://sukebei.nyaa.si/?q=${post.fields.title.replace(/ ?[0-9]+歳$/, '')}+${post.fields.women}&f=0&c=0_0`, '_blank');
+    var url = `https://sukebei.nyaa.si/?q=${post.fields.title.replace(/ ?[0-9]+歳$/, '')}`;
+    if (post.fields.women.length == 1)
+      url += `+${post.fields.women}`;
+    url += '&f=0&c=0_0';
+    window.open(url, '_blank');
   };
 
   app.japanhubSearch = function(event) {
