@@ -43,3 +43,15 @@ img.firebaseui-idp-icon {
 .fb-card-footer {
   line-height: 1;
 }
+
+@media (max-width: 992px) {
+  .card-columns {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-columns {
+    column-count: 1;
+  }
+}
