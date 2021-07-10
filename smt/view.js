@@ -73,6 +73,8 @@ smt.export('view', function(smt, undefined) {
       items.forEach((e) => {
         var badge = $.parseHTML(template);
         $(badge).text(e);
+        if (e === 'Video Memorable')
+          $(badge).css('background-color', 'rgb(216, 191, 216, 1)');
         $(area).append(badge);
       });
     }
