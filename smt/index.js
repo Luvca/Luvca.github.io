@@ -10,9 +10,11 @@ var app = app || {};
   $(function() {
     try {
       var args = new URLSearchParams(location.search);
-      // Common
+
       gapi.load('client:auth2', app.initClient);
       view = smt.import('view').create();
+
+      // Common
       $(document).on('click', '.fb-close-dialog', app.closeDialog);
       $('#fb-copy-user-button').on('click', true, app.copyUser);
       // Search
