@@ -10,26 +10,9 @@ var app = app || {};
   $(function() {
     try {
       var args = new URLSearchParams(location.search);
-      if (args.has('user'))
-        $('#fb-auth-user').val(args.get('user')); 
-      var ui = new firebaseui.auth.AuthUI(firebase.auth());
-      ui.start('#firebaseui-auth-container', {
-        callbacks: {
-          signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-            $('#firebaseui-auth-container').addClass('d-none');
-            $('#authenticated-area').removeClass('d-none');
-            gapi.load('client:auth2', app.initClient);
-            view = smt.import('view').create();
-            return true;
-          }
-        },
-        credentialHelper: firebaseui.auth.CredentialHelper.NONE,
-        //signInSuccessUrl: 'https://luvca.github.io/smt',
-        signInOptions: [
-          firebase.auth.GoogleAuthProvider.PROVIDER_ID
-        ]
-      });
       // Common
+      gapi.load('client:auth2', app.initClient);
+      view = smt.import('view').create();
       $(document).on('click', '.fb-close-dialog', app.closeDialog);
       $('#fb-copy-user-button').on('click', true, app.copyUser);
       // Search

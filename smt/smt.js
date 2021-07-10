@@ -10,6 +10,7 @@ var smt = smt || {};
     apiKey: 'AIzaSyB7G3nC8SOm2nb-l7hNXIJVtSbMkcGSzq0',
     authDomain: 'fruit-basket-data.firebaseapp.com'
   });
+
   smt.db = firebase.firestore();
   smt.settings = {};
   smt.clipboard = [];
