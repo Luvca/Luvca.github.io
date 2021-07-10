@@ -99,7 +99,6 @@ smt.export('api', function(smt, undefined) {
     },
 
     setOpacity: function() {
-      console.log(smt.opacity);
       var mod = smt.opacity % 2;
       if (mod === 0) {
         $('img').css({'opacity': '0.1'});

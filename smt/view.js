@@ -194,7 +194,7 @@ smt.export('view', function(smt, undefined) {
               urls: card.find('.fb-post-url').get().map((i) => $(i).text()),
               title: card.find('.fb-post-title').text(),
               type: card.find('.fb-post-type').text(),
-              videoUrl: card.find('.fb-view-post-button').attr('data-href'),
+              //videoUrl: card.find('.fb-view-post-button').attr('data-href'),
               love: card.find('.fb-post-love').css('color') == 'rgb(255, 0, 0)',
               women: card.find('.fb-post-woman').get().map((w) => $(w).text()),
               authors: card.find('.fb-post-author').get().map((a) => $(a).text()),

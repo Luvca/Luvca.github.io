@@ -160,6 +160,7 @@ var app = app || {};
     if (!confirm('OK ?')) return;
     var post = view.pickPost(event);
     post.id = api.createId();
+    console.log(post.fields);
     var res = api.savePost(post);
     view.updatePost(post);
     res.catch((error) => {
